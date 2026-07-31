@@ -2283,6 +2283,41 @@
             margin: 4px 0;
         }
 
+        /* Manajemen Akun: iOS-style pill toggle (Aktif/Nonaktif) */
+        .akun-toggle {
+            display: inline-block;
+            cursor: pointer;
+        }
+        .akun-toggle input {
+            display: none;
+        }
+        .akun-toggle-track {
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+            background: #cbd5e1;
+            border-radius: 30px;
+            position: relative;
+            transition: background 0.2s;
+        }
+        .akun-toggle-thumb {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .akun-toggle input:checked + .akun-toggle-track {
+            background: var(--color-success);
+        }
+        .akun-toggle input:checked + .akun-toggle-track .akun-toggle-thumb {
+            transform: translateX(18px);
+        }
+
     </style>
 </head>
 <body>
@@ -2321,6 +2356,7 @@
 
     <!-- ── Developer Mode Switcher ── -->
     <div class="dev-bar" style="justify-content: center; position: fixed; top: 0; left: 0; right: 0;">
+        <div id="versionPicker" style="position: absolute; right: 20px; display: flex; align-items: center; height: 32px;"></div>
         <div style="position: absolute; left: 20px; display: flex; gap: 8px;">
             <button class="dev-btn" id="btn-mode-login" onclick="switchPlatform('login')">
                 <i class="fas fa-right-to-bracket"></i> Halaman Login
@@ -2891,6 +2927,8 @@
                     <button class="m-tab-btn active" id="tab-btn-po-nav" onclick="switchMerchantTab('tab-import-po')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: #fff; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #fbbf24; border-radius: 0;">IMPORT MERCHANT PERORANGAN</button>
                     <button class="m-tab-btn" id="tab-btn-bu" onclick="switchMerchantTab('tab-import-bu')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">IMPORT MERCHANT BADAN USAHA</button>
                     <button class="m-tab-btn" id="tab-btn-history-nav" onclick="switchMerchantTab('tab-history')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT IMPORT</button>
+                    <button class="m-tab-btn" id="tab-btn-riwayat-transaksi" onclick="switchMerchantTab('tab-riwayat-transaksi')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT TRANSAKSI</button>
+                    <button class="m-tab-btn" id="tab-btn-manajemen-akun" onclick="switchMerchantTab('tab-manajemen-akun')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">MANAJEMEN AKUN</button>
                 </div>
 
                 <!-- ── Inner Tab: Import Sub Merchant - Badan Usaha ── -->
@@ -3085,6 +3123,129 @@
                                 <i class="fas fa-angle-left" style="cursor: not-allowed;"></i>
                                 <i class="fas fa-angle-right" style="cursor: not-allowed;"></i>
                                 <i class="fas fa-angles-right" style="cursor: not-allowed;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Inner Tab: Riwayat Transaksi (Pay-in / Payout / Account Linkage) ── -->
+                <div class="m-tab-content" id="tab-riwayat-transaksi" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
+                    <!-- Sub-tab nav -->
+                    <div style="display: flex; gap: 4px; padding: 0 24px; border-bottom: 1px solid #e5e5e5; background: #fff;">
+                        <button class="trx-subtab-btn active" id="trx-subtab-btn-payin" onclick="switchTrxSubTab('payin')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #1e56d7; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #1e56d7; border-radius: 0;">Pay-in</button>
+                        <button class="trx-subtab-btn" id="trx-subtab-btn-payout" onclick="switchTrxSubTab('payout')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Payout</button>
+                        <button class="trx-subtab-btn" id="trx-subtab-btn-linkage" onclick="switchTrxSubTab('linkage')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Account Linkage</button>
+                    </div>
+
+                    <div style="flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Pay-in panel -->
+                        <div class="trx-subtab-panel" id="trx-panel-payin" style="display: flex; flex-direction: column; gap: 24px;">
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title">Transaksi dalam Proses</div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="trx-inprogress-table-payin">
+                                        <thead><tr>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title">
+                                    Riwayat Transaksi
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payin';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
+                                        <button onclick="alertToast('Mock: export riwayat transaksi Pay-in.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    </div>
+                                </div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="trx-history-table-payin">
+                                        <thead><tr>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payout panel -->
+                        <div class="trx-subtab-panel" id="trx-panel-payout" style="display: none; flex-direction: column; gap: 24px;">
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title">Transaksi dalam Proses</div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="trx-inprogress-table-payout">
+                                        <thead><tr>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title">
+                                    Riwayat Transaksi
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payout';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
+                                        <button onclick="alertToast('Mock: export riwayat transaksi Payout.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    </div>
+                                </div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="trx-history-table-payout">
+                                        <thead><tr>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Account Linkage panel (Riwayat Transaksi only, no "dalam proses" card) -->
+                        <div class="trx-subtab-panel" id="trx-panel-linkage" style="display: none; flex-direction: column; gap: 24px;">
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title">
+                                    Riwayat Transaksi
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='linkage';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
+                                        <button onclick="alertToast('Mock: export riwayat account linkage.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    </div>
+                                </div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="trx-history-table-linkage">
+                                        <thead><tr>
+                                            <th>ID Transaksi</th><th>Tanggal Transaksi</th><th>Kategori</th><th>Sub Kategori</th><th>Partner Reference No</th><th>Reference No</th><th>Nomor HP</th><th>Nama Pengguna</th><th>ID Issuer</th><th>Nama Issuer</th><th>ID Acquirer</th><th>Nama Acquirer</th><th>Nama Merchant</th><th>Merchant Criteria</th><th>Nominal</th><th>Nominal Tips</th><th>Biaya Layanan</th><th>Total Sharing Fee</th><th>Status</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Inner Tab: Manajemen Akun ── -->
+                <div class="m-tab-content" id="tab-manajemen-akun" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
+                    <div style="flex: 1; padding: 24px;">
+                        <div class="table-card" style="margin-bottom: 0;">
+                            <div class="table-card-title">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>Manajemen Akun</span>
+                                    <button onclick="openModal('modal-tambah-akun'); resetTambahAkunForm();" title="Tambah Akun" style="width: 26px; height: 26px; border-radius: 50%; border: none; background: #1e56d7; color: #fff; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <input type="text" id="akun-search-input" oninput="renderAkunTable()" placeholder="Cari nama" style="border: 1px solid var(--merchant-border); border-radius: 6px; padding: 8px 12px; font-size: 0.8rem; width: 220px; outline: none;">
+                            </div>
+                            <div style="overflow-x: auto;">
+                                <table class="m-table">
+                                    <thead><tr>
+                                        <th>Username</th><th>Fitur</th><th>Status</th><th style="width: 260px;">Aksi</th>
+                                    </tr></thead>
+                                    <tbody id="akun-table-body"></tbody>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; align-items: center; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                <span>Halaman 1</span>
                             </div>
                         </div>
                     </div>
@@ -3763,6 +3924,203 @@
         </div>
     </div>
 
+    <!-- Modal: Filter Riwayat Transaksi (Pay-in / Payout / Account Linkage) -->
+    <div class="modal" id="modal-trx-filter">
+        <div class="modal-card" style="max-width: 420px; width: 100%; border-radius: 12px; background: #fff; overflow: visible; display: flex; flex-direction: column; max-height: 90vh;">
+            <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: space-between; background: #fff;">
+                <h3 class="modal-title" style="font-family: var(--font-brand); font-weight: 700; font-size: 1.15rem; color: #1e293b;">Filter</h3>
+                <button class="modal-close" onclick="closeModal('modal-trx-filter')" style="background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 20px 24px; overflow-y: visible; flex: 1; background: #fff; position: relative;">
+                <div style="margin-bottom: 20px; position: relative;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Filter berdasarkan tanggal</label>
+                    <button type="button" onclick="toggleTrxCalendar()" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
+                        <i class="fas fa-calendar-days" style="color: #1e56d7;"></i>
+                        <span id="trx-date-btn-label">Pilih tanggal di sini</span>
+                    </button>
+
+                    <!-- Inline calendar overlay -->
+                    <div id="trx-calendar-overlay" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 12px 28px rgba(15,23,42,0.15); padding: 14px; z-index: 20; font-family: var(--font-main);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                            <button type="button" onclick="shiftTrxCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
+                            <span id="trx-cal-month-label" style="font-size: 0.85rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px; cursor: pointer;">Juli 2026 <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i></span>
+                            <button type="button" onclick="shiftTrxCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">
+                            <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+                        </div>
+                        <div id="trx-cal-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+                        <div style="display: flex; gap: 10px; margin-top: 12px; border-top: 1px solid #f1f5f9; padding-top: 12px;">
+                            <div style="flex: 1;">
+                                <span style="font-size: 0.68rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">From:</span>
+                                <div id="trx-date-from" style="font-size: 0.8rem; color: #1e293b; font-weight: 600;">—</div>
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-size: 0.68rem; color: #94a3b8; font-weight: 600; text-transform: uppercase;">To:</span>
+                                <div id="trx-date-to" style="font-size: 0.8rem; color: #1e293b; font-weight: 600;">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 8px;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tipe Transaksi</label>
+                    <select id="trx-filter-tipe" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #1e293b; outline: none; background: #fff;">
+                        <option value="ALL">Semua Tipe Transaksi</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="Virtual Account">Virtual Account</option>
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                    </select>
+                </div>
+
+                <button type="button" onclick="resetTrxFilter()" style="width: 100%; margin-top: 8px; padding: 10px; border-radius: 8px; border: 1px solid var(--merchant-border); background: #fff; color: #ef4444; font-weight: 600; font-size: 0.8rem; cursor: pointer;">Hapus Filter</button>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
+                <button class="btn btn-m-text" onclick="closeModal('modal-trx-filter')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
+                <button onclick="applyTrxFilter()" style="background: #1e56d7; border: none; color: #fff; font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 6px; cursor: pointer;">Terapkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Lihat Rincian Akun -->
+    <div class="modal" id="modal-rincian-akun">
+        <div class="modal-card" style="max-width: 480px; width: 100%; border-radius: 12px; background: #fff; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
+            <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: space-between; background: #fff;">
+                <h3 class="modal-title" style="font-family: var(--font-brand); font-weight: 700; font-size: 1.15rem; color: #1e293b;">Rincian Akun</h3>
+                <button class="modal-close" onclick="closeModal('modal-rincian-akun')" style="background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; flex: 1; background: #f8fafc;">
+                <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Username</label>
+                        <input type="text" id="rincian-akun-username" readonly style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; background: #f1f5f9; color: #1e293b; outline: none;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Nama</label>
+                        <input type="text" id="rincian-akun-nama" readonly style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; background: #f1f5f9; color: #1e293b; outline: none;">
+                    </div>
+                </div>
+
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 8px;">Hak Akses</label>
+                <div class="detail-segments-list">
+                    <div class="detail-segment-item">
+                        <div class="detail-segment-header">
+                            <input type="checkbox" checked disabled>
+                            <span>paydia</span>
+                        </div>
+                    </div>
+                    <div class="detail-segment-item" id="rincian-segment-kasbon">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('rincian-segment-kasbon')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Kasbon</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none; font-size: 0.78rem; color: #475569;">Akses penuh terhadap fitur Kasbon (assumption — pending confirmation of real business rule).</div>
+                    </div>
+                    <div class="detail-segment-item" id="rincian-segment-payout">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('rincian-segment-payout')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Payout</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none; font-size: 0.78rem; color: #475569;">Akses penuh terhadap fitur Payout (assumption — pending confirmation of real business rule).</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
+                <button class="btn btn-m-text" onclick="closeModal('modal-rincian-akun')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
+                <button onclick="closeModal('modal-rincian-akun')" style="background: #1e56d7; border: none; color: #fff; font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 6px; cursor: pointer;">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Tambah Akun -->
+    <div class="modal" id="modal-tambah-akun">
+        <div class="modal-card" style="max-width: 480px; width: 100%; border-radius: 12px; background: #fff; overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;">
+            <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: space-between; background: #fff;">
+                <h3 class="modal-title" style="font-family: var(--font-brand); font-weight: 700; font-size: 1.15rem; color: #1e293b;">Tambah Akun</h3>
+                <button class="modal-close" onclick="closeModal('modal-tambah-akun')" style="background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 20px 24px; overflow-y: auto; flex: 1; background: #f8fafc;">
+                <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px;">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Username</label>
+                        <input type="text" id="ta-username" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; outline: none;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Nama</label>
+                        <input type="text" id="ta-nama" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; outline: none;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Kata Sandi</label>
+                        <div style="position: relative;">
+                            <input type="password" id="ta-password" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 40px 10px 14px; font-size: 0.82rem; outline: none;">
+                            <i class="fas fa-eye" id="toggle-ta-password" onclick="togglePasswordReg('ta-password')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Konfirmasi Kata Sandi</label>
+                        <div style="position: relative;">
+                            <input type="password" id="ta-password-conf" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 40px 10px 14px; font-size: 0.82rem; outline: none;">
+                            <i class="fas fa-eye" id="toggle-ta-password-conf" onclick="togglePasswordReg('ta-password-conf')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">PIN</label>
+                        <div style="position: relative;">
+                            <input type="password" inputmode="numeric" maxlength="6" id="ta-pin" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 40px 10px 14px; font-size: 0.82rem; outline: none;">
+                            <i class="fas fa-eye" id="toggle-ta-pin" onclick="togglePasswordReg('ta-pin')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 6px;">Konfirmasi PIN</label>
+                        <div style="position: relative;">
+                            <input type="password" inputmode="numeric" maxlength="6" id="ta-pin-conf" oninput="checkTambahAkunValidity()" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 40px 10px 14px; font-size: 0.82rem; outline: none;">
+                            <i class="fas fa-eye" id="toggle-ta-pin-conf" onclick="togglePasswordReg('ta-pin-conf')" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <label style="display: block; font-size: 0.75rem; font-weight: 600; color: #64748b; margin-bottom: 8px;">Hak Akses</label>
+                <div class="detail-segments-list">
+                    <div class="detail-segment-item">
+                        <div class="detail-segment-header">
+                            <input type="checkbox" checked disabled>
+                            <span>paydia</span>
+                        </div>
+                    </div>
+                    <div class="detail-segment-item" id="ta-segment-kasbon">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('ta-segment-kasbon')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Kasbon</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none;">
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="ta-perm-kasbon" value="view" checked> View Only</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-kasbon" value="edit"> Edit</label>
+                        </div>
+                    </div>
+                    <div class="detail-segment-item" id="ta-segment-payout">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('ta-segment-payout')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Payout</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none;">
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="ta-perm-payout" value="view" checked> View Only</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-payout" value="edit"> Edit</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
+                <button class="btn btn-m-text" onclick="closeModal('modal-tambah-akun')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
+                <button id="ta-btn-simpan" disabled onclick="submitTambahAkun()" style="background: #cbd5e1; border: none; color: #94a3b8; font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 6px; cursor: not-allowed;">Simpan</button>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ── Watermark footer ── -->
     <div class="watermark">
@@ -4299,6 +4657,294 @@
             }
         ];
 
+        /* ── Riwayat Transaksi: mock data + rendering ── */
+        let currentTrxSubTab = 'payin';
+        let trxFilterTipe = 'ALL';
+        let trxFilterActiveTable = 'payin'; // which sub-tab opened the filter modal
+
+        const trxMockData = {
+            payin: {
+                inprogress: [
+                    { tanggal: '31/07/2026 10:12', idTransaksi: 'TRXPI-000441', idReferensi: 'REF-88231', nominal: 150000, nominalService: 1500, nominalTotal: 151500, tipe: 'QRIS', idPelanggan: 'CUST-1092', namaPelanggan: 'Budi Santoso', status: 'Diproses' }
+                ],
+                history: [
+                    { tanggal: '30/07/2026 14:02', idTransaksi: 'TRXPI-000440', idReferensi: 'REF-88230', nominal: 250000, nominalService: 2500, nominalTotal: 252500, tipe: 'Virtual Account', idPelanggan: 'CUST-1091', namaPelanggan: 'Siti Aminah', status: 'Berhasil' },
+                    { tanggal: '30/07/2026 09:45', idTransaksi: 'TRXPI-000439', idReferensi: 'REF-88229', nominal: 75000, nominalService: 750, nominalTotal: 75750, tipe: 'QRIS', idPelanggan: 'CUST-1090', namaPelanggan: 'Andi Wijaya', status: 'Berhasil' },
+                    { tanggal: '29/07/2026 18:30', idTransaksi: 'TRXPI-000438', idReferensi: 'REF-88228', nominal: 500000, nominalService: 5000, nominalTotal: 505000, tipe: 'Transfer Bank', idPelanggan: 'CUST-1089', namaPelanggan: 'Dewi Lestari', status: 'Gagal' }
+                ]
+            },
+            payout: {
+                inprogress: [
+                    { tanggal: '31/07/2026 11:00', idTransaksi: 'TRXPO-000221', idReferensi: 'REF-77120', nominal: 1000000, nominalService: 3000, nominalTotal: 1003000, tipe: 'Transfer Bank', idPelanggan: 'CUST-2044', namaPelanggan: 'Rudi Hartono', status: 'Diproses' }
+                ],
+                history: [
+                    { tanggal: '30/07/2026 16:20', idTransaksi: 'TRXPO-000220', idReferensi: 'REF-77119', nominal: 2000000, nominalService: 6000, nominalTotal: 2006000, tipe: 'Transfer Bank', idPelanggan: 'CUST-2043', namaPelanggan: 'Maya Sari', status: 'Berhasil' },
+                    { tanggal: '29/07/2026 13:10', idTransaksi: 'TRXPO-000219', idReferensi: 'REF-77118', nominal: 350000, nominalService: 1000, nominalTotal: 351000, tipe: 'E-Wallet', idPelanggan: 'CUST-2042', namaPelanggan: 'Fajar Nugraha', status: 'Berhasil' }
+                ]
+            },
+            linkage: {
+                history: [
+                    { idTransaksi: 'LNK-000091', tanggal: '30/07/2026 08:15', kategori: 'Payout', subKategori: 'Transfer Bank', partnerRef: 'PRTN-55011', refNo: 'RFN-11022', hp: '0812xxxx1234', namaPengguna: 'Budi Santoso', idIssuer: 'ISS-01', namaIssuer: 'Bank Mandiri', idAcquirer: 'ACQ-02', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Toko Sinar Jaya', criteria: 'Reguler', nominal: 500000, nominalTips: 0, biayaLayanan: 2500, totalSharingFee: 1500, status: 'Berhasil' },
+                    { idTransaksi: 'LNK-000090', tanggal: '29/07/2026 19:40', kategori: 'Pay-in', subKategori: 'QRIS', partnerRef: 'PRTN-55010', refNo: 'RFN-11021', hp: '0813xxxx5678', namaPengguna: 'Siti Aminah', idIssuer: 'ISS-02', namaIssuer: 'Bank BCA', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 125000, nominalTips: 5000, biayaLayanan: 1250, totalSharingFee: 750, status: 'Berhasil' }
+                ]
+            }
+        };
+
+        function formatRupiah(n) {
+            return 'Rp' + Number(n).toLocaleString('id-ID');
+        }
+
+        function trxStatusBadgeClass(status) {
+            if (status === 'Berhasil') return 'success';
+            if (status === 'Gagal') return 'error';
+            return 'warning';
+        }
+
+        function renderTrxTable(subTab) {
+            const data = trxMockData[subTab];
+            if (!data) return;
+
+            if (data.inprogress) {
+                const body = document.querySelector('#trx-inprogress-table-' + subTab + ' tbody');
+                if (body) {
+                    body.innerHTML = data.inprogress.map(row => `
+                        <tr>
+                            <td>${row.tanggal}</td><td>${row.idTransaksi}</td><td>${row.idReferensi}</td>
+                            <td>${formatRupiah(row.nominal)}</td><td>${formatRupiah(row.nominalService)}</td><td>${formatRupiah(row.nominalTotal)}</td>
+                            <td>${row.tipe}</td><td>${row.idPelanggan}</td><td>${row.namaPelanggan}</td>
+                            <td><span class="m-badge ${trxStatusBadgeClass(row.status)}">${row.status}</span></td>
+                        </tr>
+                    `).join('') || '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada transaksi dalam proses.</td></tr>';
+                }
+            }
+
+            let historyRows = data.history.filter(row => trxFilterTipe === 'ALL' || row.tipe === trxFilterTipe || subTab === 'linkage');
+            const historyBody = document.querySelector('#trx-history-table-' + subTab + ' tbody');
+            if (!historyBody) return;
+
+            if (subTab === 'linkage') {
+                historyBody.innerHTML = historyRows.map(row => `
+                    <tr>
+                        <td>${row.idTransaksi}</td><td>${row.tanggal}</td><td>${row.kategori}</td><td>${row.subKategori}</td>
+                        <td>${row.partnerRef}</td><td>${row.refNo}</td><td>${row.hp}</td><td>${row.namaPengguna}</td>
+                        <td>${row.idIssuer}</td><td>${row.namaIssuer}</td><td>${row.idAcquirer}</td><td>${row.namaAcquirer}</td>
+                        <td>${row.namaMerchant}</td><td>${row.criteria}</td><td>${formatRupiah(row.nominal)}</td>
+                        <td>${formatRupiah(row.nominalTips)}</td><td>${formatRupiah(row.biayaLayanan)}</td><td>${formatRupiah(row.totalSharingFee)}</td>
+                        <td><span class="m-badge ${trxStatusBadgeClass(row.status)}">${row.status}</span></td>
+                    </tr>
+                `).join('') || '<tr><td colspan="19" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada riwayat transaksi.</td></tr>';
+            } else {
+                historyBody.innerHTML = historyRows.map(row => `
+                    <tr>
+                        <td>${row.tanggal}</td><td>${row.idTransaksi}</td><td>${row.idReferensi}</td>
+                        <td>${formatRupiah(row.nominal)}</td><td>${formatRupiah(row.nominalService)}</td><td>${formatRupiah(row.nominalTotal)}</td>
+                        <td>${row.tipe}</td><td>${row.idPelanggan}</td><td>${row.namaPelanggan}</td>
+                        <td><span class="m-badge ${trxStatusBadgeClass(row.status)}">${row.status}</span></td>
+                    </tr>
+                `).join('') || '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada riwayat transaksi.</td></tr>';
+            }
+        }
+
+        function switchTrxSubTab(subTab) {
+            currentTrxSubTab = subTab;
+            document.querySelectorAll('.trx-subtab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.color = '#94a3b8';
+                btn.style.borderBottomColor = 'transparent';
+            });
+            document.querySelectorAll('.trx-subtab-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            const activeBtn = document.getElementById('trx-subtab-btn-' + subTab);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.style.color = '#1e56d7';
+                activeBtn.style.borderBottomColor = '#1e56d7';
+            }
+            const activePanel = document.getElementById('trx-panel-' + subTab);
+            if (activePanel) activePanel.style.display = 'flex';
+            renderTrxTable(subTab);
+        }
+
+        /* ── Filter modal: date calendar + tipe transaksi ── */
+        let trxCalendarMonth = new Date(2026, 6, 1); // July 2026, matches mock data dates
+        let trxDateFrom = null;
+        let trxDateTo = null;
+        const trxMonthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+        function toggleTrxCalendar() {
+            const overlay = document.getElementById('trx-calendar-overlay');
+            if (!overlay) return;
+            const isOpen = overlay.style.display === 'block';
+            overlay.style.display = isOpen ? 'none' : 'block';
+            if (!isOpen) renderTrxCalendarGrid();
+        }
+
+        function shiftTrxCalendarMonth(delta) {
+            trxCalendarMonth = new Date(trxCalendarMonth.getFullYear(), trxCalendarMonth.getMonth() + delta, 1);
+            renderTrxCalendarGrid();
+        }
+
+        function renderTrxCalendarGrid() {
+            const label = document.getElementById('trx-cal-month-label');
+            const grid = document.getElementById('trx-cal-grid');
+            if (!label || !grid) return;
+
+            const year = trxCalendarMonth.getFullYear();
+            const month = trxCalendarMonth.getMonth();
+            label.innerHTML = trxMonthNames[month] + ' ' + year + ' <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i>';
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+
+            let cells = '';
+            for (let i = 0; i < firstDay; i++) cells += '<span></span>';
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = isCurrentMonth && today.getDate() === d;
+                cells += `<button type="button" onclick="pickTrxDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+            }
+            grid.innerHTML = cells;
+        }
+
+        function pickTrxDate(day) {
+            const dateStr = String(day).padStart(2, '0') + '/' + String(trxCalendarMonth.getMonth() + 1).padStart(2, '0') + '/' + trxCalendarMonth.getFullYear();
+            if (!trxDateFrom || (trxDateFrom && trxDateTo)) {
+                trxDateFrom = dateStr;
+                trxDateTo = null;
+            } else {
+                trxDateTo = dateStr;
+            }
+            document.getElementById('trx-date-from').textContent = trxDateFrom || '—';
+            document.getElementById('trx-date-to').textContent = trxDateTo || '—';
+            document.getElementById('trx-date-btn-label').textContent = trxDateFrom ? (trxDateFrom + (trxDateTo ? ' – ' + trxDateTo : '')) : 'Pilih tanggal di sini';
+        }
+
+        function resetTrxFilter() {
+            trxDateFrom = null;
+            trxDateTo = null;
+            trxFilterTipe = 'ALL';
+            document.getElementById('trx-filter-tipe').value = 'ALL';
+            document.getElementById('trx-date-btn-label').textContent = 'Pilih tanggal di sini';
+            const from = document.getElementById('trx-date-from');
+            const to = document.getElementById('trx-date-to');
+            if (from) from.textContent = '—';
+            if (to) to.textContent = '—';
+            renderTrxTable(trxFilterActiveTable);
+        }
+
+        function applyTrxFilter() {
+            trxFilterTipe = document.getElementById('trx-filter-tipe').value;
+            renderTrxTable(trxFilterActiveTable);
+            closeModal('modal-trx-filter');
+            document.getElementById('trx-calendar-overlay').style.display = 'none';
+            alertToast('Filter diterapkan.', 'success');
+        }
+
+        // Close the inline calendar overlay when clicking outside it
+        window.addEventListener('click', function (e) {
+            const overlay = document.getElementById('trx-calendar-overlay');
+            if (!overlay || overlay.style.display !== 'block') return;
+            if (!e.target.closest('#trx-calendar-overlay') && !e.target.closest('[onclick*="toggleTrxCalendar"]')) {
+                overlay.style.display = 'none';
+            }
+        });
+
+        /* ── Manajemen Akun: mock data + rendering ── */
+        // NOTE (assumption, pending confirmation of the real business rule): the account
+        // owner row (first row below) is modeled as canReset:false — only they cannot
+        // reset their own PIN/Password from this list, everyone else they manage can.
+        let akunMockData = [
+            { username: 'budi.owner', nama: 'Budi Santoso', fitur: 'Merchant, Kasbon, Auto_create_merchant', status: true, canReset: false },
+            { username: 'siti.admin', nama: 'Siti Aminah', fitur: 'Merchant, Kasbon, Payout', status: true, canReset: true }
+        ];
+
+        function renderAkunTable() {
+            const body = document.getElementById('akun-table-body');
+            if (!body) return;
+            const query = (document.getElementById('akun-search-input')?.value || '').toLowerCase().trim();
+            const rows = akunMockData.filter(a => !query || a.nama.toLowerCase().includes(query) || a.username.toLowerCase().includes(query));
+
+            body.innerHTML = rows.map((a, idx) => {
+                const realIdx = akunMockData.indexOf(a);
+                const resetButtons = a.canReset
+                    ? `<button class="btn btn-m-outline" style="padding: 6px 10px; font-size: 0.7rem;" onclick="alertToast('Mock: reset PIN untuk ${a.username}.', 'info')">Reset PIN</button>
+                       <button class="btn btn-m-outline" style="padding: 6px 10px; font-size: 0.7rem;" onclick="alertToast('Mock: reset Password untuk ${a.username}.', 'info')">Reset Password</button>`
+                    : '';
+                return `
+                    <tr>
+                        <td>${a.username}</td>
+                        <td>${a.fitur}</td>
+                        <td>
+                            <label class="akun-toggle">
+                                <input type="checkbox" ${a.status ? 'checked' : ''} onchange="toggleAkunStatus(${realIdx})">
+                                <span class="akun-toggle-track"><span class="akun-toggle-thumb"></span></span>
+                            </label>
+                        </td>
+                        <td style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            ${resetButtons}
+                            <button class="btn btn-m-outline" style="padding: 6px 10px; font-size: 0.7rem;" onclick="openRincianAkun(${realIdx})">Lihat detail</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('') || '<tr><td colspan="4" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada akun cocok.</td></tr>';
+        }
+
+        function toggleAkunStatus(idx) {
+            akunMockData[idx].status = !akunMockData[idx].status;
+            renderAkunTable();
+        }
+
+        function openRincianAkun(idx) {
+            const a = akunMockData[idx];
+            if (!a) return;
+            document.getElementById('rincian-akun-username').value = a.username;
+            document.getElementById('rincian-akun-nama').value = a.nama;
+            openModal('modal-rincian-akun');
+        }
+
+        function resetTambahAkunForm() {
+            ['ta-username', 'ta-nama', 'ta-password', 'ta-password-conf', 'ta-pin', 'ta-pin-conf'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            checkTambahAkunValidity();
+        }
+
+        function checkTambahAkunValidity() {
+            const username = document.getElementById('ta-username').value.trim();
+            const nama = document.getElementById('ta-nama').value.trim();
+            const pw = document.getElementById('ta-password').value;
+            const pwConf = document.getElementById('ta-password-conf').value;
+            const pin = document.getElementById('ta-pin').value;
+            const pinConf = document.getElementById('ta-pin-conf').value;
+
+            const valid = username && nama && pw && pwConf && pw === pwConf && pin && pinConf && pin === pinConf;
+            const btn = document.getElementById('ta-btn-simpan');
+            if (!btn) return;
+            btn.disabled = !valid;
+            btn.style.background = valid ? '#1e56d7' : '#cbd5e1';
+            btn.style.color = valid ? '#fff' : '#94a3b8';
+            btn.style.cursor = valid ? 'pointer' : 'not-allowed';
+        }
+
+        function submitTambahAkun() {
+            const username = document.getElementById('ta-username').value.trim();
+            const nama = document.getElementById('ta-nama').value.trim();
+            const kasbonPerm = document.querySelector('input[name="ta-perm-kasbon"]:checked')?.value || 'view';
+            const payoutPerm = document.querySelector('input[name="ta-perm-payout"]:checked')?.value || 'view';
+            akunMockData.push({
+                username, nama,
+                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'})`,
+                status: true,
+                canReset: true
+            });
+            closeModal('modal-tambah-akun');
+            renderAkunTable();
+            alertToast('Akun berhasil ditambahkan (mock).', 'success');
+        }
+
         /* ── Platform Switcher ── */
         function switchPlatform(platform) {
             currentPlatform = platform;
@@ -4327,51 +4973,41 @@
         }
 
         /* ── Merchant UI: Tabs Toggling ── */
+        // tabId -> nav button id. Extend this map when adding new top-level merchant tabs
+        // instead of hard-coding new button variables (regression source pre-v1.5.0).
+        const merchantTabButtonMap = {
+            'tab-import-po': 'tab-btn-po-nav',
+            'tab-import-bu': 'tab-btn-bu',
+            'tab-history': 'tab-btn-history-nav',
+            'tab-riwayat-transaksi': 'tab-btn-riwayat-transaksi',
+            'tab-manajemen-akun': 'tab-btn-manajemen-akun'
+        };
+
         function switchMerchantTab(tabId) {
             currentMerchantTab = tabId;
-            
+
             // Hide all tab contents
             document.querySelectorAll('.m-tab-content').forEach(content => {
                 content.classList.remove('active');
                 content.style.display = 'none';
             });
-            
-            // Reset button styles
-            const btnBU = document.getElementById('tab-btn-bu');
-            const btnHistory = document.getElementById('tab-btn-history-nav');
-            const btnPO = document.getElementById('tab-btn-po-nav');
-            
-            if (btnBU) {
-                btnBU.style.color = 'rgba(255, 255, 255, 0.7)';
-                btnBU.style.borderBottomColor = 'transparent';
-                btnBU.classList.remove('active');
-            }
-            if (btnHistory) {
-                btnHistory.style.color = 'rgba(255, 255, 255, 0.7)';
-                btnHistory.style.borderBottomColor = 'transparent';
-                btnHistory.classList.remove('active');
-            }
-            if (btnPO) {
-                btnPO.style.color = 'rgba(255, 255, 255, 0.7)';
-                btnPO.style.borderBottomColor = 'transparent';
-                btnPO.classList.remove('active');
-            }
-            
+
+            // Reset all merchant nav button styles
+            document.querySelectorAll('#platform-merchant .m-tab-btn').forEach(btn => {
+                btn.style.color = 'rgba(255, 255, 255, 0.7)';
+                btn.style.borderBottomColor = 'transparent';
+                btn.classList.remove('active');
+            });
+
             // Set active button
-            let activeBtn;
-            if (tabId === 'tab-import-bu') {
-                activeBtn = btnBU;
-            } else if (tabId === 'tab-import-po') {
-                activeBtn = btnPO;
-            } else {
-                activeBtn = btnHistory;
-            }
+            const activeBtnId = merchantTabButtonMap[tabId];
+            const activeBtn = activeBtnId ? document.getElementById(activeBtnId) : null;
             if (activeBtn) {
                 activeBtn.style.color = '#fff';
                 activeBtn.style.borderBottomColor = '#fbbf24';
                 activeBtn.classList.add('active');
             }
-            
+
             const tabEl = document.getElementById(tabId);
             if (tabEl) {
                 tabEl.classList.add('active');
@@ -4380,6 +5016,10 @@
             
             if (tabId === 'tab-history') {
                 renderHistoryTable();
+            } else if (tabId === 'tab-riwayat-transaksi') {
+                switchTrxSubTab(currentTrxSubTab);
+            } else if (tabId === 'tab-manajemen-akun') {
+                renderAkunTable();
             } else if (tabId === 'tab-import-bu' || tabId === 'tab-import-po') {
                 const tabUploaded = (tabId === 'tab-import-bu') ? buTemplateUploaded : poTemplateUploaded;
                 const emptyState = document.querySelector(`#${tabId} #merchant-empty-state`);
@@ -6357,5 +6997,6 @@
             </div>
         </div>
     </div>
+    <script src="versions.js"></script>
 </body>
 </html>
