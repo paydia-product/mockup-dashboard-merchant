@@ -51,6 +51,11 @@ sync with each other and with what's actually deployed. Don't skip steps.
   checklist (paydia / Kasbon / Payout), and a "Tambah Akun" modal with
   password + PIN fields and a per-permission View Only / Edit selector.
 
+### Changed
+- `switchMerchantTab` generalized to reset all `.m-tab-btn` elements via a
+  `querySelectorAll` loop plus a tabId→buttonId map, instead of three
+  hard-coded button IDs — needed so the tab bar can grow past 3 tabs.
+
 ## [1.5.0] - 2026-07-31
 
 ### Added
@@ -60,11 +65,6 @@ sync with each other and with what's actually deployed. Don't skip steps.
   action (view-only, does not change app state).
 - `build_protected.js` now inlines `versions.js` into the encrypted build
   output (since `.vercelignore` only serves `index.html`).
-
-### Changed
-- `switchMerchantTab` generalized to reset all `.m-tab-btn` elements via a
-  `querySelectorAll` loop plus a tabId→buttonId map, instead of three
-  hard-coded button IDs — needed so the tab bar can grow past 3 tabs.
 
 ## [1.4.0] - 2026-07-31
 

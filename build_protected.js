@@ -57,7 +57,10 @@ function inlineVersionsScript(html) {
   if (!html.includes(tag)) {
     throw new Error('inlineVersionsScript: <script src="versions.js"></script> tag not found in mockup.html.');
   }
-  return html.replace(tag, '<script>\n' + versionsSrc + '\n</script>');
+  if (versionsSrc.includes('</script')) {
+    throw new Error('inlineVersionsScript: versions.js contains a literal "</script" substring, which would prematurely close the inlined <script> tag.');
+  }
+  return html.replace(tag, () => '<script>\n' + versionsSrc + '\n</script>');
 }
 
 async function deriveKey(password, salt, usages) {
