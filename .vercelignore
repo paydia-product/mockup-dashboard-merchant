@@ -1,0 +1,12 @@
+# Deploy ONLY the encrypted index.html.
+# Everything else (plaintext source, requirement docs, screenshots,
+# templates, build scripts) stays local and is NEVER served publicly.
+#
+# Pentest fix: previously /mockup.html, /Sub_Merchant_Improvement.txt,
+# /*.docx, /*.xlsx and /*.png were all reachable (HTTP 200) on the
+# deployment, leaking confidential content regardless of the login gate.
+
+*
+!index.html
+!selfie_example.png
+!selfie_ktp_example.png

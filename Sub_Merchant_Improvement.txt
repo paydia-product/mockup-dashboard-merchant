@@ -1,0 +1,511 @@
+
+Feature
+Dashboard Admin
+Modifikasi Segment Detail Merchant: Profil Merchant & Profil Pemilik/Penanggung Jawab
+Web Merchant
+Tambah Field Swafoto pada Registrasi Manual Merchant Perorangan
+Import Sub Merchant Perorangan (Tab Baru + Template Baru)
+Modifikasi Tab Import Sub Merchant Badan Usaha (Rename + Upload Per Row)
+Modifikasi Riwayat Import: Tampilkan Perorangan + Filter & Kolom Jenis Merchant
+
+User Stories
+Web Merchant – Registrasi Manual Merchant Perorangan
+Requirement: Tambah Field Swafoto pada Form Registrasi Perorangan
+User Journey (happy flow):
+Merchant membuka halaman registrasi manual dan memilih jenis usaha Perorangan
+Merchant mengisi seluruh field wajib termasuk field baru "Unggah Swafoto" dan "Unggah Swafoto dengan KTP"
+Merchant mengunggah file foto sesuai format dan ukuran yang diizinkan
+Sistem memvalidasi file yang diunggah
+Merchant melanjutkan ke step berikutnya setelah semua field valid
+
+
+
+
+Requirement
+
+
+User Story
+
+
+Acceptance Criteria
+
+
+Notes
+
+
+
+Field Unggah Swafoto
+
+
+SEBAGAI merchant yang mendaftar sebagai peroranganSAYA INGIN mengunggah foto swafoto sayaSEHINGGA identitas saya dapat diverifikasi oleh Paydia
+
+
+Scenario: Upload swafoto berhasilGiven merchant berada di step Dokumen Pendukung pada form registrasi peroranganWhen merchant mengunggah file foto yang valid (format JPEG/JPG/PNG, ukuran maks 25 MB)Then sistem menampilkan preview file yang diunggahAnd tombol "Lanjut" dapat diklikScenario: Upload swafoto format tidak validGiven merchant berada di step Dokumen PendukungWhen merchant mengunggah file dengan format selain JPEG/JPG/PNG (misal PDF, DOCX)Then sistem menampilkan pesan error "Format file tidak didukung. Gunakan JPEG, JPG, atau PNG"And file tidak tersimpanScenario: Upload swafoto ukuran melebihi batasGiven merchant berada di step Dokumen PendukungWhen merchant mengunggah file berukuran lebih dari 25 MBThen sistem menampilkan pesan error "Ukuran file terlalu besar. Maksimum 25 MB"And file tidak tersimpanScenario: Merchant tidak mengisi field swafotoGiven merchant berada di step Dokumen PendukungWhen merchant menekan tombol "Lanjut" tanpa mengisi field Unggah SwafotoThen sistem menampilkan pesan error "Swafoto wajib diunggah"And halaman tidak berpindahAcceptance Criteria:- Field "Unggah Swafoto" wajib diisi (required) pada form registrasi perorangan- Label field: "Unggah Swafoto" (ID)- Format yang diterima: JPEG, JPG, PNG- Ukuran maksimum file: 25 MB- Terdapat area drag & drop dan tombol "Pilih File" sesuai desain existing upload dokumen- Preview file ditampilkan setelah upload berhasil- Tombol hapus/ganti / lihat file tersedia setelah file terunggah
+
+
+
+
+
+
+Web Merchant – Import Sub Merchant Badan Usaha (Modifikasi Tab Existing)
+Requirement: Modifikasi Tab Import Sub Merchant Badan Usaha
+User Journey (happy flow):
+Parent merchant membuka halaman Import Merchant
+Merchant melihat tab yang sekarang berganti nama menjadi "Import Sub Merchant - Badan Usaha"
+Merchant mengunduh template badan usaha, mengisi data, dan mengunggah file template
+Sistem memvalidasi data pada template
+Merchant mengunggah dokumen pendukung per sub merchant satu per satu
+Merchant menekan tombol Kirim untuk memproses pendaftaran
+
+
+
+
+Requirement
+
+
+User Story
+
+
+Acceptance Criteria
+
+
+Notes
+
+
+
+Rename tab menjadi "Import Sub Merchant - Badan Usaha"
+
+
+SEBAGAI parent merchantSAYA INGIN melihat tab import yang jelas menunjukkan jenis sub merchant badan usahaSEHINGGA saya tidak bingung antara tab untuk perorangan dan badan usaha
+
+
+Scenario: Tab tampil dengan label baruGiven merchant membuka halaman Import MerchantWhen halaman berhasil dimuatThen tab yang sebelumnya bernama "Import Merchant" berganti menjadi "Import Sub Merchant - Badan Usaha"And konten dan fungsionalitas tab tidak berubahAcceptance Criteria:- Label tab: "Import Sub Merchant - Badan Usaha"- Semua fitur existing di dalam tab tetap berfungsi sama- Urutan tab: "Import Sub Merchant - Badan Usaha" menjadi tab pertama, "Import Sub Merchant - Perorangan" menjadi tab kedua, "Riwayat Import" menjadi tab ketiga
+
+
+
+
+
+
+Upload dokumen pendukung per sub merchant badan usaha
+
+
+SEBAGAI parent merchantSAYA INGIN mengunggah dokumen pendukung secara terpisah untuk setiap sub merchant badan usahaSEHINGGA setiap sub merchant memiliki dokumen yang lengkap dan benar
+
+
+Scenario: Upload dokumen per sub merchant berhasilGiven merchant telah mengunggah template dan tabel sub merchant badan usaha telah tampilWhen merchant mengklik tombol "Unggah Dokumen Pendukung" di entri data yang dipilihThen modal Unggah Dokumen Pendukung muncul dengan daftar dokumen: KTP Direktur, Foto Usaha - Tampak Depan, NIB, Akta Terakhir, NPWP Perusahaan, SK KemenkumhamAnd merchant dapat mengunggah masing-masing dokumen secara individualScenario: Salah satu dokumen wajib belum diunggahGiven merchant membuka modal Unggah Dokumen Pendukung untuk satu sub merchantWhen merchant belum melengkapi semua dokumen wajibThen tombol unggah tidak bisa diklikScenario: Format file dokumen tidak valid / melebih batas maksimum sizeGiven merchant membuka modal Unggah Dokumen PendukungWhen merchant mengunggah file dengan format yang tidak sesuai (misal file format .docx untuk KTP)Then sistem menampilkan pesan error "Format file tidak didukung" atau “Ukuran file terlalu besar. Maksimum 25 MB”Scenario: Merchant menekan tombol Batal di modalGiven modal Unggah Dokumen Pendukung sedang terbukaWhen merchant menekan tombol "Batal"Then modal tertutup tanpa menyimpan perubahanAcceptance Criteria:- Dokumen wajib per sub merchant badan usaha: KTP Direktur (format: JPEG/JPG/PNG, maks 25 MB), Foto Usaha - Tampak Depan (format: JPEG/JPG/PNG, maks 25 MB), NIB (format: PDF, maks 25 MB), Akta Terakhir (format: PDF, maks 25 MB), NPWP Perusahaan (format: PDF/JPEG/JPG/PNG, maks 25 MB), SK Kemenkumham (format: PDF, maks 25 MB)- Modal menampilkan nama dokumen dan format yang diizinkan untuk tiap slot upload- Setelah berhasil mengunggah satu dokumen, slot menampilkan nama file dan icon "view", untuk ganti file user cukup klik kotak upload- Tombol "Unggah" di modal hanya aktif jika semua dokumen wajib telah diunggah- Semua upload dokumen pendukung disatukan ke dalam 1 modal, oleh karena itu hapus kolom KTP di tampilan setelah upload template, dan tambahkan kolom Aksi yang isinya tombol “Unggah Dokumen Pendukung” untuk setiap entri data- Jika semua dokumen pendukung telah diupload di entri data sub merchant tersebut, maka di tabel wajib memberikan icon / keterangan dokumen pendukung telah lengkap
+
+
+
+
+
+
+Modifikasi Bulk Upload Dokumen Pendukung
+
+
+SEBAGAI parent merchantSAYA INGIN mengunggah dokumen pendukung default untuk sub merchant yang saya uploadSEHINGGA saya tidak perlu ribet unggah dokumen pendukung untuk setiap merchant yang punya dokumen pendukung sama
+
+
+Scenario: Upload dokumen pendukung default berhasilGiven merchant telah mengunggah template dan tabel sub merchant badan usaha telah tampilWhen merchant mengklik tombol "Unggah Dokumen Pendukung Default"Then modal Unggah Dokumen Pendukung Default muncul dengan daftar dokumen: KTP Direktur, Foto Usaha - Tampak Depan, NIB, Akta Terakhir, NPWP Perusahaan, SK KemenkumhamAnd merchant dapat mengunggah default dokumen untuk sub merchantScenario: Salah satu dokumen wajib belum diunggahGiven merchant membuka modal Unggah Dokumen Pendukung Default When merchant belum melengkapi semua dokumen wajibThen tombol unggah tidak bisa diklikScenario: Format file dokumen tidak valid / melebih batas maksimum sizeGiven merchant membuka modal Unggah Dokumen PendukungWhen merchant mengunggah file dengan format yang tidak sesuai (misal file format .docx untuk KTP)Then sistem menampilkan pesan error "Format file tidak didukung" atau “Ukuran file terlalu besar. Maksimum 25 MB”Scenario: Merchant menekan tombol Batal di modalGiven modal Unggah Dokumen Pendukung Default sedang terbukaWhen merchant menekan tombol "Batal"Then modal tertutup tanpa menyimpan perubahan
+Acceptance Criteria:- Dokumen default wajib sub merchant badan usaha: KTP Direktur (format: JPEG/JPG/PNG, maks 25 MB), Foto Usaha - Tampak Depan (format: JPEG/JPG/PNG, maks 25 MB), NIB (format: PDF, maks 25 MB), Akta Terakhir (format: PDF, maks 25 MB), NPWP Perusahaan (format: PDF/JPEG/JPG/PNG, maks 25 MB), SK Kemenkumham (format: PDF, maks 25 MB)- Modal menampilkan nama dokumen dan format yang diizinkan untuk tiap slot upload- Setelah berhasil mengunggah satu dokumen, slot menampilkan nama file dan icon "view", untuk ganti file user cukup klik kotak upload- Tombol "Unggah" di modal hanya aktif jika semua dokumen wajib telah diunggah- Ubah wording existing di tombol dan di dalam modal “Unggah Dokumen Pendukung” jadi “Unggah Dokumen Pendukung Default”- File dari dokumen pendukung default ini otomatis akan diupload untuk setiap data sub merchant yang tidak upload dokumen pendukung masing-masing- Jika semua Dokumen Pendukung Default telah diupload maka berikan icon / keterangan dokumen pendukung default telah lengkap- Tombol kirim hanya bisa diklik jika: 1) Unggah Dokumen Pendukung Default sudah diupload, dan/atau 2) Seluruh entri data sudah memiliki dokumen pendukung masing-masing
+
+
+
+
+
+Web Merchant – Import Sub Merchant Perorangan (Tab Baru)
+Requirement: Tab Baru Import Sub Merchant Perorangan
+User Journey (happy flow):
+Parent merchant membuka halaman Import Merchant
+Merchant memilih tab "Import Sub Merchant - Perorangan"
+Merchant mengunduh template perorangan, mengisi data, dan mengunggah file template
+Sistem memvalidasi data template (maks 100 entri)
+Merchant mengunggah dokumen pendukung per sub merchant (KTP, Selfie, Selfie+KTP, Foto Usaha)
+Merchant menekan tombol Kirim untuk memproses pendaftaran
+
+
+
+
+Requirement
+
+
+User Story
+
+
+Acceptance Criteria
+
+
+Notes
+
+
+
+Unduh template sub merchant perorangan
+
+
+SEBAGAI parent merchantSAYA INGIN mengunduh template import khusus untuk sub merchant peroranganSEHINGGA saya dapat mengisi data sub merchant perorangan sesuai format yang benar
+
+
+Scenario: Unduh template berhasilGiven merchant berada di tab "Import Sub Merchant - Perorangan"When merchant mengklik tombol "Unduh Template"Then file template Excel perorangan terunduh ke perangkat merchantAnd template berisi kolom sesuai field registrasi manual peroranganScenario: Gagal mengunduh templateGiven merchant berada di tab "Import Sub Merchant - Perorangan"When merchant mengklik tombol "Unduh Template"Then sistem menampilkan pesan error "Gagal mengunduh template. Silahkan coba lagi"Acceptance Criteria:- Tombol "Unduh Template" tersedia di tab "Import Sub Merchant - Perorangan"- Template yang diunduh adalah file Excel (.xlsx) khusus perorangan, bukan template badan usaha- Kolom wajib dalam template perorangan: Nama Pemilik, NIK, Nama Merchant, E-mail, Nomor Ponsel Aktif, Kata Sandi, Konfirmasi Kata Sandi, PIN, Konfirmasi PIN, Jenis Usaha, Apakah Usaha Anda 24 Jam, Website, Instagram, Facebook, Tiktok, Alamat sama dengan Merchant, Alamat Lengkap Usaha, Provinsi, Kota/Kabupaten, Kode Pos, Kategori Usaha, Omzet Usaha (Per Bulan), Apakah usaha Anda menyediakan jasa pembayaran?, Nama Bank, Nomor Rekening, Nama Pemilik Rekening, Tempat Lahir, Tanggal Lahir, Pekerjaan, Hubungan Usaha- Kolom Instagram, Facebook, Tiktok opsional; sisanya mandatory diisi- Kolom Website hanya mandatory diisi jika Jenis Usaha sama dengan “Online” / “Online & Offline”- Sheet referensi data (Data Jenis Usaha, Data Provinsi, Data Kota, dll.) mengikuti template existing
+
+
+
+
+
+
+Unggah file template sub merchant perorangan
+
+
+SEBAGAI parent merchantSAYA INGIN mengunggah file template yang sudah diisi untuk sub merchant peroranganSEHINGGA sistem dapat membaca dan memvalidasi data sub merchant yang ingin saya daftarkan
+
+
+Scenario: Unggah template perorangan berhasilGiven merchant berada di tab "Import Sub Merchant - Perorangan" dan sudah menyiapkan file template yang telah diisiWhen merchant mengklik tombol "Unggah" dan memilih file template peroranganThen sistem membaca file dan menampilkan tabel preview data sub merchant yang akan diimporAnd kolom yang ditampilkan: No, Nama Merchant, E-mail, Nomor Ponsel Aktif, Status Validasi, dan kolom Aksi yang berisi tombol “Unggah Dokumen Pendukung” untuk masing-masing entri dataScenario: Unggah template melebihi 100 entriGiven merchant berada di tab "Import Sub Merchant - Perorangan"When merchant mengunggah file template yang berisi lebih dari 100 baris dataThen sistem menampilkan pesan error "Maksimum 100 data per file import"And file tidak diprosesScenario: Unggah template dengan kolom tidak sesuaiGiven merchant mengunggah file template yang salah (misal template badan usaha)When sistem membaca fileThen sistem menampilkan modal header tidak sesuai yang berisi list masalah yang ditemukanScenario: Unggah template dengan data tidak valid (email duplikat, nomor ponsel sudah terdaftar, tidak sesuai referensi data)Given merchant mengunggah template dengan data yang mengandung errorWhen sistem memvalidasi setiap barisThen baris yang bermasalah ditandai dengan Status Validasi "Tidak Valid" beserta keterangan errorAnd merchant tidak dapat menekan tombol Kirim selama masih ada baris dengan status tidak validAcceptance Criteria:- Tombol "Unggah" tersedia di tab "Import Sub Merchant - Perorangan"- Hanya menerima file format .xlsx dan .xls- Maksimum 100 entri data per file- Sistem memvalidasi setiap baris secara otomatis setelah file diunggah- Status validasi per baris: "Valid" (ditandai ikon centang biru) atau "Tidak Valid" (ditandai ikon error merah beserta keterangan)- Validasi setiap kolom mengikut validasi existing di halaman registrasi- Merchant tidak dapat melanjutkan ke proses kirim jika ada baris dengan status tidak valid- Merchant dapat melihat detail validasi setiap kolom milik masing-masing merchant dengan klik nilai Status Validasi, isinya adalah data nama kolom, value dan validasi
+
+
+
+
+
+
+Upload dokumen pendukung per sub merchant perorangan
+
+
+SEBAGAI parent merchantSAYA INGIN mengunggah dokumen per sub merchant perorangan satu per satuSEHINGGA setiap sub merchant perorangan memiliki dokumen identitas yang lengkap
+
+
+Scenario: Upload dokumen perorangan berhasil untuk satu sub merchantGiven tabel sub merchant perorangan sudah tampil setelah template diunggahWhen merchant mengklik ikon unggah pada baris sub merchant tertentuThen tampil slot upload untuk 4 jenis dokumen: File KTP Pemilik, Selfie Pemilik, Selfie + KTP Pemilik, Foto Usaha - Tampak DepanAnd merchant dapat mengunggah masing-masing dokumenScenario: Semua dokumen per sub merchant sudah terunggahGiven merchant telah mengunggah semua 4 dokumen untuk satu sub merchant peroranganWhen merchant melihat baris sub merchant tersebutThen indikator dokumen di baris tersebut menunjukkan status lengkap
+Acceptance Criteria:- Tab "Import Sub Merchant - Perorangan" tidak menyediakan tombol "Unggah Dokumen Pendukung" (bulk), karena upload dilakukan per baris / per sub merchant- Dokumen wajib per sub merchant perorangan: File KTP Pemilik (JPEG/JPG/PNG, maks 25 MB), Selfie Pemilik (JPEG/JPG/PNG, maks 25 MB), Selfie + KTP Pemilik (JPEG/JPG/PNG, maks 25 MB), Foto Usaha - Tampak Depan (JPEG/JPG/PNG, maks 25 MB)- Merchant hanya dapat menekan tombol "Kirim" jika seluruh baris memiliki status validasi "Valid" dan dokumen lengkap- Tombol "Kirim" berwarna abu-abu (disabled) selama kondisi di atas belum terpenuhi
+
+
+
+
+
+
+Kirim data import sub merchant perorangan
+
+
+SEBAGAI parent merchantSAYA INGIN mengirimkan data import sub merchant perorangan yang sudah lengkapSEHINGGA sub merchant perorangan saya dapat diproses dan terdaftar di Paydia
+
+
+Scenario: Kirim data berhasilGiven semua baris valid dan semua dokumen per sub merchant telah diunggahWhen merchant menekan tombol "Kirim"Then sistem memproses data dan menampilkan notifikasi sukses "Data sub merchant berhasil dikirim dan sedang diproses"And halaman berpindah ke tab Riwayat ImportAnd batch import baru muncul di Riwayat Import dengan status "Pending"Scenario: Kirim data gagal karena server errorGiven semua data valid dan merchant menekan tombol "Kirim"When terjadi gangguan pada serverThen sistem menampilkan pesan error "Terjadi kesalahan pada server. Silakan coba beberapa saat lagi"And data tidak hilang dari halaman (merchant dapat mencoba kembali)Acceptance Criteria:- Setelah klik kirim, halaman menampilkan pesan sistem (gagal / sukses) dan isi tabel impor dihapus- Data yang telah dikirim tidak dapat diedit kembali dari halaman import- Batch import sub merchat perorangan tercatat di Riwayat Import
+
+
+
+
+
+Web Merchant – Riwayat Import (Modifikasi)
+Requirement: Tampilkan Riwayat Import Perorangan + Filter & Kolom Jenis Merchant
+User Journey (happy flow):
+Merchant membuka tab "Riwayat Import"
+Merchant melihat semua histori import, baik sub merchant perorangan maupun badan usaha
+Merchant menggunakan filter Jenis Merchant untuk menyaring tampilan
+Merchant melihat detail status per batch import
+
+
+
+
+Requirement
+
+
+User Story
+
+
+Acceptance Criteria
+
+
+Notes
+
+
+
+Kolom Jenis Merchant di Riwayat Import
+
+
+SEBAGAI parent merchantSAYA INGIN melihat jenis merchant (Perorangan/Badan Usaha) di setiap baris riwayat importSEHINGGA saya dapat dengan mudah membedakan histori import perorangan dan badan usaha
+
+
+Scenario: Riwayat import menampilkan kolom Jenis MerchantGiven merchant membuka tab "Riwayat Import"When halaman dimuatThen tabel riwayat import menampilkan kolom baru "Jenis Merchant" di antara kolom Nama Merchant dan StatusAnd setiap baris menampilkan nilai "Badan Usaha" atau "Perorangan" sesuai jenis import yang dilakukanScenario: Riwayat import menampilkan data perorangan dan badan usaha bersamaGiven merchant telah melakukan import perorangan dan badan usahaWhen merchant membuka tab "Riwayat Import" tanpa filterThen semua histori import dari kedua jenis ditampilkan dalam satu tabelAnd diurutkan berdasarkan Tanggal Request terbaruAcceptance Criteria:- Kolom tabel Riwayat Import: Batch ID, Nama Merchant, Jenis Merchant, Status, Tanggal Request- Nilai kolom Jenis Merchant: "Perorangan" atau "Badan Usaha"- Semua data histori import (lama dan baru) tampil di tab ini- Data historis import badan usaha yang ada sebelum fitur ini dirilis tetap ditampilkan dengan Jenis Merchant "Badan Usaha"
+
+
+
+
+
+
+Filter Jenis Merchant di Riwayat Import
+
+
+SEBAGAI parent merchantSAYA INGIN memfilter riwayat import berdasarkan jenis merchantSEHINGGA saya dapat dengan cepat menemukan histori import tertentu
+
+
+Scenario: Filter berdasarkan Jenis Merchant - PeroranganGiven merchant membuka tab "Riwayat Import"When merchant memilih filter "Jenis Merchant: Perorangan"Then tabel hanya menampilkan baris dengan Jenis Merchant "Perorangan"Scenario: Filter berdasarkan Jenis Merchant - Badan UsahaGiven merchant membuka tab "Riwayat Import"When merchant memilih filter "Jenis Merchant: Badan Usaha"Then tabel hanya menampilkan baris dengan Jenis Merchant "Badan Usaha"Acceptance Criteria:- Filter Jenis Merchant ditambahkan di samping filter Status yang sudah ada- Opsi filter Jenis Merchant: "Perorangan", "Badan Usaha", "Reset Filter"- Filter Status existing tetap berfungsi: "Berhasil", "Gagal", "Pending", "Reset Filter"- Filter Jenis Merchant dan filter Status dapat digunakan bersamaan (AND condition)- Saat tidak ada data yang sesuai filter, tampilkan pesan "Tidak ada data "
+
+
+
+
+
+Dashboard Admin Internal – Modifikasi Detail Merchant
+Requirement: Modifikasi Segment Profil Merchant & Tambah Segment Profil Pemilik/Penanggung Jawab
+User Journey (happy flow):
+Admin membuka menu Merchant di Dashboard Admin
+Admin memilih salah satu merchant dari daftar dan membuka halaman detail
+Admin melihat segment yang telah diubah namanya menjadi "Profil Merchant" dan segment baru "Profil Pemilik / Penanggung Jawab"
+Admin dapat melihat data profil pemilik terpisah dari data usaha
+Admin dapat melihat file selfie dan selfie + KTP khusus untuk merchant/sub merchant perorangan
+
+
+
+
+Requirement
+
+
+User Story
+
+
+Acceptance Criteria
+
+
+Notes
+
+
+
+Rename segment "Merchant" menjadi "Profil Merchant"
+
+
+SEBAGAI admin internalSAYA INGIN melihat segment detail merchant dengan nama yang lebih jelasSEHINGGA saya dapat dengan mudah memahami konteks informasi yang ditampilkan
+
+
+Scenario: Segment tampil dengan nama baruGiven admin membuka halaman detail merchant mana pun (parent maupun sub merchant, perorangan maupun badan usaha)When halaman detail dimuatThen segment yang sebelumnya bernama "Merchant" berubah menjadi "Profil Merchant"Acceptance Criteria:- Label segment: "Profil Merchant"- Field dalam segment Profil Merchant adalah field existing dikurangi field yang dipindah ke segment baru Profil Pemilik/Penanggung Jawab (yaitu: Nama Pemilik, KTP Pemilik, Nomor Ponsel)- Perubahan berlaku untuk semua jenis merchant: parent badan usaha, parent perorangan, sub merchant badan usaha, sub merchant perorangan
+
+
+
+
+
+
+Tambah segment Profil Pemilik / Penanggung Jawab untuk Badan Usaha
+
+
+SEBAGAI admin internalSAYA INGIN melihat data profil pemilik/penanggung jawab merchant badan usaha secara terpisahSEHINGGA saya dapat dengan jelas membedakan data usaha dan data pemilik
+
+
+Scenario: Segment Profil Pemilik tampil untuk merchant badan usahaGiven admin membuka halaman detail merchant badan usahaWhen halaman detail dimuatThen terdapat segment baru "Profil Pemilik / Penanggung Jawab" di bawah segment "Profil Merchant"And segment tersebut menampilkan field: Nama Pemilik / Penanggung Jawab, KTP Pemilik / Penanggung Jawab (isinya NIK), Nomor Ponsel Pemilik / Penanggung JawabAcceptance Criteria:- Segment "Profil Pemilik / Penanggung Jawab" ditampilkan untuk semua merchant badan usaha (parent dan sub merchant)- Field dalam segment untuk badan usaha: Nama Pemilik (teks, sensor sebagian sesuai existing), KTP Pemilik (teks, sensor sebagian sesuai existing), Nomor Ponsel (teks, sensor sebagian sesuai existing)- Data di segment ini diambil dari data yang sebelumnya ada di segment Merchant, sehingga tidak ada pengisian ulang data oleh merchant- Field KTP Pemilik di dashboard admin akan mengambil data dari field KTP Direktur di halaman registrasi merchant Badan Usaha
+
+
+
+
+
+
+Tambah segment Profil Pemilik / Penanggung Jawab untuk Perorangan
+
+
+SEBAGAI admin internalSAYA INGIN melihat data profil pemilik merchant perorangan secara lengkap termasuk data KTPSEHINGGA saya dapat memverifikasi identitas pemilik dengan data yang lebih lengkap
+
+
+Scenario: Segment Profil Pemilik tampil untuk merchant peroranganGiven admin membuka halaman detail merchant peroranganWhen halaman detail dimuatThen terdapat segment "Profil Pemilik / Penanggung Jawab" yang menampilkan field: Nama Pemilik, KTP Pemilik, Tempat Lahir, Tanggal Lahir, Pekerjaan, Nomor PonselAcceptance Criteria:- Field dalam segment untuk perorangan: Nama Pemilik (teks, sensor sebagian sesuai existing), KTP Pemilik (teks, sensor sebagian sesuai existing), Tempat Lahir (teks), Tanggal Lahir (teks, format D/M/YYYY, sesuai dengan data yang diambil dari halaman registrasi merchant perorangan), Pekerjaan (teks), Nomor Ponsel (teks, sensor sebagian sesuai existing)- Data Tempat Lahir, Tanggal Lahir, dan Pekerjaan hanya muncul di segment ini untuk merchant/sub merchant perorangan
+
+
+
+
+
+
+Modifikasi field Selfie di section Dokumen Pendukung untuk merchant perorangan
+
+
+SEBAGAI admin internalSAYA INGIN melihat file selfie dan selfie+KTP yang diunggah oleh merchant peroranganSEHINGGA saya dapat memverifikasi keaslian identitas dengan lebih lengkap
+
+
+Scenario: Section Dokumen Pendukung merchant perorangan menampilkan dua field selfie serta selfie dengan KTPGiven admin membuka halaman detail merchant perorangan yang sudah melengkapi dokumenWhen admin melihat section Dokumen PendukungThen terdapat field "Selfie" dengan tombol "Lihat"And terdapat field "Selfie dengan KTP" dengan tombol "Lihat" (field ini menggantikan atau melengkapi field selfie existing)Scenario: Admin mengklik tombol Lihat pada Selfie dengan KTPGiven admin berada di section Dokumen Pendukung merchant peroranganWhen admin mengklik tombol "Lihat" pada field "Selfie dengan KTP"Then file foto selfie dengan KTP terbuka di tab baru atau modal previewAcceptance Criteria:- Khusus untuk merchant dan sub merchant perorangan, section Dokumen Pendukung menampilkan: Selfie (tombol "Lihat"), Selfie dengan KTP (tombol "Lihat"), File KTP, Foto Usaha, File NPWP (jika ada)- Field "Selfie dengan KTP" adalah modifikasi wording dari existing field “Selfie”- Field selfie dan selfie+KTP tidak muncul untuk merchant badan usaha sesuai exsiting- Jika file belum diunggah merchant, tombol "Lihat" tetap bisa diklik tapi tidak menampilkan gambar apapun sesuai existing
+
+
+
+
+
+Requirements User Flow
+Flowchart: Tambah Field Swafoto pada Registrasi Manual Perorangan
+flowchart TD
+    A([Mulai: Merchant Buka Halaman Registrasi]) --> B{Pilih Jenis Usaha}
+    B -- Badan Usaha --> C([End: Alur Registrasi Badan Usaha - Out of Scope])
+    B -- Perorangan --> D[Isi Step 1: Informasi Akun]
+    D --> E[Isi Step 2: Informasi Pemilik Akun]
+    E --> F[Isi Step 3: Informasi Bisnis]
+    F --> G[Isi Step 4: Informasi Rekening]
+    G --> H[Step 5: Dokumen Pendukung]
+    H --> I[Unggah KTP Pemilik]
+    I --> J{Format & Ukuran KTP Valid?}
+    J -- Tidak Valid --> K[Tampil Pesan Error Format/Ukuran KTP]
+    K --> I
+    J -- Valid --> L[Unggah Swafoto Pemilik]
+    L --> M{Format & Ukuran Swafoto Valid?}
+    M -- Tidak Valid --> N[Tampil Pesan Error Format/Ukuran Swafoto]
+    N --> L
+    M -- Valid --> O[Unggah Swafoto dengan KTP]
+    O --> P{Format & Ukuran Swafoto+KTP Valid?}
+    P -- Tidak Valid --> Q[Tampil Pesan Error Format/Ukuran Swafoto+KTP]
+    Q --> O
+    P -- Valid --> R[Unggah Foto Usaha Tampak Depan]
+    R --> S{Semua Dokumen Wajib Terisi?}
+    S -- Belum Lengkap --> T[Tampil Pesan Error Dokumen Belum Lengkap]
+    T --> H
+    S -- Lengkap --> U[Step 6: Syarat dan Ketentuan]
+    U --> V{Merchant Centang Persetujuan?}
+    V -- Tidak --> W([End: Merchant Tidak Setuju])
+    V -- Ya --> X[Klik Tombol Daftar & Daftarkan]
+    X --> Y{Proses Registrasi Berhasil?}
+    Y -- Gagal - Server Error --> Z[Tampil Pesan Gagal, Coba Lagi]
+    Z --> X
+    Y -- Berhasil --> AA([End: Registrasi Berhasil, Merchant Menunggu Verifikasi])
+ 
+Flowchart: Import Sub Merchant Badan Usaha (Tab Modifikasi)
+flowchart TD
+    A([Mulai: Parent Merchant Buka Halaman Import Merchant]) --> B[Pilih Tab Import Sub Merchant - Badan Usaha]
+    B --> C[Klik Unduh Template]
+    C --> D{Unduh Berhasil?}
+    D -- Gagal --> E[Tampil Pesan Gagal Unduh]
+    E --> C
+    D -- Berhasil --> F[Isi Data di Template Excel]
+    F --> G[Klik Unggah & Pilih File Template]
+    G --> H{Format File Valid xlsx/xls?}
+    H -- Tidak Valid --> I[Tampil Pesan Error Format File]
+    I --> G
+    H -- Valid --> J{Jumlah Data Maks 100?}
+    J -- Lebih dari 100 --> K[Tampil Pesan Error Maks 100 Data]
+    K --> G
+    J -- Valid --> L[Sistem Validasi Data Per Baris]
+    L --> M{Semua Baris Valid?}
+    M -- Ada yang Tidak Valid --> N[Baris Error Ditandai Status Tidak Valid + Keterangan]
+    N --> O[Merchant Perbaiki File & Upload Ulang]
+    O --> G
+    M -- Semua Valid --> P[Tampil Tabel Preview Sub Merchant]
+    P --> Q[Klik Ikon Upload Dokumen Per Baris Sub Merchant]
+    Q --> R[Modal Upload Dokumen Pendukung Badan Usaha Terbuka]
+    R --> S[Upload KTP Direktur, Foto Usaha, NIB, Akta, NPWP, SK Kemenkumham]
+    S --> T{Semua Dokumen Wajib Terunggah?}
+    T -- Belum Lengkap --> U[Tombol Unggah di Modal Disabled]
+    U --> S
+    T -- Lengkap --> V[Klik Tombol Unggah di Modal]
+    V --> W[Modal Tertutup, Indikator Dokumen Baris = Lengkap]
+    W --> X{Semua Baris Sudah Ada Dokumen Lengkap?\natau\nSudah Unggah Dokumen Pendukung Default?}
+    X -- Belum --> Q
+    X -- Sudah --> Y[Tombol Kirim Aktif]
+    Y --> Z[Klik Kirim]
+    Z --> AAb[Jika ada entri data dengan dokumen pendukung kosong, maka secara otomatis diisi oleh dokumen pendukung default] 
+    AAb --> AA{Proses Kirim Berhasil?}
+    AA -- Gagal Server Error --> AB[Tampil Pesan Gagal, Data Tidak Hilang]
+    AB --> Z
+    AA -- Berhasil --> AC([End: Notifikasi Sukses, Pindah ke Riwayat Import]) 
+Flowchart: Import Sub Merchant Perorangan (Tab Baru)
+flowchart TD
+    A([Mulai: Parent Merchant Buka Halaman Import Merchant]) --> B[Pilih Tab Import Sub Merchant - Perorangan]
+    B --> C[Klik Unduh Template]
+    C --> D{Unduh Berhasil?}
+    D -- Gagal --> E[Tampil Pesan Gagal Unduh]
+    E --> C
+    D -- Berhasil --> F[Isi Data di Template Excel Perorangan]
+    F --> G[Klik Unggah & Pilih File Template Perorangan]
+    G --> H{Format File Valid?}
+    H -- Tidak Valid --> I[Tampil Pesan Error Format File]
+    I --> G
+    H -- Valid --> J{Template Sesuai Format Perorangan?}
+    J -- Tidak Sesuai --> K[Tampil Pesan Error Template Tidak Sesuai]
+    K --> G
+    J -- Sesuai --> L{Jumlah Data Maks 100?}
+    L -- Lebih 100 --> M[Tampil Pesan Error Maks 100 Data]
+    M --> G
+    L -- Valid --> N[Sistem Validasi Data Per Baris]
+    N --> O{Semua Baris Valid?}
+    O -- Ada yang Tidak Valid --> P[Baris Error Ditandai Status Tidak Valid]
+    P --> Q[Merchant Perbaiki File & Upload Ulang]
+    Q --> G
+    O -- Semua Valid --> R[Tampil Tabel Preview Sub Merchant Perorangan]
+    R --> S[Upload Dokumen Per Baris - KTP, Selfie, Selfie+KTP, Foto Usaha]
+    S --> T{Semua Dokumen Valid Format & Ukuran?}
+    T -- Tidak Valid --> U[Tampil Pesan Error Format/Ukuran Dokumen]
+    U --> S
+    T -- Valid --> V{Semua Baris Sudah Ada Dokumen Lengkap?}
+    V -- Belum --> S
+    V -- Sudah --> W[Tombol Kirim Aktif]
+    W --> X[Klik Kirim]
+    X --> Y{Proses Kirim Berhasil?}
+    Y -- Gagal Server Error --> Z[Tampil Pesan Gagal, Data Tidak Hilang]
+    Z --> X
+    Y -- Berhasil --> AA([End: Notifikasi Sukses, Pindah ke Tab Riwayat Import])
+ 
+Flowchart: Modifikasi Riwayat Import
+flowchart TD
+    A([Mulai: Merchant Buka Tab Riwayat Import]) --> B[Sistem Load Semua Histori Import - Perorangan & Badan Usaha]
+    B --> C[Tampil Tabel: Batch ID, Nama Merchant, Jenis Merchant, Status, Tanggal Request]
+    C --> D{Merchant Gunakan Filter?}
+    D -- Tidak --> E[Tampil Semua Data Tanpa Filter]
+    E --> F{Ada Data?}
+    F -- Tidak Ada --> G[Tampil Pesan Tidak Ada Data Import]
+    F -- Ada --> H([End: Merchant Melihat Semua Riwayat])
+    D -- Ya --> I{Filter yang Dipilih}
+    I -- Filter Status --> J[Tampilkan Data Sesuai Status: Berhasil / Gagal / Pending]
+    I -- Filter Jenis Merchant --> K[Tampilkan Data Sesuai Jenis: Perorangan / Badan Usaha]
+    I -- Kombinasi Keduanya --> L[Tampilkan Data Sesuai Status AND Jenis Merchant]
+    J --> M{Ada Data Sesuai Filter?}
+    K --> M
+    L --> M
+    M -- Tidak Ada --> N[Tampil Pesan Tidak Ada Data Sesuai Filter]
+    N --> O[Merchant Reset Filter]
+    O --> C
+    M -- Ada --> P([End: Merchant Melihat Riwayat Sesuai Filter])
+ 
+Flowchart: Modifikasi Detail Merchant di Dashboard Admin
+flowchart TD
+    A([Mulai: Admin Buka Menu Merchant di Dashboard]) --> B[Admin Pilih Merchant dari Daftar]
+    B --> C[Halaman Detail Merchant Dimuat]
+    C --> D{Jenis Merchant?}
+    D -- Badan Usaha --> E[Tampil Segment Profil Merchant - data usaha]
+    E --> F[Tampil Segment Profil Pemilik / Penanggung Jawab - Badan Usaha: Nama Pemilik, KTP Pemilik, Nomor Ponsel]
+    F --> H[Di segment Profil Merchant ada Section Dokumen Pendukung dengan kondisi existing tanpa perubahan]
+    H --> K([End: Admin Selesai Review Detail Merchant Badan Usaha])
+    D -- Perorangan --> M[Tampil Segment Profil Merchant - data usaha]
+    M --> N[Tampil Segment Profil Pemilik / Penanggung Jawab - Perorangan: Nama Pemilik, KTP Pemilik, Tempat Lahir, Tanggal Lahir, Pekerjaan, Nomor Ponsel]
+    N --> P[Di segment Profil Merchant ada Section Dokumen Pendukung dengan field Selfie dan Selfie dengan KTP]
+    P --> Q{Admin Klik Lihat Dokumen?}
+    Q -- Ya, File Sudah Ada --> R[Buka File di Preview / Tab Baru]
+     --> S([End: Admin Melihat Dokumen Perorangan])
+    Q -- Ya, File Belum Diunggah --> T[Tombol Lihat Disabled, Tampil Keterangan Belum Diunggah]
+    T --> S
+    Q -- Tidak --> U([End: Admin Selesai Review Detail Merchant Perorangan]) 
+Sequence Diagram: Import Sub Merchant Perorangan / Badan Usaha (3 sistem: Merchant App, Paydia Backend, Storage)
+sequenceDiagram
+    actor Merchant
+    participant App as Web Merchant
+    participant Backend as Paydia Backend
+    participant Storage as File Storage
+ 
+    Merchant->>App: Klik Unduh Template Perorangan / Badan Usaha
+    App->>Backend: Request template file Perorangan / Badan Usaha
+    Backend-->>App: Response file template .xlsx
+    App-->>Merchant: File template terunduh
+ 
+    Merchant->>App: Upload file template yang sudah diisi
+    App->>Backend: Kirim file template untuk validasi
+    Backend->>Backend: Validasi format, jumlah entri, nilai kolom per baris
+    Backend-->>App: Response hasil validasi per baris (Valid / Tidak Valid + keterangan)
+    App-->>Merchant: Tampil tabel preview dengan status validasi per baris
+ 
+    alt Ada baris tidak valid
+        Merchant->>App: Perbaiki file & upload ulang
+        App->>Backend: Kirim file template baru
+        Backend-->>App: Response validasi ulang
+        App-->>Merchant: Tampil tabel preview diperbarui
+    end
+ 
+    loop Untuk setiap sub merchant
+        Merchant->>App: Upload dokumen per sub merchant Perorangan / Badan Usaha
+        App->>Storage: Simpan file dokumen sementara
+        Storage-->>App: Konfirmasi file tersimpan
+        App-->>Merchant: Indikator dokumen baris = lengkap
+    end
+ 
+    Merchant->>App: Klik tombol Kirim
+    App->>Backend: Kirim data import + referensi file dokumen
+    Backend->>Storage: Pindahkan file dokumen ke storage permanen
+    Storage-->>Backend: Konfirmasi file tersimpan permanen
+    Backend->>Backend: Proses registrasi sub merchant perorangan secara batch
+    Backend-->>App: Response sukses + Batch ID
+ 
+    alt Proses gagal (server error)
+        Backend-->>App: Response error
+        App-->>Merchant: Tampil pesan gagal, coba lagi
+    else Proses berhasil
+        App-->>Merchant: Notifikasi sukses, pindah ke Riwayat Import
+    end
