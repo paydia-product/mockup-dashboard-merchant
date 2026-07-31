@@ -23,6 +23,8 @@ const PASSWORD = '!Paydia6';            // kept the same, by request
 const ITERATIONS = 250000;              // PBKDF2 rounds (must match wrapper)
 const SRC = path.join(__dirname, 'mockup.html');
 const OUT = path.join(__dirname, 'index.html');
+const VERSIONS_SRC = path.join(__dirname, 'versions.js');
+const VERSION_FILE = path.join(__dirname, 'VERSION');
 
 const subtle = globalThis.crypto.subtle;
 
@@ -44,6 +46,18 @@ function stripGate(html) {
   );
 
   return out;
+}
+
+/* .vercelignore serves ONLY index.html publicly, so versions.js (linked as
+ * <script src="versions.js">) would 404 in production. Inline its source
+ * directly into the cleaned HTML before encryption. */
+function inlineVersionsScript(html) {
+  const versionsSrc = fs.readFileSync(VERSIONS_SRC, 'utf8');
+  const tag = '<script src="versions.js"></script>';
+  if (!html.includes(tag)) {
+    throw new Error('inlineVersionsScript: <script src="versions.js"></script> tag not found in mockup.html.');
+  }
+  return html.replace(tag, '<script>\n' + versionsSrc + '\n</script>');
 }
 
 async function deriveKey(password, salt, usages) {
@@ -153,8 +167,12 @@ function buildWrapper(payloadB64) {
 }
 
 (async function main() {
+  const currentVersion = fs.readFileSync(VERSION_FILE, 'utf8').trim();
+  console.log('     VERSION file     : ' + currentVersion);
+
   const srcRaw = fs.readFileSync(SRC, 'utf8');
-  const clean = stripGate(srcRaw);
+  let clean = stripGate(srcRaw);
+  clean = inlineVersionsScript(clean);
 
   // sanity: gate logic gone, app still present
   if (/mockup_auth|handleGateSubmit/.test(clean)) {
@@ -162,6 +180,9 @@ function buildWrapper(payloadB64) {
   }
   if (!/function switchPlatform/.test(clean)) {
     throw new Error('Clean content missing app logic (switchPlatform).');
+  }
+  if (!/var VERSIONS/.test(clean)) {
+    throw new Error('Clean content missing versions.js payload (var VERSIONS).');
   }
 
   const salt = globalThis.crypto.getRandomValues(new Uint8Array(16));
