@@ -14,7 +14,7 @@
         {
             v: '1.6.0',
             date: '2026-07-31',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Transaksi + Manajemen Akun',
             changes: [
                 'Tab Riwayat Transaksi: sub-tab Pay-in, Payout, Account Linkage',
