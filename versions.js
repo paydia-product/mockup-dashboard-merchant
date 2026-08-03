@@ -14,7 +14,7 @@
         {
             v: '1.7.2',
             date: '2026-08-03',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Transaksi View Only, pencarian Ref ID Merchant',
             changes: [
                 'Permission "Riwayat Transaksi" kini hanya View Only, opsi Export dihapus dari Tambah Akun & Lihat Detail Akun',
