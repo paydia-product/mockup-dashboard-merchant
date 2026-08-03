@@ -3270,6 +3270,10 @@
                             <div class="table-card-title">
                                 Mutasi Saldo
                                 <div style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="text" id="mutasi-search-input" placeholder="Cari Ref ID Merchant"
+                                           style="border: 1px solid var(--merchant-border); border-radius: 6px; padding: 8px 12px; font-size: 0.8rem; width: 200px; outline: none;"
+                                           onkeydown="if(event.key==='Enter') searchMutasi()">
+                                    <button onclick="searchMutasi()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-search"></i> Cari</button>
                                     <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='mutasi';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
                                     <button onclick="alertToast('Mock: export mutasi saldo.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                 </div>
@@ -3277,7 +3281,7 @@
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="mutasi-saldo-table">
                                     <thead><tr>
-                                        <th>Tanggal</th><th>ID Mutasi</th><th>Akun</th><th>Keterangan</th><th>Ref ID Partner</th><th>Mutasi (Rp)</th><th>Saldo (Rp)</th>
+                                        <th>Tanggal</th><th>ID Mutasi</th><th>Akun</th><th>Keterangan</th><th>Ref ID Merchant</th><th>Mutasi (Rp)</th><th>Saldo (Rp)</th>
                                     </tr></thead>
                                     <tbody>
                                         <tr>
@@ -3370,6 +3374,7 @@
                                             <td><span style="color:#1e56d7;">+ 5.000.000</span></td>
                                             <td style="color:#1e293b;">5.000.000</td>
                                         </tr>
+                                        <tr id="mutasi-empty-row" style="display:none;"><td colspan="7" style="text-align:center; padding:24px; color:#94a3b8;">Tidak ada mutasi cocok.</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -4174,8 +4179,7 @@
                         </div>
                         <div class="detail-segment-body" style="display: none;">
                             <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Pengaturan Umum</div>
-                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="rincian-perm-riwayat-transaksi" value="view" checked disabled> View Only</label>
-                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="rincian-perm-riwayat-transaksi" value="export" disabled> Export</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="rincian-perm-riwayat-transaksi" value="view" checked disabled> View Only</label>
                         </div>
                     </div>
                 </div>
@@ -4272,8 +4276,7 @@
                         </div>
                         <div class="detail-segment-body" style="display: none;">
                             <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Pengaturan Umum</div>
-                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="ta-perm-riwayat-transaksi" value="view" checked> View Only</label>
-                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-riwayat-transaksi" value="export"> Export</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-riwayat-transaksi" value="view" checked disabled> View Only</label>
                         </div>
                     </div>
                 </div>
@@ -5073,9 +5076,6 @@
             if (!a) return;
             document.getElementById('rincian-akun-username').value = a.username;
             document.getElementById('rincian-akun-nama').value = a.nama;
-            const isExport = /Riwayat Transaksi\s*\(Export\)/i.test(a.fitur || '');
-            const radios = document.querySelectorAll('input[name="rincian-perm-riwayat-transaksi"]');
-            radios.forEach(r => { r.checked = (r.value === (isExport ? 'export' : 'view')); });
             openModal('modal-rincian-akun');
         }
 
@@ -5109,16 +5109,30 @@
             const nama = document.getElementById('ta-nama').value.trim();
             const kasbonPerm = document.querySelector('input[name="ta-perm-kasbon"]:checked')?.value || 'view';
             const payoutPerm = document.querySelector('input[name="ta-perm-payout"]:checked')?.value || 'view';
-            const trxPerm = document.querySelector('input[name="ta-perm-riwayat-transaksi"]:checked')?.value || 'view';
             akunMockData.push({
                 username, nama,
-                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'}), Riwayat Transaksi (${trxPerm === 'export' ? 'Export' : 'View Only'})`,
+                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'}), Riwayat Transaksi (View Only)`,
                 status: true,
                 canReset: true
             });
             closeModal('modal-tambah-akun');
             renderAkunTable();
             alertToast('Akun berhasil ditambahkan (mock).', 'success');
+        }
+
+        function searchMutasi() {
+            const q = document.getElementById('mutasi-search-input').value.trim().toLowerCase();
+            const rows = document.querySelectorAll('#mutasi-saldo-table tbody tr:not(#mutasi-empty-row)');
+            let matchCount = 0;
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const refIdText = cells[4] ? cells[4].textContent.toLowerCase() : '';
+                const isMatch = !q || refIdText.includes(q);
+                row.style.display = isMatch ? '' : 'none';
+                if (isMatch) matchCount++;
+            });
+            const emptyRow = document.getElementById('mutasi-empty-row');
+            if (emptyRow) emptyRow.style.display = matchCount === 0 ? '' : 'none';
         }
 
         /* ── Platform Switcher ── */

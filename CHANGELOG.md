@@ -35,6 +35,22 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.7.2] - 2026-08-03
+
+### Changed
+- Permission "Riwayat Transaksi" kini hanya View Only — opsi Export dihapus
+  dari modal Tambah Akun dan Lihat Detail Akun.
+- Kolom "Ref ID Partner" di Mutasi Saldo diubah namanya menjadi "Ref ID Merchant".
+
+### Added
+- Pencarian Ref ID Merchant di halaman Mutasi Saldo. Filter hanya berjalan
+  saat tombol "Cari" ditekan (atau Enter) — bukan live search.
+
+### Removed
+- Logika sinkronisasi radio Export di openRincianAkun() dan pembacaan
+  ta-perm-riwayat-transaksi di submitTambahAkun(), keduanya kini tidak ada
+  state yang bisa dibaca.
+
 ## [1.7.1] - 2026-08-03
 
 ### Fixed

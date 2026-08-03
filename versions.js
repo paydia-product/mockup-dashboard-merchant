@@ -8,9 +8,21 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.7.1';
+    var CURRENT = '1.7.2';
 
     var VERSIONS = [
+        {
+            v: '1.7.2',
+            date: '2026-08-03',
+            deployed: false,
+            title: 'Riwayat Transaksi View Only, pencarian Ref ID Merchant',
+            changes: [
+                'Permission "Riwayat Transaksi" kini hanya View Only, opsi Export dihapus dari Tambah Akun & Lihat Detail Akun',
+                'Kolom "Ref ID Partner" di Mutasi Saldo diubah namanya menjadi "Ref ID Merchant"',
+                'Pencarian Ref ID Merchant di Mutasi Saldo, hanya berjalan saat tombol Cari ditekan (bukan live search)',
+                'Logika sinkronisasi radio Export di openRincianAkun() dan pembacaan trxPerm di submitTambahAkun() dihapus'
+            ]
+        },
         {
             v: '1.7.1',
             date: '2026-08-03',
