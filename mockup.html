@@ -2278,6 +2278,7 @@
             background-color: #f1f5f9;
             color: #2563eb;
         }
+        .dropdown-content a i { width: 18px; margin-right: 8px; color: #64748b; }
         .dropdown-divider {
             border-top: 1px solid #e2e8f0;
             margin: 4px 0;
@@ -2913,8 +2914,21 @@
             
             <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-size: 0.85rem; font-weight: 500; color: #1e293b;">dev@paydia.id</span>
-                <i class="fas fa-cog" style="color: #64748b; font-size: 1rem; cursor: pointer;"></i>
-                <i class="fas fa-chevron-down" style="font-size: 0.75rem; color: #64748b; cursor: pointer;"></i>
+                <div class="custom-dropdown">
+                    <button class="dropdown-btn" onclick="toggleDropdown('m-settings-dropdown')" style="color: #64748b; padding: 6px 8px;">
+                        <i class="fas fa-cog"></i><i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+                    </button>
+                    <div class="dropdown-content" id="m-settings-dropdown" style="left: auto; right: 0; min-width: 240px;">
+                        <a href="javascript:void(0)" onclick="alertToast('Halaman Profil Saya belum tersedia di mockup.', 'info')"><i class="fas fa-user"></i> Profil saya</a>
+                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-manajemen-akun')"><i class="fas fa-user-gear"></i> Manajemen Akun</a>
+                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-mutasi-saldo')"><i class="fas fa-file-lines"></i> Mutasi Saldo</a>
+                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-import-po')"><i class="fas fa-file-lines"></i> Import Merchant</a>
+                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-riwayat-transaksi')"><i class="fas fa-file-lines"></i> Transaksi Sub-Merchant</a>
+                        <a href="javascript:void(0)" onclick="alertToast('Log Aktivitas belum tersedia di mockup.', 'info')"><i class="fas fa-screwdriver-wrench"></i> Log Aktivitas</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:void(0)" onclick="switchPlatform('login')"><i class="fas fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -2927,8 +2941,6 @@
                     <button class="m-tab-btn active" id="tab-btn-po-nav" onclick="switchMerchantTab('tab-import-po')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: #fff; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #fbbf24; border-radius: 0;">IMPORT MERCHANT PERORANGAN</button>
                     <button class="m-tab-btn" id="tab-btn-bu" onclick="switchMerchantTab('tab-import-bu')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">IMPORT MERCHANT BADAN USAHA</button>
                     <button class="m-tab-btn" id="tab-btn-history-nav" onclick="switchMerchantTab('tab-history')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT IMPORT</button>
-                    <button class="m-tab-btn" id="tab-btn-riwayat-transaksi" onclick="switchMerchantTab('tab-riwayat-transaksi')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT TRANSAKSI</button>
-                    <button class="m-tab-btn" id="tab-btn-manajemen-akun" onclick="switchMerchantTab('tab-manajemen-akun')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">MANAJEMEN AKUN</button>
                 </div>
 
                 <!-- ── Inner Tab: Import Sub Merchant - Badan Usaha ── -->
@@ -3246,6 +3258,134 @@
                             </div>
                             <div style="display: flex; justify-content: flex-end; align-items: center; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
                                 <span>Halaman 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Inner Tab: Mutasi Saldo ── -->
+                <div class="m-tab-content" id="tab-mutasi-saldo" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
+                    <div style="flex: 1; padding: 24px;">
+                        <div class="table-card" style="margin-bottom: 0;">
+                            <div class="table-card-title">
+                                Mutasi Saldo
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='mutasi';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
+                                    <button onclick="alertToast('Mock: export mutasi saldo.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                </div>
+                            </div>
+                            <div style="overflow-x: auto;">
+                                <table class="m-table" id="mutasi-saldo-table">
+                                    <thead><tr>
+                                        <th>Tanggal</th><th>ID Mutasi</th><th>Akun</th><th>Keterangan</th><th>Ref ID Partner</th><th>Mutasi (Rp)</th><th>Saldo (Rp)</th>
+                                    </tr></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div>31 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">16:45 WIB</div></td>
+                                            <td>MUT-2026073116</td>
+                                            <td>0812xxxx3421 (Budi Santoso)</td>
+                                            <td>Customer Top-up</td>
+                                            <td>PRTN-88240</td>
+                                            <td><span style="color:#1e56d7;">+ 2.500.000</span></td>
+                                            <td style="color:#1e293b;">7.625.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>31 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">10:12 WIB</div></td>
+                                            <td>MUT-2026073110</td>
+                                            <td>0813xxxx7712</td>
+                                            <td>Pembayaran User - Direct Debit</td>
+                                            <td>PRTN-88239</td>
+                                            <td><span style="color:#dc2626;">- 150.000</span></td>
+                                            <td style="color:#1e293b;">5.125.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>30 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">21:30 WIB</div></td>
+                                            <td>MUT-2026073021</td>
+                                            <td>0857xxxx0098 (Siti Aminah)</td>
+                                            <td>Biaya Admin</td>
+                                            <td>PRTN-88235</td>
+                                            <td><span style="color:#dc2626;">- 75.000</span></td>
+                                            <td style="color:#1e293b;">5.275.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>30 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">14:05 WIB</div></td>
+                                            <td>MUT-2026073014</td>
+                                            <td>0821xxxx4456</td>
+                                            <td>Customer Top-up</td>
+                                            <td>PRTN-88231</td>
+                                            <td><span style="color:#1e56d7;">+ 500.000</span></td>
+                                            <td style="color:#1e293b;">5.350.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>29 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">18:20 WIB</div></td>
+                                            <td>MUT-2026072918</td>
+                                            <td>0838xxxx9012 (Andi Wijaya)</td>
+                                            <td>Payout ke Bank</td>
+                                            <td>PRTN-88220</td>
+                                            <td><span style="color:#dc2626;">- 1.200.000</span></td>
+                                            <td style="color:#1e293b;">4.850.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>29 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">09:15 WIB</div></td>
+                                            <td>MUT-2026072909</td>
+                                            <td>0812xxxx6633</td>
+                                            <td>Customer Top-up</td>
+                                            <td>PRTN-88214</td>
+                                            <td><span style="color:#1e56d7;">+ 300.000</span></td>
+                                            <td style="color:#1e293b;">6.050.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>28 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">22:40 WIB</div></td>
+                                            <td>MUT-2026072822</td>
+                                            <td>0895xxxx2201 (Dewi Lestari)</td>
+                                            <td>Biaya Layanan</td>
+                                            <td>PRTN-88203</td>
+                                            <td><span style="color:#dc2626;">- 50.000</span></td>
+                                            <td style="color:#1e293b;">5.750.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>28 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">11:00 WIB</div></td>
+                                            <td>MUT-2026072811</td>
+                                            <td>0817xxxx5544</td>
+                                            <td>Customer Top-up</td>
+                                            <td>PRTN-88197</td>
+                                            <td><span style="color:#1e56d7;">+ 1.000.000</span></td>
+                                            <td style="color:#1e293b;">5.800.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>27 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">15:50 WIB</div></td>
+                                            <td>MUT-2026072715</td>
+                                            <td>0851xxxx8890 (Rudi Hartono)</td>
+                                            <td>Pembayaran User - Direct Debit</td>
+                                            <td>PRTN-88180</td>
+                                            <td><span style="color:#dc2626;">- 200.000</span></td>
+                                            <td style="color:#1e293b;">4.800.000</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div>27 Jul 2026</div><div style="color:#94a3b8; font-size:0.75rem;">08:00 WIB</div></td>
+                                            <td>MUT-2026072708</td>
+                                            <td>0812xxxx1123</td>
+                                            <td>Customer Top-up</td>
+                                            <td>PRTN-88175</td>
+                                            <td><span style="color:#1e56d7;">+ 5.000.000</span></td>
+                                            <td style="color:#1e293b;">5.000.000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                <div style="display: flex; gap: 4px; align-items: center;">
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="pag-btn active" style="background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;">1</button>
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; cursor:pointer;">2</button>
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; cursor:pointer;">3</button>
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <select style="border: none; background: transparent; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer;">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -4026,6 +4166,18 @@
                         </div>
                         <div class="detail-segment-body" style="display: none; font-size: 0.78rem; color: #475569;">Akses penuh terhadap fitur Payout (assumption — pending confirmation of real business rule).</div>
                     </div>
+                    <div class="detail-segment-item" id="rincian-segment-riwayat-transaksi">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('rincian-segment-riwayat-transaksi')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Riwayat Transaksi</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none;">
+                            <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Pengaturan Umum</div>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="rincian-perm-riwayat-transaksi" value="view" checked disabled> View Only</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="rincian-perm-riwayat-transaksi" value="export" disabled> Export</label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
@@ -4110,6 +4262,18 @@
                         <div class="detail-segment-body" style="display: none;">
                             <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="ta-perm-payout" value="view" checked> View Only</label>
                             <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-payout" value="edit"> Edit</label>
+                        </div>
+                    </div>
+                    <div class="detail-segment-item" id="ta-segment-riwayat-transaksi">
+                        <div class="detail-segment-header clickable" onclick="toggleDetailSegment('ta-segment-riwayat-transaksi')">
+                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <span style="flex: 1;">Riwayat Transaksi</span>
+                            <i class="fas fa-chevron-right chevron-icon"></i>
+                        </div>
+                        <div class="detail-segment-body" style="display: none;">
+                            <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 8px;">Pengaturan Umum</div>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; margin-bottom: 6px; cursor: pointer;"><input type="radio" name="ta-perm-riwayat-transaksi" value="view" checked> View Only</label>
+                            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #1e293b; cursor: pointer;"><input type="radio" name="ta-perm-riwayat-transaksi" value="export"> Export</label>
                         </div>
                     </div>
                 </div>
@@ -4835,6 +4999,13 @@
         }
 
         function applyTrxFilter() {
+            if (trxFilterActiveTable === 'mutasi') {
+                // Mutasi Saldo's table is static markup with no render function — just close + confirm.
+                closeModal('modal-trx-filter');
+                document.getElementById('trx-calendar-overlay').style.display = 'none';
+                alertToast('Filter diterapkan.', 'success');
+                return;
+            }
             trxFilterTipe = document.getElementById('trx-filter-tipe').value;
             renderTrxTable(trxFilterActiveTable);
             closeModal('modal-trx-filter');
@@ -4934,9 +5105,10 @@
             const nama = document.getElementById('ta-nama').value.trim();
             const kasbonPerm = document.querySelector('input[name="ta-perm-kasbon"]:checked')?.value || 'view';
             const payoutPerm = document.querySelector('input[name="ta-perm-payout"]:checked')?.value || 'view';
+            const trxPerm = document.querySelector('input[name="ta-perm-riwayat-transaksi"]:checked')?.value || 'view';
             akunMockData.push({
                 username, nama,
-                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'})`,
+                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'}), Riwayat Transaksi (${trxPerm === 'export' ? 'Export' : 'View Only'})`,
                 status: true,
                 canReset: true
             });
@@ -4978,13 +5150,19 @@
         const merchantTabButtonMap = {
             'tab-import-po': 'tab-btn-po-nav',
             'tab-import-bu': 'tab-btn-bu',
-            'tab-history': 'tab-btn-history-nav',
-            'tab-riwayat-transaksi': 'tab-btn-riwayat-transaksi',
-            'tab-manajemen-akun': 'tab-btn-manajemen-akun'
+            'tab-history': 'tab-btn-history-nav'
         };
+
+        // Tabs only reachable via the settings dropdown (not the .m-tabs bar) hide the bar while active.
+        const merchantTabsWithoutBar = ['tab-mutasi-saldo', 'tab-manajemen-akun', 'tab-riwayat-transaksi'];
 
         function switchMerchantTab(tabId) {
             currentMerchantTab = tabId;
+
+            // Settings-menu-only pages (Mutasi Saldo, Manajemen Akun, Transaksi Sub-Merchant) hide the .m-tabs bar;
+            // the 3 original tab-bar pages restore it.
+            const tabsBar = document.querySelector('#platform-merchant .m-tabs');
+            if (tabsBar) tabsBar.style.display = merchantTabsWithoutBar.includes(tabId) ? 'none' : 'flex';
 
             // Hide all tab contents
             document.querySelectorAll('.m-tab-content').forEach(content => {

@@ -8,9 +8,21 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.6.0';
+    var CURRENT = '1.7.0';
 
     var VERSIONS = [
+        {
+            v: '1.7.0',
+            date: '2026-08-03',
+            deployed: false,
+            title: 'Settings menu, Mutasi Saldo, Riwayat Transaksi permission',
+            changes: [
+                'Dropdown Settings (gear): Profil Saya, Manajemen Akun, Mutasi Saldo, Import Merchant, Transaksi Sub-Merchant, Log Aktivitas, Logout',
+                'Halaman baru Mutasi Saldo (10 baris mock, saldo berjalan konsisten)',
+                'Manajemen Akun & Transaksi Sub-Merchant dipindah dari tab bar ke menu settings',
+                'Grup permission baru "Riwayat Transaksi" (View Only/Export) di Tambah Akun & Lihat Detail Akun'
+            ]
+        },
         {
             v: '1.6.0',
             date: '2026-07-31',

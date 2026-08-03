@@ -35,6 +35,34 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-08-03
+
+### Added
+- Settings dropdown (gear icon) in the Web Merchant header, replacing the
+  inert cog+chevron: Profil Saya and Log Aktivitas (placeholder toasts,
+  "belum tersedia di mockup"), plus links to Manajemen Akun, Mutasi Saldo,
+  Import Merchant, Transaksi Sub-Merchant, and Logout.
+- **Mutasi Saldo** page: static balance-mutation table (Tanggal, ID Mutasi,
+  Akun, Keterangan, Ref ID Partner, Mutasi (Rp), Saldo (Rp)) with 10 mock
+  rows and an internally consistent running balance, filter icon (reuses
+  the shared `#modal-trx-filter`), export button, and pagination footer.
+- New **Riwayat Transaksi** permission group in the account permission
+  checklist: radio-based View Only / Export selector in "Tambah Akun"
+  (editable) and "Lihat Detail Akun" (disabled, read-only) modals.
+
+### Changed
+- Manajemen Akun and Transaksi Sub-Merchant (Riwayat Transaksi) are no
+  longer top-level `.m-tabs` buttons — they're reachable only via the new
+  settings dropdown. `merchantTabButtonMap` trimmed back to the 3 remaining
+  tabs (Import Perorangan / Import Badan Usaha / Riwayat Import).
+- `switchMerchantTab` now hides the `.m-tabs` bar entirely when navigating
+  to Mutasi Saldo, Manajemen Akun, or Transaksi Sub-Merchant (settings-menu
+  pages), and restores it for the 3 original tab-bar pages.
+- `applyTrxFilter` gained an explicit no-op branch for
+  `trxFilterActiveTable === 'mutasi'`: closes the shared filter modal and
+  confirms via toast without attempting to re-render a transaction table
+  (Mutasi Saldo's table is static markup with no render function).
+
 ## [1.6.0] - 2026-07-31
 
 ### Added
