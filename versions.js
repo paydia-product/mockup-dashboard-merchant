@@ -14,7 +14,7 @@
         {
             v: '1.7.0',
             date: '2026-08-03',
-            deployed: false,
+            deployed: true,
             title: 'Settings menu, Mutasi Saldo, Riwayat Transaksi permission',
             changes: [
                 'Dropdown Settings (gear): Profil Saya, Manajemen Akun, Mutasi Saldo, Import Merchant, Transaksi Sub-Merchant, Log Aktivitas, Logout',
