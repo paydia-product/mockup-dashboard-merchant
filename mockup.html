@@ -2919,14 +2919,14 @@
                         <i class="fas fa-cog"></i><i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
                     </button>
                     <div class="dropdown-content" id="m-settings-dropdown" style="left: auto; right: 0; min-width: 240px;">
-                        <a href="javascript:void(0)" onclick="alertToast('Halaman Profil Saya belum tersedia di mockup.', 'info')"><i class="fas fa-user"></i> Profil saya</a>
-                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-manajemen-akun')"><i class="fas fa-user-gear"></i> Manajemen Akun</a>
-                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-mutasi-saldo')"><i class="fas fa-file-lines"></i> Mutasi Saldo</a>
-                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-import-po')"><i class="fas fa-file-lines"></i> Import Merchant</a>
-                        <a href="javascript:void(0)" onclick="switchMerchantTab('tab-riwayat-transaksi')"><i class="fas fa-file-lines"></i> Transaksi Sub-Merchant</a>
-                        <a href="javascript:void(0)" onclick="alertToast('Log Aktivitas belum tersedia di mockup.', 'info')"><i class="fas fa-screwdriver-wrench"></i> Log Aktivitas</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Halaman Profil Saya belum tersedia di mockup.', 'info')"><i class="fas fa-user"></i> Profil saya</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-manajemen-akun')"><i class="fas fa-user-gear"></i> Manajemen Akun</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-mutasi-saldo')"><i class="fas fa-file-lines"></i> Mutasi Saldo</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-import-po')"><i class="fas fa-file-lines"></i> Import Merchant</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-riwayat-transaksi')"><i class="fas fa-file-lines"></i> Transaksi Sub-Merchant</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Log Aktivitas belum tersedia di mockup.', 'info')"><i class="fas fa-screwdriver-wrench"></i> Log Aktivitas</a>
                         <div class="dropdown-divider"></div>
-                        <a href="javascript:void(0)" onclick="switchPlatform('login')"><i class="fas fa-right-from-bracket"></i> Logout</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchPlatform('login')"><i class="fas fa-right-from-bracket"></i> Logout</a>
                     </div>
                 </div>
             </div>
@@ -4995,6 +4995,7 @@
             const to = document.getElementById('trx-date-to');
             if (from) from.textContent = '—';
             if (to) to.textContent = '—';
+            if (trxFilterActiveTable === 'mutasi') return;
             renderTrxTable(trxFilterActiveTable);
         }
 
@@ -5072,6 +5073,9 @@
             if (!a) return;
             document.getElementById('rincian-akun-username').value = a.username;
             document.getElementById('rincian-akun-nama').value = a.nama;
+            const isExport = /Riwayat Transaksi\s*\(Export\)/i.test(a.fitur || '');
+            const radios = document.querySelectorAll('input[name="rincian-perm-riwayat-transaksi"]');
+            radios.forEach(r => { r.checked = (r.value === (isExport ? 'export' : 'view')); });
             openModal('modal-rincian-akun');
         }
 
@@ -5982,6 +5986,11 @@
 
         let currentStatusFilter = 'ALL';
         let currentJenisFilter = 'ALL';
+
+        function closeSettingsMenu() {
+            const dropdown = document.getElementById('m-settings-dropdown');
+            if (dropdown) dropdown.style.display = 'none';
+        }
 
         function toggleDropdown(id) {
             const dropdown = document.getElementById(id);

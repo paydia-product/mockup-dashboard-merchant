@@ -8,9 +8,21 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.7.0';
+    var CURRENT = '1.7.1';
 
     var VERSIONS = [
+        {
+            v: '1.7.1',
+            date: '2026-08-03',
+            deployed: true,
+            title: 'Settings dropdown auto-close, Rincian Akun permission sync',
+            changes: [
+                'Dropdown Settings kini menutup diri saat item diklik (closeSettingsMenu())',
+                'Lihat Detail Akun kini menampilkan permission Riwayat Transaksi yang benar-benar tersimpan, bukan default View Only',
+                'resetTrxFilter() dijaga agar tidak no-op memanggil renderTrxTable saat tabel aktif adalah Mutasi Saldo',
+                'Tag v1.7.0 yang sempat tidak ter-push ke remote sudah didorong'
+            ]
+        },
         {
             v: '1.7.0',
             date: '2026-08-03',

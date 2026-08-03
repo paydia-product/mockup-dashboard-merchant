@@ -35,6 +35,23 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-08-03
+
+### Fixed
+- Settings dropdown (`#m-settings-dropdown`) now closes itself when any of
+  its 7 items is clicked, via a new `closeSettingsMenu()` helper — it no
+  longer stays open on top of the destination page (was hiding the
+  Mutasi (Rp) column and Filter/Export buttons on Mutasi Saldo).
+- "Lihat detail" (Rincian Akun) now reads the account's actual saved
+  Riwayat Transaksi permission (parsed from `fitur`) and checks the
+  matching radio, instead of always showing "View Only" regardless of
+  what was saved.
+- `resetTrxFilter()` now no-ops for the Mutasi Saldo table the same way
+  `applyTrxFilter()` already does, instead of calling `renderTrxTable`
+  with no-op effect.
+- Pushed the `v1.7.0` tag to `origin` (it was cut locally but never
+  reached the remote — same class of mistake as a prior release).
+
 ## [1.7.0] - 2026-08-03
 
 ### Added
