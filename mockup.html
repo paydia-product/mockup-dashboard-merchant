@@ -3169,7 +3169,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payin';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3201,7 +3201,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payout';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3222,7 +3222,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='linkage';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3276,7 +3276,7 @@
                                            onkeydown="if(event.key==='Enter') searchMutasi()">
                                     <button onclick="searchMutasi()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-search"></i> Cari</button>
                                     <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='mutasi';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                    <button id="mutasi-export-btn" onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    <button id="mutasi-export-btn" onclick="openExportRequestModal('Mutasi Saldo')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                 </div>
                             </div>
                             <div style="overflow-x: auto;">
@@ -3401,11 +3401,14 @@
                 <div class="m-tab-content" id="tab-riwayat-ekspor" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
                     <div style="flex: 1; padding: 24px;">
                         <div class="table-card" style="margin-bottom: 0;">
-                            <div class="table-card-title"><span>Riwayat Ekspor <i class="fas fa-info-circle" style="font-size:0.85rem; color:#94a3b8; cursor:help;" title="Berkas hasil export hanya tersimpan selama 7 hari sejak permintaan ekspor."></i></span></div>
+                            <div class="table-card-title"><span>Riwayat Ekspor</span></div>
+                            <div style="padding: 10px 24px; font-size: 0.78rem; color: #64748b; background: #f8fafc; border-bottom: 1px solid var(--merchant-border);">
+                                <i class="fas fa-info-circle" style="color:#94a3b8; margin-right:6px;"></i>Berkas hasil export hanya tersimpan selama 7 hari sejak permintaan ekspor.
+                            </div>
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="riwayat-ekspor-table">
                                     <thead><tr>
-                                        <th>No</th><th>Waktu Permintaan</th><th>Tanggal Mulai</th><th>Tanggal Akhir</th><th>Status</th><th>Aksi</th>
+                                        <th>No</th><th>Waktu Permintaan</th><th>Tanggal Mulai</th><th>Tanggal Akhir</th><th>Tipe</th><th>Status</th><th>Aksi</th>
                                     </tr></thead>
                                     <tbody id="riwayat-ekspor-tbody"></tbody>
                                 </table>
@@ -5209,29 +5212,31 @@
 
         /* ── Export Request modal + Riwayat Ekspor queue (feeds all 4 export buttons) ── */
         let exportHistoryData = [
-            { no: 12, requestTime: '04/08/2026 10:05 WIB', start: '29/07/2026', end: '03/08/2026', status: 'proses' },
-            { no: 11, requestTime: '04/08/2026 08:41 WIB', start: '25/07/2026', end: '03/08/2026', status: 'gagal' },
-            { no: 10, requestTime: '03/08/2026 16:22 WIB', start: '20/07/2026', end: '02/08/2026', status: 'proses' },
-            { no: 9, requestTime: '02/08/2026 11:37 WIB', start: '15/07/2026', end: '01/08/2026', status: 'selesai' },
-            { no: 8, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'selesai' },
-            { no: 7, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'selesai' },
-            { no: 6, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'selesai' },
-            { no: 5, requestTime: '15/07/2026 09:50 WIB', start: '01/06/2026', end: '14/07/2026', status: 'selesai' },
-            { no: 4, requestTime: '10/07/2026 13:24 WIB', start: '01/05/2026', end: '09/07/2026', status: 'selesai' },
-            { no: 3, requestTime: '05/07/2026 08:16 WIB', start: '01/04/2026', end: '30/06/2026', status: 'selesai' },
-            { no: 2, requestTime: '28/06/2026 15:41 WIB', start: '01/03/2026', end: '27/06/2026', status: 'selesai' },
-            { no: 1, requestTime: '20/06/2026 11:03 WIB', start: '01/01/2026', end: '19/06/2026', status: 'selesai' }
+            { no: 12, requestTime: '04/08/2026 10:05 WIB', start: '29/07/2026', end: '03/08/2026', status: 'proses', tipe: 'Mutasi Saldo' },
+            { no: 11, requestTime: '04/08/2026 08:41 WIB', start: '25/07/2026', end: '03/08/2026', status: 'gagal', tipe: 'Riwayat Transaksi' },
+            { no: 10, requestTime: '03/08/2026 16:22 WIB', start: '20/07/2026', end: '02/08/2026', status: 'proses', tipe: 'Mutasi Saldo' },
+            { no: 9, requestTime: '02/08/2026 11:37 WIB', start: '15/07/2026', end: '01/08/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
+            { no: 8, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
+            { no: 7, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
+            { no: 6, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
+            { no: 5, requestTime: '15/07/2026 09:50 WIB', start: '01/06/2026', end: '14/07/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
+            { no: 4, requestTime: '10/07/2026 13:24 WIB', start: '01/05/2026', end: '09/07/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
+            { no: 3, requestTime: '05/07/2026 08:16 WIB', start: '01/04/2026', end: '30/06/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
+            { no: 2, requestTime: '28/06/2026 15:41 WIB', start: '01/03/2026', end: '27/06/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
+            { no: 1, requestTime: '20/06/2026 11:03 WIB', start: '01/01/2026', end: '19/06/2026', status: 'selesai', tipe: 'Riwayat Transaksi' }
         ];
         let exportSeq = 12;
         let exportPage = 1;
         const EXPORT_PAGE_SIZE = 10;
+        let exportSource = 'Mutasi Saldo';
 
         let exportCalendarMonth = new Date(2026, 6, 1); // July 2026, matches mock data dates
         let exportDateStart = null;
         let exportDateEnd = null;
         let exportActiveField = null; // 'start' | 'end' — which field the calendar overlay is currently editing
 
-        function openExportRequestModal() {
+        function openExportRequestModal(source) {
+            exportSource = source || 'Mutasi Saldo';
             exportDateStart = null;
             exportDateEnd = null;
             exportActiveField = null;
@@ -5321,13 +5326,13 @@
             if (parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) return;
 
             exportSeq++;
-            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'proses' };
+            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'proses', tipe: exportSource };
             exportHistoryData.unshift(row);
             exportPage = 1;
             renderRiwayatEkspor();
             closeModal('modal-export-request');
             document.getElementById('export-calendar-overlay').style.display = 'none';
-            alertToast('Permintaan ekspor masuk antrian. Cek halaman Riwayat Ekspor.', 'success');
+            alertToast('Permintaan ekspor masuk antrian. Cek halaman <a href="javascript:void(0)" onclick="switchMerchantTab(\'tab-riwayat-ekspor\')" style="color:#fff; font-weight:700; text-decoration:underline;">Riwayat Ekspor</a>.', 'success');
 
             setTimeout(() => {
                 row.status = 'selesai';
@@ -5348,12 +5353,13 @@
             exportPage = Math.min(exportPage, totalPages);
             const pageRows = exportHistoryData.slice((exportPage - 1) * EXPORT_PAGE_SIZE, exportPage * EXPORT_PAGE_SIZE);
 
-            tbody.innerHTML = pageRows.map(row => `
+            tbody.innerHTML = pageRows.map((row, i) => `
                 <tr>
-                    <td>${row.no}</td>
+                    <td>${(exportPage - 1) * EXPORT_PAGE_SIZE + i + 1}</td>
                     <td>${row.requestTime}</td>
                     <td>${row.start}</td>
                     <td>${row.end}</td>
+                    <td>${row.tipe}</td>
                     <td><span class="m-badge ${row.status === 'selesai' ? 'success' : row.status === 'gagal' ? 'error' : 'warning'}" style="cursor:default">${row.status}</span></td>
                     <td>
                         ${row.status === 'selesai'
@@ -5385,7 +5391,7 @@
         }
 
         function downloadMockExport(row) {
-            const headers = 'No,Request Time,Start Date,End Date,Status\n' + `${row.no},${row.requestTime},${row.start},${row.end},${row.status}\n`;
+            const headers = 'No,Request Time,Start Date,End Date,Tipe,Status\n' + `${row.no},${row.requestTime},${row.start},${row.end},${row.tipe},${row.status}\n`;
             const blob = new Blob([headers], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);

@@ -8,9 +8,21 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.9.0';
+    var CURRENT = '1.9.1';
 
     var VERSIONS = [
+        {
+            v: '1.9.1',
+            date: '2026-08-04',
+            deployed: false,
+            title: 'Riwayat Ekspor: nomor posisional, kolom Tipe, catatan retensi permanen',
+            changes: [
+                'Kolom No kini nomor urut posisional berkelanjutan antar halaman (bukan id internal)',
+                'Kolom Tipe baru menunjukkan asal permintaan ekspor: Mutasi Saldo atau Riwayat Transaksi',
+                'Catatan masa simpan berkas (7 hari) kini selalu tampil, tidak lagi perlu hover',
+                'Toast sukses: teks "Riwayat Ekspor" kini tebal dan menjadi tautan langsung ke halaman tersebut'
+            ]
+        },
         {
             v: '1.9.0',
             date: '2026-08-04',

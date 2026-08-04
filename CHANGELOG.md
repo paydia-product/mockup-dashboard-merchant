@@ -35,6 +35,22 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-08-04
+
+### Changed
+- Riwayat Ekspor: kolom No sekarang nomor urut posisional yang berkelanjutan antar
+  halaman (1, 2, 3, ...), menggantikan id sekuens internal yang membingungkan
+  (id internal tetap dipakai untuk nama file CSV ekspor).
+- Catatan masa simpan berkas (7 hari) kini selalu tampil sebagai teks biasa di bawah
+  judul halaman, tidak lagi hanya muncul saat hover pada ikon info.
+- Toast sukses permintaan ekspor: teks "Riwayat Ekspor" kini tebal dan menjadi tautan
+  yang langsung membuka halaman Riwayat Ekspor.
+
+### Added
+- Kolom baru "Tipe" pada tabel Riwayat Ekspor menunjukkan asal permintaan ekspor:
+  Mutasi Saldo atau Riwayat Transaksi. Diisi otomatis berdasarkan tombol Export yang
+  digunakan.
+
 ## [1.9.0] - 2026-08-04
 
 ### Changed
