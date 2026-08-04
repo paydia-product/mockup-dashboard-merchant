@@ -14,7 +14,7 @@
         {
             v: '1.7.4',
             date: '2026-08-04',
-            deployed: false,
+            deployed: true,
             title: 'Progress bar simulasi Export Mutasi Saldo',
             changes: [
                 'Progress bar simulasi (0%->100%) di bawah baris tombol saat klik Export di Mutasi Saldo',
