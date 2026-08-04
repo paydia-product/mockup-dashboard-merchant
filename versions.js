@@ -14,7 +14,7 @@
         {
             v: '1.8.0',
             date: '2026-08-04',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Ekspor: antrian ekspor bersama untuk semua tombol Export',
             changes: [
                 'Halaman baru "Riwayat Ekspor" (menu Settings) menampilkan antrian permintaan ekspor: NO / REQUEST TIME / START DATE / END DATE / STATUS / ACTION',
