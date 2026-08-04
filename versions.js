@@ -14,7 +14,7 @@
         {
             v: '1.9.0',
             date: '2026-08-04',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Ekspor: label Indonesia, status gagal, pagination nyata',
             changes: [
                 'Header kolom diterjemahkan: No / Waktu Permintaan / Tanggal Mulai / Tanggal Akhir / Status / Aksi',
