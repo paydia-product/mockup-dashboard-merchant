@@ -2922,6 +2922,7 @@
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Halaman Profil Saya belum tersedia di mockup.', 'info')"><i class="fas fa-user"></i> Profil saya</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-manajemen-akun')"><i class="fas fa-user-gear"></i> Manajemen Akun</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-mutasi-saldo')"><i class="fas fa-file-lines"></i> Mutasi Saldo</a>
+                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-riwayat-ekspor')"><i class="fas fa-clock-rotate-left"></i> Riwayat Ekspor</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-import-po')"><i class="fas fa-file-lines"></i> Import Merchant</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-riwayat-transaksi')"><i class="fas fa-file-lines"></i> Transaksi Sub-Merchant</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Log Aktivitas belum tersedia di mockup.', 'info')"><i class="fas fa-screwdriver-wrench"></i> Log Aktivitas</a>
@@ -3168,7 +3169,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payin';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="alertToast('Mock: export riwayat transaksi Pay-in.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3200,7 +3201,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payout';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="alertToast('Mock: export riwayat transaksi Payout.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3221,7 +3222,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='linkage';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="alertToast('Mock: export riwayat account linkage.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3275,14 +3276,8 @@
                                            onkeydown="if(event.key==='Enter') searchMutasi()">
                                     <button onclick="searchMutasi()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-search"></i> Cari</button>
                                     <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='mutasi';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                    <button id="mutasi-export-btn" onclick="exportMutasiSaldo(this)" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    <button id="mutasi-export-btn" onclick="openExportRequestModal()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                 </div>
-                            </div>
-                            <div id="mutasi-export-progress" style="display: none; align-items: center; gap: 10px; padding: 10px 24px; border-bottom: 1px solid var(--merchant-border);">
-                                <div style="flex: 1; height: 6px; background: #e5e5e5; border-radius: 999px; overflow: hidden;">
-                                    <div id="mutasi-export-progress-fill" style="width: 0%; height: 100%; background: #1e56d7; border-radius: 999px; transition: width 0.15s linear;"></div>
-                                </div>
-                                <span id="mutasi-export-progress-label" style="font-size: 0.75rem; font-weight: 600; color: var(--merchant-text-secondary); min-width: 34px; text-align: right;">0%</span>
                             </div>
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="mutasi-saldo-table">
@@ -3390,6 +3385,35 @@
                                     <button class="pag-btn active" style="background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;">1</button>
                                     <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; cursor:pointer;">2</button>
                                     <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; cursor:pointer;">3</button>
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                                <select style="border: none; background: transparent; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer;">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Inner Tab: Riwayat Ekspor (settings-menu only; shared queue for all 4 export buttons) ── -->
+                <div class="m-tab-content" id="tab-riwayat-ekspor" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
+                    <div style="flex: 1; padding: 24px;">
+                        <div class="table-card" style="margin-bottom: 0;">
+                            <div class="table-card-title">Riwayat Ekspor</div>
+                            <div style="overflow-x: auto;">
+                                <table class="m-table" id="riwayat-ekspor-table">
+                                    <thead><tr>
+                                        <th>NO</th><th>REQUEST TIME</th><th>START DATE</th><th>END DATE</th><th>STATUS</th><th>ACTION</th>
+                                    </tr></thead>
+                                    <tbody id="riwayat-ekspor-tbody"></tbody>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                <div style="display: flex; gap: 4px; align-items: center;">
+                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-left"></i></button>
+                                    <button class="pag-btn active" style="background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;">1</button>
                                     <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-right"></i></button>
                                 </div>
                                 <select style="border: none; background: transparent; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer;">
@@ -4130,6 +4154,52 @@
             <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
                 <button class="btn btn-m-text" onclick="closeModal('modal-trx-filter')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
                 <button onclick="applyTrxFilter()" style="background: #1e56d7; border: none; color: #fff; font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 6px; cursor: pointer;">Terapkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Export Request (shared by all 4 export buttons: Mutasi Saldo + Riwayat Transaksi Pay-in/Payout/Account Linkage) -->
+    <div class="modal" id="modal-export-request">
+        <div class="modal-card" style="max-width: 420px; width: 100%; border-radius: 12px; background: #fff; overflow: visible; display: flex; flex-direction: column; max-height: 90vh;">
+            <div class="modal-header" style="padding: 16px 24px; border-bottom: 1px solid #e5e5e5; display: flex; align-items: center; justify-content: space-between; background: #fff;">
+                <h3 class="modal-title" style="font-family: var(--font-brand); font-weight: 700; font-size: 1.15rem; color: #1e293b;">Permintaan Ekspor</h3>
+                <button class="modal-close" onclick="closeModal('modal-export-request')" style="background: none; border: none; font-size: 1.2rem; color: #94a3b8; cursor: pointer;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding: 20px 24px; overflow-y: visible; flex: 1; background: #fff; position: relative;">
+                <div style="margin-bottom: 20px; position: relative;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tanggal Mulai</label>
+                    <button type="button" onclick="toggleExportCalendar('start')" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
+                        <i class="fas fa-calendar-days" style="color: #1e56d7;"></i>
+                        <span id="export-date-start-label">Pilih tanggal mulai</span>
+                    </button>
+                </div>
+
+                <div style="margin-bottom: 8px; position: relative;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tanggal Akhir</label>
+                    <button type="button" onclick="toggleExportCalendar('end')" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
+                        <i class="fas fa-calendar-days" style="color: #1e56d7;"></i>
+                        <span id="export-date-end-label">Pilih tanggal akhir</span>
+                    </button>
+
+                    <!-- Inline calendar overlay, shared between Tanggal Mulai / Tanggal Akhir (exportActiveField tracks which) -->
+                    <div id="export-calendar-overlay" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 12px 28px rgba(15,23,42,0.15); padding: 14px; z-index: 20; font-family: var(--font-main);">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                            <button type="button" onclick="shiftExportCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
+                            <span id="export-cal-month-label" style="font-size: 0.85rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px; cursor: pointer;">Juli 2026 <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i></span>
+                            <button type="button" onclick="shiftExportCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">
+                            <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+                        </div>
+                        <div id="export-cal-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
+                    </div>
+                </div>
+
+                <div id="export-date-error" style="display: none; color: #dc2626; font-size: 0.75rem; font-weight: 600; margin-top: 10px;">Tanggal akhir tidak boleh sebelum tanggal mulai.</div>
+            </div>
+            <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
+                <button class="btn btn-m-text" onclick="closeModal('modal-export-request')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
+                <button id="export-submit-btn" disabled onclick="submitExportRequest()" style="background: #1e56d7; border: none; color: #fff; font-weight: 600; font-size: 0.85rem; padding: 8px 20px; border-radius: 6px; cursor: not-allowed; opacity: 0.5;">Ajukan Export</button>
             </div>
         </div>
     </div>
@@ -5146,48 +5216,164 @@
             if (emptyRow) emptyRow.style.display = matchCount === 0 ? '' : 'none';
         }
 
-        // Mock export progress: no real file is generated, so this is a fixed-duration
-        // simulated fill (0->100% over ~1.2s), not a measured percentage.
-        let mutasiExportRunning = false;
-        function exportMutasiSaldo(btn) {
-            if (mutasiExportRunning) return;
-            mutasiExportRunning = true;
+        /* ── Export Request modal + Riwayat Ekspor queue (feeds all 4 export buttons) ── */
+        let exportHistoryData = [
+            { no: 3, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'DONE' },
+            { no: 2, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'DONE' },
+            { no: 1, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'DONE' }
+        ];
+        let exportSeq = 3;
 
-            const wrap = document.getElementById('mutasi-export-progress');
-            const fill = document.getElementById('mutasi-export-progress-fill');
-            const label = document.getElementById('mutasi-export-progress-label');
-            const original = btn.innerHTML;
+        let exportCalendarMonth = new Date(2026, 6, 1); // July 2026, matches mock data dates
+        let exportDateStart = null;
+        let exportDateEnd = null;
+        let exportActiveField = null; // 'start' | 'end' — which field the calendar overlay is currently editing
 
-            btn.disabled = true;
-            btn.style.opacity = '0.6';
-            btn.style.cursor = 'not-allowed';
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Export';
-
-            let pct = 0;
-            fill.style.width = '0%';
-            label.textContent = '0%';
-            wrap.style.display = 'flex';
-
-            const timer = setInterval(() => {
-                pct = Math.min(100, pct + 5);
-                fill.style.width = pct + '%';
-                label.textContent = pct + '%';
-                if (pct >= 100) {
-                    clearInterval(timer);
-                    alertToast('Mock: export mutasi saldo.', 'info');
-                    setTimeout(() => {
-                        wrap.style.display = 'none';
-                        fill.style.width = '0%';
-                        label.textContent = '0%';
-                        btn.disabled = false;
-                        btn.style.opacity = '';
-                        btn.style.cursor = '';
-                        btn.innerHTML = original;
-                        mutasiExportRunning = false;
-                    }, 600);
-                }
-            }, 60);
+        function openExportRequestModal() {
+            exportDateStart = null;
+            exportDateEnd = null;
+            exportActiveField = null;
+            exportCalendarMonth = new Date(2026, 6, 1);
+            document.getElementById('export-date-start-label').textContent = 'Pilih tanggal mulai';
+            document.getElementById('export-date-end-label').textContent = 'Pilih tanggal akhir';
+            document.getElementById('export-calendar-overlay').style.display = 'none';
+            document.getElementById('export-date-error').style.display = 'none';
+            syncExportSubmitState();
+            openModal('modal-export-request');
         }
+
+        function toggleExportCalendar(field) {
+            const overlay = document.getElementById('export-calendar-overlay');
+            if (!overlay) return;
+            const isOpenForSameField = overlay.style.display === 'block' && exportActiveField === field;
+            exportActiveField = field;
+            overlay.style.display = isOpenForSameField ? 'none' : 'block';
+            if (overlay.style.display === 'block') renderExportCalendarGrid();
+        }
+
+        function shiftExportCalendarMonth(delta) {
+            exportCalendarMonth = new Date(exportCalendarMonth.getFullYear(), exportCalendarMonth.getMonth() + delta, 1);
+            renderExportCalendarGrid();
+        }
+
+        function renderExportCalendarGrid() {
+            const label = document.getElementById('export-cal-month-label');
+            const grid = document.getElementById('export-cal-grid');
+            if (!label || !grid) return;
+
+            const year = exportCalendarMonth.getFullYear();
+            const month = exportCalendarMonth.getMonth();
+            label.innerHTML = trxMonthNames[month] + ' ' + year + ' <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i>';
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+
+            let cells = '';
+            for (let i = 0; i < firstDay; i++) cells += '<span></span>';
+            for (let d = 1; d <= daysInMonth; d++) {
+                const isToday = isCurrentMonth && today.getDate() === d;
+                cells += `<button type="button" onclick="pickExportDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+            }
+            grid.innerHTML = cells;
+        }
+
+        function pickExportDate(day) {
+            const dateStr = String(day).padStart(2, '0') + '/' + String(exportCalendarMonth.getMonth() + 1).padStart(2, '0') + '/' + exportCalendarMonth.getFullYear();
+            if (exportActiveField === 'end') {
+                exportDateEnd = dateStr;
+                document.getElementById('export-date-end-label').textContent = dateStr;
+            } else {
+                exportDateStart = dateStr;
+                document.getElementById('export-date-start-label').textContent = dateStr;
+            }
+            document.getElementById('export-calendar-overlay').style.display = 'none';
+            syncExportSubmitState();
+        }
+
+        function parseExportDate(str) {
+            const [d, m, y] = str.split('/').map(Number);
+            return new Date(y, m - 1, d);
+        }
+
+        function syncExportSubmitState() {
+            const errorEl = document.getElementById('export-date-error');
+            const submitBtn = document.getElementById('export-submit-btn');
+            let valid = !!(exportDateStart && exportDateEnd);
+
+            if (exportDateStart && exportDateEnd && parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) {
+                errorEl.style.display = 'block';
+                valid = false;
+            } else {
+                errorEl.style.display = 'none';
+            }
+
+            submitBtn.disabled = !valid;
+            submitBtn.style.opacity = valid ? '1' : '0.5';
+            submitBtn.style.cursor = valid ? 'pointer' : 'not-allowed';
+        }
+
+        function submitExportRequest() {
+            if (!exportDateStart || !exportDateEnd) return;
+            if (parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) return;
+
+            exportSeq++;
+            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'PROCESSING' };
+            exportHistoryData.unshift(row);
+            renderRiwayatEkspor();
+            closeModal('modal-export-request');
+            document.getElementById('export-calendar-overlay').style.display = 'none';
+            alertToast('Permintaan ekspor masuk antrian. Cek halaman Riwayat Ekspor.', 'success');
+
+            setTimeout(() => {
+                row.status = 'DONE';
+                renderRiwayatEkspor();
+            }, 5000);
+        }
+
+        function formatExportRequestTime(d) {
+            const pad = n => String(n).padStart(2, '0');
+            return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' WIB';
+        }
+
+        function renderRiwayatEkspor() {
+            const tbody = document.getElementById('riwayat-ekspor-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = exportHistoryData.map(row => `
+                <tr>
+                    <td>${row.no}</td>
+                    <td>${row.requestTime}</td>
+                    <td>${row.start}</td>
+                    <td>${row.end}</td>
+                    <td><span class="m-badge ${row.status === 'DONE' ? 'success' : 'warning'}">${row.status}</span></td>
+                    <td>
+                        ${row.status === 'DONE'
+                            ? `<button onclick='downloadMockExport(${JSON.stringify(row)})' title="Unduh" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #1e56d7; cursor: pointer;"><i class="fas fa-download"></i></button>`
+                            : `<button disabled title="Sedang diproses" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #f1f5f9; color: #cbd5e1; cursor: not-allowed;"><i class="fas fa-download"></i></button>`
+                        }
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function downloadMockExport(row) {
+            const headers = 'No,Request Time,Start Date,End Date,Status\n' + `${row.no},${row.requestTime},${row.start},${row.end},${row.status}\n`;
+            const blob = new Blob([headers], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `riwayat-ekspor-${row.no}.csv`;
+            link.click();
+        }
+
+        // Close the export calendar overlay when clicking outside it
+        window.addEventListener('click', function (e) {
+            const overlay = document.getElementById('export-calendar-overlay');
+            if (!overlay || overlay.style.display !== 'block') return;
+            if (!e.target.closest('#export-calendar-overlay') && !e.target.closest('[onclick*="toggleExportCalendar"]')) {
+                overlay.style.display = 'none';
+            }
+        });
 
         /* ── Platform Switcher ── */
         function switchPlatform(platform) {
@@ -5226,7 +5412,7 @@
         };
 
         // Tabs only reachable via the settings dropdown (not the .m-tabs bar) hide the bar while active.
-        const merchantTabsWithoutBar = ['tab-mutasi-saldo', 'tab-manajemen-akun', 'tab-riwayat-transaksi'];
+        const merchantTabsWithoutBar = ['tab-mutasi-saldo', 'tab-manajemen-akun', 'tab-riwayat-transaksi', 'tab-riwayat-ekspor'];
 
         function switchMerchantTab(tabId) {
             currentMerchantTab = tabId;
@@ -5270,6 +5456,8 @@
                 switchTrxSubTab(currentTrxSubTab);
             } else if (tabId === 'tab-manajemen-akun') {
                 renderAkunTable();
+            } else if (tabId === 'tab-riwayat-ekspor') {
+                renderRiwayatEkspor();
             } else if (tabId === 'tab-import-bu' || tabId === 'tab-import-po') {
                 const tabUploaded = (tabId === 'tab-import-bu') ? buTemplateUploaded : poTemplateUploaded;
                 const emptyState = document.querySelector(`#${tabId} #merchant-empty-state`);

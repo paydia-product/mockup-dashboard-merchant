@@ -8,9 +8,22 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.7.4';
+    var CURRENT = '1.8.0';
 
     var VERSIONS = [
+        {
+            v: '1.8.0',
+            date: '2026-08-04',
+            deployed: false,
+            title: 'Riwayat Ekspor: antrian ekspor bersama untuk semua tombol Export',
+            changes: [
+                'Halaman baru "Riwayat Ekspor" (menu Settings) menampilkan antrian permintaan ekspor: NO / REQUEST TIME / START DATE / END DATE / STATUS / ACTION',
+                'Ke-4 tombol Export (Mutasi Saldo, dan Riwayat Transaksi Pay-in/Payout/Account Linkage) kini membuka modal "Permintaan Ekspor" yang sama, dengan tanggal mulai & akhir wajib diisi (validasi akhir >= mulai)',
+                'Semua permintaan masuk ke satu antrian tanpa pembeda sumber/tipe -- baris dari tombol manapun tampil identik, lalu berstatus PROCESSING -> DONE (simulasi 5 detik) sebelum tombol unduh aktif',
+                'Menghapus progress bar simulasi Export Mutasi Saldo dari v1.7.4 (mutasi-export-progress & exportMutasiSaldo()), digantikan alur modal + antrian di atas',
+                'Jujur: ini mockup frontend murni, tidak ada backend nyata -- antrian & status "PROCESSING/DONE" disimulasikan dengan setTimeout, unduhan adalah file CSV mock via Blob'
+            ]
+        },
         {
             v: '1.7.4',
             date: '2026-08-04',

@@ -35,6 +35,38 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-08-04
+
+### Added
+- New "Riwayat Ekspor" page (reachable from the Settings gear menu) showing a shared
+  export request queue: columns NO / REQUEST TIME / START DATE / END DATE / STATUS / ACTION.
+  Seeded with 3 pre-existing DONE rows on first load.
+- New "Permintaan Ekspor" modal (`#modal-export-request`), reusing this codebase's
+  established calendar-overlay date-picker pattern (`#modal-trx-filter`). Requires both
+  a start date and an end date before Submit enables; validates end >= start and shows
+  an inline error otherwise.
+- All 4 export buttons — Mutasi Saldo, and Riwayat Transaksi's Pay-in / Payout /
+  Account Linkage sub-tabs — now open this same modal via `openExportRequestModal()`.
+  Submitting adds one row to the shared `exportHistoryData` queue: status starts as
+  PROCESSING and flips to DONE after a simulated 5-second delay, at which point the
+  row's download action button becomes enabled.
+- By design, the Riwayat Ekspor table has no column or indicator distinguishing which
+  button originated a given row — every request is treated identically regardless of
+  source, matching the decision to drop a "TYPE" column.
+- `downloadMockExport()` triggers a real browser file download (mock CSV via
+  `Blob` + `URL.createObjectURL`, reusing the existing download pattern already used
+  elsewhere in this file), rather than only showing a toast.
+
+### Removed
+- The v1.7.4 inline progress bar on Mutasi Saldo's Export button
+  (`#mutasi-export-progress` markup and the `exportMutasiSaldo()` / `mutasiExportRunning`
+  JS) is removed entirely, superseded by the modal + queue flow above.
+
+### Notes
+- This is a frontend-only mockup. There is no real backend, server, or database —
+  "queue processing" is entirely simulated in the browser via `setTimeout` plus a
+  status flip; nothing is actually queued, exported, or persisted server-side.
+
 ## [1.7.4] - 2026-08-04
 
 ### Added
