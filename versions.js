@@ -14,7 +14,7 @@
         {
             v: '1.7.3',
             date: '2026-08-04',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Transaksi checkbox genuinely toggleable',
             changes: [
                 'Checkbox "Riwayat Transaksi" di Tambah Akun kini bisa dicentang/dilepas, tidak aktif secara default',
