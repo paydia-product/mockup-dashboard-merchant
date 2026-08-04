@@ -35,6 +35,16 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.7.3] - 2026-08-04
+
+### Changed
+- Checkbox permission "Riwayat Transaksi" di modal Tambah Akun kini bisa dicentang/dilepas dan
+  tidak aktif secara default — permission hanya diberikan bila dicentang.
+- submitTambahAkun() hanya menambahkan "Riwayat Transaksi (View Only)" ke daftar fitur bila
+  checkbox dicentang.
+- openRincianAkun() kembali menampilkan status checkbox Riwayat Transaksi sesuai data akun
+  (tetap read-only/disabled).
+
 ## [1.7.2] - 2026-08-03
 
 ### Changed

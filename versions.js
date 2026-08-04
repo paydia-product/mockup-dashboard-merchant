@@ -8,9 +8,20 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.7.2';
+    var CURRENT = '1.7.3';
 
     var VERSIONS = [
+        {
+            v: '1.7.3',
+            date: '2026-08-04',
+            deployed: false,
+            title: 'Riwayat Transaksi checkbox genuinely toggleable',
+            changes: [
+                'Checkbox "Riwayat Transaksi" di Tambah Akun kini bisa dicentang/dilepas, tidak aktif secara default',
+                'submitTambahAkun() hanya menambahkan "Riwayat Transaksi (View Only)" bila checkbox dicentang',
+                'openRincianAkun() menampilkan status checkbox Riwayat Transaksi sesuai data akun (read-only)'
+            ]
+        },
         {
             v: '1.7.2',
             date: '2026-08-03',

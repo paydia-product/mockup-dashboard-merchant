@@ -4173,7 +4173,7 @@
                     </div>
                     <div class="detail-segment-item" id="rincian-segment-riwayat-transaksi">
                         <div class="detail-segment-header clickable" onclick="toggleDetailSegment('rincian-segment-riwayat-transaksi')">
-                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <input type="checkbox" id="rincian-check-riwayat-transaksi" disabled onclick="event.stopPropagation()">
                             <span style="flex: 1;">Riwayat Transaksi</span>
                             <i class="fas fa-chevron-right chevron-icon"></i>
                         </div>
@@ -4270,7 +4270,7 @@
                     </div>
                     <div class="detail-segment-item" id="ta-segment-riwayat-transaksi">
                         <div class="detail-segment-header clickable" onclick="toggleDetailSegment('ta-segment-riwayat-transaksi')">
-                            <input type="checkbox" checked disabled onclick="event.stopPropagation()">
+                            <input type="checkbox" id="ta-check-riwayat-transaksi" onclick="event.stopPropagation()">
                             <span style="flex: 1;">Riwayat Transaksi</span>
                             <i class="fas fa-chevron-right chevron-icon"></i>
                         </div>
@@ -5076,6 +5076,8 @@
             if (!a) return;
             document.getElementById('rincian-akun-username').value = a.username;
             document.getElementById('rincian-akun-nama').value = a.nama;
+            const rincianRiwayatCheck = document.getElementById('rincian-check-riwayat-transaksi');
+            if (rincianRiwayatCheck) rincianRiwayatCheck.checked = (a.fitur || '').includes('Riwayat Transaksi');
             openModal('modal-rincian-akun');
         }
 
@@ -5084,6 +5086,8 @@
                 const el = document.getElementById(id);
                 if (el) el.value = '';
             });
+            const taRiwayatCheck = document.getElementById('ta-check-riwayat-transaksi');
+            if (taRiwayatCheck) taRiwayatCheck.checked = false;
             checkTambahAkunValidity();
         }
 
@@ -5109,9 +5113,10 @@
             const nama = document.getElementById('ta-nama').value.trim();
             const kasbonPerm = document.querySelector('input[name="ta-perm-kasbon"]:checked')?.value || 'view';
             const payoutPerm = document.querySelector('input[name="ta-perm-payout"]:checked')?.value || 'view';
+            const riwayatChecked = document.getElementById('ta-check-riwayat-transaksi')?.checked;
             akunMockData.push({
                 username, nama,
-                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'}), Riwayat Transaksi (View Only)`,
+                fitur: `Merchant, Kasbon (${kasbonPerm === 'edit' ? 'Edit' : 'View Only'}), Payout (${payoutPerm === 'edit' ? 'Edit' : 'View Only'})${riwayatChecked ? ', Riwayat Transaksi (View Only)' : ''}`,
                 status: true,
                 canReset: true
             });
