@@ -14,7 +14,7 @@
         {
             v: '1.9.1',
             date: '2026-08-04',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Ekspor: nomor posisional, kolom Tipe, catatan retensi permanen',
             changes: [
                 'Kolom No kini nomor urut posisional berkelanjutan antar halaman (bukan id internal)',
