@@ -35,6 +35,20 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.7.4] - 2026-08-04
+
+### Added
+- Progress bar simulasi saat klik Export di halaman Mutasi Saldo. Bar muncul di bawah
+  baris tombol (di atas tabel), terisi 0%->100% dengan label persentase, lalu hilang.
+- Tombol Export menampilkan spinner dan dinonaktifkan selama progress berjalan,
+  mencegah animasi ganda dari klik beruntun.
+
+### Notes
+- Progress bersifat mock: tidak ada file yang benar-benar dibuat, sehingga persentase
+  adalah animasi durasi tetap (~1,2 detik), bukan progress nyata.
+- Toast "Mock: export mutasi saldo." tetap dipakai, kini muncul saat bar mencapai 100%.
+- Tombol Export di Pay-in / Payout / Account Linkage tidak diubah pada rilis ini.
+
 ## [1.7.3] - 2026-08-04
 
 ### Changed

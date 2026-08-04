@@ -8,9 +8,20 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.7.3';
+    var CURRENT = '1.7.4';
 
     var VERSIONS = [
+        {
+            v: '1.7.4',
+            date: '2026-08-04',
+            deployed: false,
+            title: 'Progress bar simulasi Export Mutasi Saldo',
+            changes: [
+                'Progress bar simulasi (0%->100%) di bawah baris tombol saat klik Export di Mutasi Saldo',
+                'Tombol Export menampilkan spinner & nonaktif selama progress berjalan (anti klik ganda)',
+                'Mock: tidak ada file nyata dibuat, animasi durasi tetap ~1,2 detik'
+            ]
+        },
         {
             v: '1.7.3',
             date: '2026-08-04',

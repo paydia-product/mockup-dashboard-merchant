@@ -3275,8 +3275,14 @@
                                            onkeydown="if(event.key==='Enter') searchMutasi()">
                                     <button onclick="searchMutasi()" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-search"></i> Cari</button>
                                     <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='mutasi';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                    <button onclick="alertToast('Mock: export mutasi saldo.', 'info')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                    <button id="mutasi-export-btn" onclick="exportMutasiSaldo(this)" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                 </div>
+                            </div>
+                            <div id="mutasi-export-progress" style="display: none; align-items: center; gap: 10px; padding: 10px 24px; border-bottom: 1px solid var(--merchant-border);">
+                                <div style="flex: 1; height: 6px; background: #e5e5e5; border-radius: 999px; overflow: hidden;">
+                                    <div id="mutasi-export-progress-fill" style="width: 0%; height: 100%; background: #1e56d7; border-radius: 999px; transition: width 0.15s linear;"></div>
+                                </div>
+                                <span id="mutasi-export-progress-label" style="font-size: 0.75rem; font-weight: 600; color: var(--merchant-text-secondary); min-width: 34px; text-align: right;">0%</span>
                             </div>
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="mutasi-saldo-table">
@@ -5138,6 +5144,49 @@
             });
             const emptyRow = document.getElementById('mutasi-empty-row');
             if (emptyRow) emptyRow.style.display = matchCount === 0 ? '' : 'none';
+        }
+
+        // Mock export progress: no real file is generated, so this is a fixed-duration
+        // simulated fill (0->100% over ~1.2s), not a measured percentage.
+        let mutasiExportRunning = false;
+        function exportMutasiSaldo(btn) {
+            if (mutasiExportRunning) return;
+            mutasiExportRunning = true;
+
+            const wrap = document.getElementById('mutasi-export-progress');
+            const fill = document.getElementById('mutasi-export-progress-fill');
+            const label = document.getElementById('mutasi-export-progress-label');
+            const original = btn.innerHTML;
+
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            btn.style.cursor = 'not-allowed';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Export';
+
+            let pct = 0;
+            fill.style.width = '0%';
+            label.textContent = '0%';
+            wrap.style.display = 'flex';
+
+            const timer = setInterval(() => {
+                pct = Math.min(100, pct + 5);
+                fill.style.width = pct + '%';
+                label.textContent = pct + '%';
+                if (pct >= 100) {
+                    clearInterval(timer);
+                    alertToast('Mock: export mutasi saldo.', 'info');
+                    setTimeout(() => {
+                        wrap.style.display = 'none';
+                        fill.style.width = '0%';
+                        label.textContent = '0%';
+                        btn.disabled = false;
+                        btn.style.opacity = '';
+                        btn.style.cursor = '';
+                        btn.innerHTML = original;
+                        mutasiExportRunning = false;
+                    }, 600);
+                }
+            }, 60);
         }
 
         /* ── Platform Switcher ── */
