@@ -3401,26 +3401,17 @@
                 <div class="m-tab-content" id="tab-riwayat-ekspor" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
                     <div style="flex: 1; padding: 24px;">
                         <div class="table-card" style="margin-bottom: 0;">
-                            <div class="table-card-title">Riwayat Ekspor</div>
+                            <div class="table-card-title"><span>Riwayat Ekspor <i class="fas fa-info-circle" style="font-size:0.85rem; color:#94a3b8; cursor:help;" title="Berkas hasil export hanya tersimpan selama 7 hari sejak permintaan ekspor."></i></span></div>
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="riwayat-ekspor-table">
                                     <thead><tr>
-                                        <th>NO</th><th>REQUEST TIME</th><th>START DATE</th><th>END DATE</th><th>STATUS</th><th>ACTION</th>
+                                        <th>No</th><th>Waktu Permintaan</th><th>Tanggal Mulai</th><th>Tanggal Akhir</th><th>Status</th><th>Aksi</th>
                                     </tr></thead>
                                     <tbody id="riwayat-ekspor-tbody"></tbody>
                                 </table>
                             </div>
                             <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
-                                <div style="display: flex; gap: 4px; align-items: center;">
-                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-left"></i></button>
-                                    <button class="pag-btn active" style="background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;">1</button>
-                                    <button class="pag-btn" style="background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;"><i class="fas fa-chevron-right"></i></button>
-                                </div>
-                                <select style="border: none; background: transparent; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer;">
-                                    <option>10</option>
-                                    <option>25</option>
-                                    <option>50</option>
-                                </select>
+                                <div id="riwayat-ekspor-pagination" style="display: flex; gap: 4px; align-items: center;"></div>
                             </div>
                         </div>
                     </div>
@@ -5218,11 +5209,22 @@
 
         /* ── Export Request modal + Riwayat Ekspor queue (feeds all 4 export buttons) ── */
         let exportHistoryData = [
-            { no: 3, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'DONE' },
-            { no: 2, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'DONE' },
-            { no: 1, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'DONE' }
+            { no: 12, requestTime: '04/08/2026 10:05 WIB', start: '29/07/2026', end: '03/08/2026', status: 'proses' },
+            { no: 11, requestTime: '04/08/2026 08:41 WIB', start: '25/07/2026', end: '03/08/2026', status: 'gagal' },
+            { no: 10, requestTime: '03/08/2026 16:22 WIB', start: '20/07/2026', end: '02/08/2026', status: 'proses' },
+            { no: 9, requestTime: '02/08/2026 11:37 WIB', start: '15/07/2026', end: '01/08/2026', status: 'selesai' },
+            { no: 8, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'selesai' },
+            { no: 7, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'selesai' },
+            { no: 6, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'selesai' },
+            { no: 5, requestTime: '15/07/2026 09:50 WIB', start: '01/06/2026', end: '14/07/2026', status: 'selesai' },
+            { no: 4, requestTime: '10/07/2026 13:24 WIB', start: '01/05/2026', end: '09/07/2026', status: 'selesai' },
+            { no: 3, requestTime: '05/07/2026 08:16 WIB', start: '01/04/2026', end: '30/06/2026', status: 'selesai' },
+            { no: 2, requestTime: '28/06/2026 15:41 WIB', start: '01/03/2026', end: '27/06/2026', status: 'selesai' },
+            { no: 1, requestTime: '20/06/2026 11:03 WIB', start: '01/01/2026', end: '19/06/2026', status: 'selesai' }
         ];
-        let exportSeq = 3;
+        let exportSeq = 12;
+        let exportPage = 1;
+        const EXPORT_PAGE_SIZE = 10;
 
         let exportCalendarMonth = new Date(2026, 6, 1); // July 2026, matches mock data dates
         let exportDateStart = null;
@@ -5319,15 +5321,16 @@
             if (parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) return;
 
             exportSeq++;
-            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'PROCESSING' };
+            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'proses' };
             exportHistoryData.unshift(row);
+            exportPage = 1;
             renderRiwayatEkspor();
             closeModal('modal-export-request');
             document.getElementById('export-calendar-overlay').style.display = 'none';
             alertToast('Permintaan ekspor masuk antrian. Cek halaman Riwayat Ekspor.', 'success');
 
             setTimeout(() => {
-                row.status = 'DONE';
+                row.status = 'selesai';
                 renderRiwayatEkspor();
             }, 5000);
         }
@@ -5340,21 +5343,45 @@
         function renderRiwayatEkspor() {
             const tbody = document.getElementById('riwayat-ekspor-tbody');
             if (!tbody) return;
-            tbody.innerHTML = exportHistoryData.map(row => `
+
+            const totalPages = Math.max(1, Math.ceil(exportHistoryData.length / EXPORT_PAGE_SIZE));
+            exportPage = Math.min(exportPage, totalPages);
+            const pageRows = exportHistoryData.slice((exportPage - 1) * EXPORT_PAGE_SIZE, exportPage * EXPORT_PAGE_SIZE);
+
+            tbody.innerHTML = pageRows.map(row => `
                 <tr>
                     <td>${row.no}</td>
                     <td>${row.requestTime}</td>
                     <td>${row.start}</td>
                     <td>${row.end}</td>
-                    <td><span class="m-badge ${row.status === 'DONE' ? 'success' : 'warning'}">${row.status}</span></td>
+                    <td><span class="m-badge ${row.status === 'selesai' ? 'success' : row.status === 'gagal' ? 'error' : 'warning'}" style="cursor:default">${row.status}</span></td>
                     <td>
-                        ${row.status === 'DONE'
+                        ${row.status === 'selesai'
                             ? `<button onclick='downloadMockExport(${JSON.stringify(row)})' title="Unduh" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #1e56d7; cursor: pointer;"><i class="fas fa-download"></i></button>`
-                            : `<button disabled title="Sedang diproses" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #f1f5f9; color: #cbd5e1; cursor: not-allowed;"><i class="fas fa-download"></i></button>`
+                            : `<button disabled title="${row.status === 'gagal' ? 'Ekspor gagal, berkas tidak tersedia' : 'Sedang diproses'}" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #f1f5f9; color: #cbd5e1; cursor: not-allowed;"><i class="fas fa-download"></i></button>`
                         }
                     </td>
                 </tr>
             `).join('');
+
+            const pagContainer = document.getElementById('riwayat-ekspor-pagination');
+            if (pagContainer) {
+                const inactiveStyle = "background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;";
+                const activeStyle = "background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;";
+                const disabledStyle = "background:#fff; border:1px solid #e5e5e5; color:#cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:not-allowed;";
+
+                let html = `<button class="pag-btn" ${exportPage <= 1 ? 'disabled' : ''} onclick="gotoExportPage(${exportPage - 1})" style="${exportPage <= 1 ? disabledStyle : inactiveStyle}"><i class="fas fa-chevron-left"></i></button>`;
+                for (let p = 1; p <= totalPages; p++) {
+                    html += `<button class="pag-btn${p === exportPage ? ' active' : ''}" onclick="gotoExportPage(${p})" style="${p === exportPage ? activeStyle : inactiveStyle}">${p}</button>`;
+                }
+                html += `<button class="pag-btn" ${exportPage >= totalPages ? 'disabled' : ''} onclick="gotoExportPage(${exportPage + 1})" style="${exportPage >= totalPages ? disabledStyle : inactiveStyle}"><i class="fas fa-chevron-right"></i></button>`;
+                pagContainer.innerHTML = html;
+            }
+        }
+
+        function gotoExportPage(p) {
+            exportPage = p;
+            renderRiwayatEkspor();
         }
 
         function downloadMockExport(row) {

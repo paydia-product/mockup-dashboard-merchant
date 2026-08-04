@@ -35,6 +35,27 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-08-04
+
+### Changed
+- Riwayat Ekspor: header kolom diterjemahkan ke Bahasa Indonesia (No, Waktu Permintaan,
+  Tanggal Mulai, Tanggal Akhir, Status, Aksi).
+- Status kini punya 3 nilai: proses (kuning), selesai (hijau), gagal (merah). Unduh berkas
+  hanya aktif saat status selesai — proses dan gagal keduanya memblokir unduhan.
+- Seed data diperluas jadi 12 baris mencakup ketiga status.
+
+### Added
+- Pagination di halaman Riwayat Ekspor kini benar-benar fungsional (10 baris per halaman,
+  page-slicing nyata) — sebelumnya markup statis dekoratif. Selector ukuran halaman
+  (10/25/50) yang tidak fungsional dihapus karena batas 10 kini bersifat tetap.
+- Tooltip masa simpan berkas pada judul halaman Riwayat Ekspor.
+
+### Notes
+- Verifikasi: tidak ada batasan jumlah permintaan export — sudah terpenuhi tanpa
+  perubahan kode.
+- Status "gagal" hanya muncul pada seed data; permintaan export baru selalu berakhir
+  di status "selesai" setelah simulasi delay, tidak pernah "gagal".
+
 ## [1.8.0] - 2026-08-04
 
 ### Added

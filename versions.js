@@ -8,9 +8,22 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.8.0';
+    var CURRENT = '1.9.0';
 
     var VERSIONS = [
+        {
+            v: '1.9.0',
+            date: '2026-08-04',
+            deployed: false,
+            title: 'Riwayat Ekspor: label Indonesia, status gagal, pagination nyata',
+            changes: [
+                'Header kolom diterjemahkan: No / Waktu Permintaan / Tanggal Mulai / Tanggal Akhir / Status / Aksi',
+                'Status kini 3 nilai: proses (kuning), selesai (hijau), gagal (merah) -- unduh hanya aktif saat selesai',
+                'Seed data diperluas jadi 12 baris mencakup ketiga status',
+                'Pagination di halaman ini kini benar-benar fungsional (10 baris/halaman, page-slicing nyata), menggantikan markup statis dekoratif -- selector 10/25/50 yang tidak fungsional dihapus',
+                'Tooltip masa simpan berkas (7 hari) pada judul halaman Riwayat Ekspor'
+            ]
+        },
         {
             v: '1.8.0',
             date: '2026-08-04',
