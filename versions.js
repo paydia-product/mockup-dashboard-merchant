@@ -14,7 +14,7 @@
         {
             v: '2.2.0',
             date: '2026-08-06',
-            deployed: false,
+            deployed: true,
             title: 'Filter data 31 hari selalu aktif pada Riwayat Transaksi dan Mutasi Saldo, catatan retensi di modal',
             changes: [
                 'Ditambahkan: Riwayat Transaksi (Pay-in/Payout/Account Linkage) dan Mutasi Saldo kini membatasi baris yang ditampilkan hanya untuk 31 hari ke belakang, aktif otomatis terlepas dari filter yang dipilih pengguna',
