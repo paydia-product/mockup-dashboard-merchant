@@ -35,6 +35,22 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-08-06
+
+### Removed
+- Standalone "Riwayat Ekspor" page (`#tab-riwayat-ekspor`) and its settings-menu entry.
+
+### Added
+- Riwayat Ekspor tab on the Riwayat Transaksi page (Pay-in/Payout/Account Linkage requests, with a Tipe column) and a new Riwayat Ekspor sub-tab on the Mutasi Saldo page (Mutasi Saldo requests only, no Tipe column since every row there is the same type).
+- Mutasi Saldo now has a 2-tab structure ("Mutasi Saldo" | "Riwayat Ekspor").
+- "Lihat Rincian Transaksi" action (toast placeholder) and real pagination (page-size 5 default) on Riwayat Transaksi's Pay-in/Payout/Account Linkage history tables.
+- Riwayat Transaksi restored as a 4th visible button in the top-level blue navigation bar (previously reachable only via the settings gear menu; that entry is kept as a secondary route).
+
+### Changed
+- Export Request modal: single mandatory date field + optional "Tipe Transaksi" filter, replacing the previous Tanggal Mulai/Tanggal Akhir date-range picker.
+- Riwayat Ekspor's Tanggal Mulai/Tanggal Akhir columns consolidated into a single Tanggal column.
+- Riwayat Transaksi's in-progress status string "Diproses" renamed to "Menunggu".
+
 ## [1.9.1] - 2026-08-04
 
 ### Changed

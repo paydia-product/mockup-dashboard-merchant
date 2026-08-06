@@ -8,9 +8,25 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '1.9.1';
+    var CURRENT = '2.0.0';
 
     var VERSIONS = [
+        {
+            v: '2.0.0',
+            date: '2026-08-06',
+            deployed: false,
+            title: 'Riwayat Transaksi dipulihkan ke navigasi header, Riwayat Ekspor dipecah per halaman, modal ekspor tanggal tunggal',
+            changes: [
+                'Dihapus: halaman Riwayat Ekspor mandiri dan entri menu pengaturannya',
+                'Ditambahkan: tab Riwayat Ekspor pada halaman Riwayat Transaksi (dengan kolom Tipe) dan Mutasi Saldo (tanpa kolom Tipe)',
+                'Ditambahkan: struktur sub-tab baru pada Mutasi Saldo (Mutasi Saldo | Riwayat Ekspor)',
+                'Ditambahkan: aksi "Lihat Rincian Transaksi" dan pagination nyata pada tabel Riwayat Transaksi (Pay-in, Payout, Account Linkage)',
+                'Ditambahkan: Riwayat Transaksi kini tombol ke-4 yang tampil langsung di navigasi biru header, tidak hanya lewat menu pengaturan',
+                'Diubah: modal Permintaan Ekspor kini tanggal tunggal + filter Tipe Transaksi opsional (menggantikan rentang Tanggal Mulai/Akhir)',
+                'Diubah: kolom Tanggal Mulai/Tanggal Akhir dikonsolidasikan menjadi satu kolom Tanggal',
+                'Diubah: status "Diproses" pada Riwayat Transaksi diganti menjadi "Menunggu"'
+            ]
+        },
         {
             v: '1.9.1',
             date: '2026-08-04',

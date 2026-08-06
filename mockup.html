@@ -2922,7 +2922,6 @@
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Halaman Profil Saya belum tersedia di mockup.', 'info')"><i class="fas fa-user"></i> Profil saya</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-manajemen-akun')"><i class="fas fa-user-gear"></i> Manajemen Akun</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-mutasi-saldo')"><i class="fas fa-file-lines"></i> Mutasi Saldo</a>
-                        <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-riwayat-ekspor')"><i class="fas fa-clock-rotate-left"></i> Riwayat Ekspor</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-import-po')"><i class="fas fa-file-lines"></i> Import Merchant</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); switchMerchantTab('tab-riwayat-transaksi')"><i class="fas fa-file-lines"></i> Transaksi Sub-Merchant</a>
                         <a href="javascript:void(0)" onclick="closeSettingsMenu(); alertToast('Log Aktivitas belum tersedia di mockup.', 'info')"><i class="fas fa-screwdriver-wrench"></i> Log Aktivitas</a>
@@ -2942,6 +2941,7 @@
                     <button class="m-tab-btn active" id="tab-btn-po-nav" onclick="switchMerchantTab('tab-import-po')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: #fff; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #fbbf24; border-radius: 0;">IMPORT MERCHANT PERORANGAN</button>
                     <button class="m-tab-btn" id="tab-btn-bu" onclick="switchMerchantTab('tab-import-bu')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">IMPORT MERCHANT BADAN USAHA</button>
                     <button class="m-tab-btn" id="tab-btn-history-nav" onclick="switchMerchantTab('tab-history')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT IMPORT</button>
+                    <button class="m-tab-btn" id="tab-btn-riwayat-transaksi-nav" onclick="switchMerchantTab('tab-riwayat-transaksi')" style="background: transparent; border: none; padding: 14px 20px; font-family: var(--font-brand); font-weight: 700; font-size: 0.8rem; color: rgba(255,255,255,0.7); cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">RIWAYAT TRANSAKSI</button>
                 </div>
 
                 <!-- ── Inner Tab: Import Sub Merchant - Badan Usaha ── -->
@@ -3148,6 +3148,7 @@
                         <button class="trx-subtab-btn active" id="trx-subtab-btn-payin" onclick="switchTrxSubTab('payin')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #1e56d7; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #1e56d7; border-radius: 0;">Pay-in</button>
                         <button class="trx-subtab-btn" id="trx-subtab-btn-payout" onclick="switchTrxSubTab('payout')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Payout</button>
                         <button class="trx-subtab-btn" id="trx-subtab-btn-linkage" onclick="switchTrxSubTab('linkage')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Account Linkage</button>
+                        <button class="trx-subtab-btn" id="trx-subtab-btn-ekspor" onclick="switchTrxSubTab('ekspor')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Riwayat Ekspor</button>
                     </div>
 
                     <div style="flex: 1; padding: 24px; display: flex; flex-direction: column; gap: 24px;">
@@ -3169,16 +3170,27 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payin';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Pay-in')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
                                     <table class="m-table" id="trx-history-table-payin">
                                         <thead><tr>
-                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th><th>Aksi</th>
                                         </tr></thead>
                                         <tbody></tbody>
                                     </table>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 12px 18px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>Items per page:</span>
+                                        <select onchange="setTrxPageSize('payin', this.value)" style="border: 1px solid var(--merchant-border); border-radius: 6px; background: #fff; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer; padding: 4px 6px;">
+                                            <option value="5" selected>5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                    </div>
+                                    <div id="trx-history-pag-payin" style="display: flex; gap: 4px; align-items: center;"></div>
                                 </div>
                             </div>
                         </div>
@@ -3201,16 +3213,27 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='payout';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Payout')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
                                     <table class="m-table" id="trx-history-table-payout">
                                         <thead><tr>
-                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th>
+                                            <th>Tanggal</th><th>ID Transaksi</th><th>ID Referensi</th><th>Nominal</th><th>Nominal Service</th><th>Nominal Total</th><th>Tipe Transaksi</th><th>ID Pelanggan</th><th>Nama Pelanggan</th><th>Status</th><th>Aksi</th>
                                         </tr></thead>
                                         <tbody></tbody>
                                     </table>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 12px 18px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>Items per page:</span>
+                                        <select onchange="setTrxPageSize('payout', this.value)" style="border: 1px solid var(--merchant-border); border-radius: 6px; background: #fff; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer; padding: 4px 6px;">
+                                            <option value="5" selected>5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                    </div>
+                                    <div id="trx-history-pag-payout" style="display: flex; gap: 4px; align-items: center;"></div>
                                 </div>
                             </div>
                         </div>
@@ -3222,7 +3245,7 @@
                                     Riwayat Transaksi
                                     <div style="display: flex; align-items: center; gap: 8px;">
                                         <button onclick="openModal('modal-trx-filter'); trxFilterActiveTable='linkage';" title="Filter" style="width: 34px; height: 34px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #475569; cursor: pointer;"><i class="fas fa-filter"></i></button>
-                                        <button onclick="openExportRequestModal('Riwayat Transaksi')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
+                                        <button onclick="openExportRequestModal('Account Linkage')" class="btn btn-m-outline" style="padding: 8px 16px; font-size: 0.78rem;"><i class="fas fa-download"></i> Export</button>
                                     </div>
                                 </div>
                                 <div style="overflow-x: auto;">
@@ -3232,6 +3255,38 @@
                                         </tr></thead>
                                         <tbody></tbody>
                                     </table>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 12px 18px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <span>Items per page:</span>
+                                        <select onchange="setTrxPageSize('linkage', this.value)" style="border: 1px solid var(--merchant-border); border-radius: 6px; background: #fff; font-size: 0.8rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer; padding: 4px 6px;">
+                                            <option value="5" selected>5</option>
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                        </select>
+                                    </div>
+                                    <div id="trx-history-pag-linkage" style="display: flex; gap: 4px; align-items: center;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Riwayat Ekspor panel (origin='transaksi': Pay-in/Payout/Account Linkage export requests) -->
+                        <div class="trx-subtab-panel" id="trx-panel-ekspor" style="display: none; flex-direction: column; gap: 24px;">
+                            <div class="table-card" style="margin-bottom: 0;">
+                                <div class="table-card-title"><span>Riwayat Ekspor</span></div>
+                                <div style="padding: 10px 24px; font-size: 0.78rem; color: #64748b; background: #f8fafc; border-bottom: 1px solid var(--merchant-border);">
+                                    <i class="fas fa-info-circle" style="color:#94a3b8; margin-right:6px;"></i>Berkas hasil export hanya tersimpan selama 7 hari sejak permintaan ekspor.
+                                </div>
+                                <div style="overflow-x: auto;">
+                                    <table class="m-table" id="riwayat-ekspor-table-transaksi">
+                                        <thead><tr>
+                                            <th>No</th><th>Waktu Permintaan</th><th>Tanggal</th><th>Tipe</th><th>Status</th><th>Aksi</th>
+                                        </tr></thead>
+                                        <tbody id="riwayat-ekspor-tbody-transaksi"></tbody>
+                                    </table>
+                                </div>
+                                <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
+                                    <div id="riwayat-ekspor-pagination-transaksi" style="display: flex; gap: 4px; align-items: center;"></div>
                                 </div>
                             </div>
                         </div>
@@ -3266,7 +3321,12 @@
 
                 <!-- ── Inner Tab: Mutasi Saldo ── -->
                 <div class="m-tab-content" id="tab-mutasi-saldo" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
-                    <div style="flex: 1; padding: 24px;">
+                    <!-- Sub-tab nav -->
+                    <div style="display: flex; gap: 4px; padding: 0 24px; border-bottom: 1px solid #e5e5e5; background: #fff;">
+                        <button class="mutasi-subtab-btn active" id="mutasi-subtab-btn-saldo" onclick="switchMutasiSubTab('saldo')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #1e56d7; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid #1e56d7; border-radius: 0;">Mutasi Saldo</button>
+                        <button class="mutasi-subtab-btn" id="mutasi-subtab-btn-ekspor" onclick="switchMutasiSubTab('ekspor')" style="background: transparent; border: none; padding: 14px 16px; font-family: var(--font-brand); font-weight: 700; font-size: 0.78rem; color: #94a3b8; cursor: pointer; text-transform: uppercase; border-bottom: 3px solid transparent; border-radius: 0;">Riwayat Ekspor</button>
+                    </div>
+                    <div class="mutasi-subtab-panel" id="mutasi-panel-saldo" style="flex: 1; padding: 24px; display: flex; flex-direction: column;">
                         <div class="table-card" style="margin-bottom: 0;">
                             <div class="table-card-title">
                                 Mutasi Saldo
@@ -3395,30 +3455,29 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- ── Inner Tab: Riwayat Ekspor (settings-menu only; shared queue for all 4 export buttons) ── -->
-                <div class="m-tab-content" id="tab-riwayat-ekspor" style="background: #fff; border: 1px solid #e5e5e5; border-top: none; border-radius: 0; min-height: 500px; display: none; flex-direction: column;">
-                    <div style="flex: 1; padding: 24px;">
+                    <!-- Riwayat Ekspor sub-panel (origin='mutasi': Mutasi Saldo export requests only, no Tipe column) -->
+                    <div class="mutasi-subtab-panel" id="mutasi-panel-ekspor" style="display: none; flex: 1; padding: 24px; flex-direction: column;">
                         <div class="table-card" style="margin-bottom: 0;">
                             <div class="table-card-title"><span>Riwayat Ekspor</span></div>
                             <div style="padding: 10px 24px; font-size: 0.78rem; color: #64748b; background: #f8fafc; border-bottom: 1px solid var(--merchant-border);">
                                 <i class="fas fa-info-circle" style="color:#94a3b8; margin-right:6px;"></i>Berkas hasil export hanya tersimpan selama 7 hari sejak permintaan ekspor.
                             </div>
                             <div style="overflow-x: auto;">
-                                <table class="m-table" id="riwayat-ekspor-table">
+                                <table class="m-table" id="riwayat-ekspor-table-mutasi">
                                     <thead><tr>
-                                        <th>No</th><th>Waktu Permintaan</th><th>Tanggal Mulai</th><th>Tanggal Akhir</th><th>Tipe</th><th>Status</th><th>Aksi</th>
+                                        <th>No</th><th>Waktu Permintaan</th><th>Tanggal</th><th>Status</th><th>Aksi</th>
                                     </tr></thead>
-                                    <tbody id="riwayat-ekspor-tbody"></tbody>
+                                    <tbody id="riwayat-ekspor-tbody-mutasi"></tbody>
                                 </table>
                             </div>
                             <div style="display: flex; justify-content: flex-end; align-items: center; gap: 16px; padding: 16px 24px; border-top: 1px solid #e5e5e5; font-size: 0.8rem; color: #64748b;">
-                                <div id="riwayat-ekspor-pagination" style="display: flex; gap: 4px; align-items: center;"></div>
+                                <div id="riwayat-ekspor-pagination-mutasi" style="display: flex; gap: 4px; align-items: center;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </main>
         </div>
     </div>
@@ -4161,21 +4220,12 @@
             </div>
             <div class="modal-body" style="padding: 20px 24px; overflow-y: visible; flex: 1; background: #fff; position: relative;">
                 <div style="margin-bottom: 20px; position: relative;">
-                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tanggal Mulai</label>
-                    <button type="button" onclick="toggleExportCalendar('start')" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tanggal</label>
+                    <button type="button" onclick="toggleExportCalendar()" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
                         <i class="fas fa-calendar-days" style="color: #1e56d7;"></i>
-                        <span id="export-date-start-label">Pilih tanggal mulai</span>
-                    </button>
-                </div>
-
-                <div style="margin-bottom: 8px; position: relative;">
-                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tanggal Akhir</label>
-                    <button type="button" onclick="toggleExportCalendar('end')" style="width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; background: #fff; color: #64748b; font-size: 0.82rem; cursor: pointer;">
-                        <i class="fas fa-calendar-days" style="color: #1e56d7;"></i>
-                        <span id="export-date-end-label">Pilih tanggal akhir</span>
+                        <span id="export-date-label">Pilih tanggal</span>
                     </button>
 
-                    <!-- Inline calendar overlay, shared between Tanggal Mulai / Tanggal Akhir (exportActiveField tracks which) -->
                     <div id="export-calendar-overlay" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 12px 28px rgba(15,23,42,0.15); padding: 14px; z-index: 20; font-family: var(--font-main);">
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
                             <button type="button" onclick="shiftExportCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
@@ -4189,7 +4239,16 @@
                     </div>
                 </div>
 
-                <div id="export-date-error" style="display: none; color: #dc2626; font-size: 0.75rem; font-weight: 600; margin-top: 10px;">Tanggal akhir tidak boleh sebelum tanggal mulai.</div>
+                <div style="margin-bottom: 8px;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tipe Transaksi (opsional)</label>
+                    <select id="export-filter-tipe" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #1e293b; outline: none; background: #fff;">
+                        <option value="ALL">Semua Tipe Transaksi</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="Virtual Account">Virtual Account</option>
+                        <option value="Transfer Bank">Transfer Bank</option>
+                        <option value="E-Wallet">E-Wallet</option>
+                    </select>
+                </div>
             </div>
             <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
                 <button class="btn btn-m-text" onclick="closeModal('modal-export-request')" style="background: none; border: none; color: #1e293b; font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 8px 16px;">Batal</button>
@@ -4902,27 +4961,51 @@
         const trxMockData = {
             payin: {
                 inprogress: [
-                    { tanggal: '31/07/2026 10:12', idTransaksi: 'TRXPI-000441', idReferensi: 'REF-88231', nominal: 150000, nominalService: 1500, nominalTotal: 151500, tipe: 'QRIS', idPelanggan: 'CUST-1092', namaPelanggan: 'Budi Santoso', status: 'Diproses' }
+                    { tanggal: '31/07/2026 10:12', idTransaksi: 'TRXPI-000441', idReferensi: 'REF-88231', nominal: 150000, nominalService: 1500, nominalTotal: 151500, tipe: 'QRIS', idPelanggan: 'CUST-1092', namaPelanggan: 'Budi Santoso', status: 'Menunggu' },
+                    { tanggal: '31/07/2026 09:30', idTransaksi: 'TRXPI-000442', idReferensi: 'REF-88232', nominal: 90000, nominalService: 900, nominalTotal: 90900, tipe: 'E-Wallet', idPelanggan: 'CUST-1093', namaPelanggan: 'Yusuf Pratama', status: 'Menunggu' }
                 ],
                 history: [
                     { tanggal: '30/07/2026 14:02', idTransaksi: 'TRXPI-000440', idReferensi: 'REF-88230', nominal: 250000, nominalService: 2500, nominalTotal: 252500, tipe: 'Virtual Account', idPelanggan: 'CUST-1091', namaPelanggan: 'Siti Aminah', status: 'Berhasil' },
                     { tanggal: '30/07/2026 09:45', idTransaksi: 'TRXPI-000439', idReferensi: 'REF-88229', nominal: 75000, nominalService: 750, nominalTotal: 75750, tipe: 'QRIS', idPelanggan: 'CUST-1090', namaPelanggan: 'Andi Wijaya', status: 'Berhasil' },
-                    { tanggal: '29/07/2026 18:30', idTransaksi: 'TRXPI-000438', idReferensi: 'REF-88228', nominal: 500000, nominalService: 5000, nominalTotal: 505000, tipe: 'Transfer Bank', idPelanggan: 'CUST-1089', namaPelanggan: 'Dewi Lestari', status: 'Gagal' }
+                    { tanggal: '29/07/2026 18:30', idTransaksi: 'TRXPI-000438', idReferensi: 'REF-88228', nominal: 500000, nominalService: 5000, nominalTotal: 505000, tipe: 'Transfer Bank', idPelanggan: 'CUST-1089', namaPelanggan: 'Dewi Lestari', status: 'Gagal' },
+                    { tanggal: '29/07/2026 12:15', idTransaksi: 'TRXPI-000437', idReferensi: 'REF-88227', nominal: 120000, nominalService: 1200, nominalTotal: 121200, tipe: 'QRIS', idPelanggan: 'CUST-1088', namaPelanggan: 'Rudi Hartono', status: 'Berhasil' },
+                    { tanggal: '28/07/2026 20:05', idTransaksi: 'TRXPI-000436', idReferensi: 'REF-88226', nominal: 300000, nominalService: 3000, nominalTotal: 303000, tipe: 'Virtual Account', idPelanggan: 'CUST-1087', namaPelanggan: 'Maya Sari', status: 'Berhasil' },
+                    { tanggal: '28/07/2026 11:40', idTransaksi: 'TRXPI-000435', idReferensi: 'REF-88225', nominal: 60000, nominalService: 600, nominalTotal: 60600, tipe: 'E-Wallet', idPelanggan: 'CUST-1086', namaPelanggan: 'Fajar Nugraha', status: 'Gagal' },
+                    { tanggal: '27/07/2026 17:22', idTransaksi: 'TRXPI-000434', idReferensi: 'REF-88224', nominal: 450000, nominalService: 4500, nominalTotal: 454500, tipe: 'QRIS', idPelanggan: 'CUST-1085', namaPelanggan: 'Nur Aisyah', status: 'Berhasil' },
+                    { tanggal: '27/07/2026 08:55', idTransaksi: 'TRXPI-000433', idReferensi: 'REF-88223', nominal: 175000, nominalService: 1750, nominalTotal: 176750, tipe: 'Transfer Bank', idPelanggan: 'CUST-1084', namaPelanggan: 'Bagus Setiawan', status: 'Berhasil' },
+                    { tanggal: '26/07/2026 19:10', idTransaksi: 'TRXPI-000432', idReferensi: 'REF-88222', nominal: 210000, nominalService: 2100, nominalTotal: 212100, tipe: 'Virtual Account', idPelanggan: 'CUST-1083', namaPelanggan: 'Wulan Sari', status: 'Menunggu' },
+                    { tanggal: '26/07/2026 10:30', idTransaksi: 'TRXPI-000431', idReferensi: 'REF-88221', nominal: 95000, nominalService: 950, nominalTotal: 95950, tipe: 'QRIS', idPelanggan: 'CUST-1082', namaPelanggan: 'Hendra Gunawan', status: 'Berhasil' },
+                    { tanggal: '25/07/2026 15:48', idTransaksi: 'TRXPI-000430', idReferensi: 'REF-88220', nominal: 320000, nominalService: 3200, nominalTotal: 323200, tipe: 'E-Wallet', idPelanggan: 'CUST-1081', namaPelanggan: 'Indah Permata', status: 'Berhasil' }
                 ]
             },
             payout: {
                 inprogress: [
-                    { tanggal: '31/07/2026 11:00', idTransaksi: 'TRXPO-000221', idReferensi: 'REF-77120', nominal: 1000000, nominalService: 3000, nominalTotal: 1003000, tipe: 'Transfer Bank', idPelanggan: 'CUST-2044', namaPelanggan: 'Rudi Hartono', status: 'Diproses' }
+                    { tanggal: '31/07/2026 11:00', idTransaksi: 'TRXPO-000221', idReferensi: 'REF-77120', nominal: 1000000, nominalService: 3000, nominalTotal: 1003000, tipe: 'Transfer Bank', idPelanggan: 'CUST-2044', namaPelanggan: 'Rudi Hartono', status: 'Menunggu' },
+                    { tanggal: '31/07/2026 08:15', idTransaksi: 'TRXPO-000222', idReferensi: 'REF-77121', nominal: 450000, nominalService: 1500, nominalTotal: 451500, tipe: 'E-Wallet', idPelanggan: 'CUST-2045', namaPelanggan: 'Nur Aisyah', status: 'Menunggu' }
                 ],
                 history: [
                     { tanggal: '30/07/2026 16:20', idTransaksi: 'TRXPO-000220', idReferensi: 'REF-77119', nominal: 2000000, nominalService: 6000, nominalTotal: 2006000, tipe: 'Transfer Bank', idPelanggan: 'CUST-2043', namaPelanggan: 'Maya Sari', status: 'Berhasil' },
-                    { tanggal: '29/07/2026 13:10', idTransaksi: 'TRXPO-000219', idReferensi: 'REF-77118', nominal: 350000, nominalService: 1000, nominalTotal: 351000, tipe: 'E-Wallet', idPelanggan: 'CUST-2042', namaPelanggan: 'Fajar Nugraha', status: 'Berhasil' }
+                    { tanggal: '29/07/2026 13:10', idTransaksi: 'TRXPO-000219', idReferensi: 'REF-77118', nominal: 350000, nominalService: 1000, nominalTotal: 351000, tipe: 'E-Wallet', idPelanggan: 'CUST-2042', namaPelanggan: 'Fajar Nugraha', status: 'Berhasil' },
+                    { tanggal: '29/07/2026 09:00', idTransaksi: 'TRXPO-000218', idReferensi: 'REF-77117', nominal: 750000, nominalService: 2200, nominalTotal: 752200, tipe: 'Transfer Bank', idPelanggan: 'CUST-2041', namaPelanggan: 'Wulan Sari', status: 'Gagal' },
+                    { tanggal: '28/07/2026 21:35', idTransaksi: 'TRXPO-000217', idReferensi: 'REF-77116', nominal: 300000, nominalService: 900, nominalTotal: 300900, tipe: 'QRIS', idPelanggan: 'CUST-2040', namaPelanggan: 'Hendra Gunawan', status: 'Berhasil' },
+                    { tanggal: '28/07/2026 10:12', idTransaksi: 'TRXPO-000216', idReferensi: 'REF-77115', nominal: 1250000, nominalService: 3500, nominalTotal: 1253500, tipe: 'Transfer Bank', idPelanggan: 'CUST-2039', namaPelanggan: 'Indah Permata', status: 'Berhasil' },
+                    { tanggal: '27/07/2026 18:47', idTransaksi: 'TRXPO-000215', idReferensi: 'REF-77114', nominal: 400000, nominalService: 1200, nominalTotal: 401200, tipe: 'E-Wallet', idPelanggan: 'CUST-2038', namaPelanggan: 'Bagus Setiawan', status: 'Berhasil' },
+                    { tanggal: '27/07/2026 07:30', idTransaksi: 'TRXPO-000214', idReferensi: 'REF-77113', nominal: 180000, nominalService: 600, nominalTotal: 180600, tipe: 'Virtual Account', idPelanggan: 'CUST-2037', namaPelanggan: 'Dewi Lestari', status: 'Gagal' },
+                    { tanggal: '26/07/2026 14:55', idTransaksi: 'TRXPO-000213', idReferensi: 'REF-77112', nominal: 600000, nominalService: 1800, nominalTotal: 601800, tipe: 'Transfer Bank', idPelanggan: 'CUST-2036', namaPelanggan: 'Andi Wijaya', status: 'Berhasil' },
+                    { tanggal: '26/07/2026 09:20', idTransaksi: 'TRXPO-000212', idReferensi: 'REF-77111', nominal: 275000, nominalService: 900, nominalTotal: 275900, tipe: 'E-Wallet', idPelanggan: 'CUST-2035', namaPelanggan: 'Siti Aminah', status: 'Menunggu' },
+                    { tanggal: '25/07/2026 20:00', idTransaksi: 'TRXPO-000211', idReferensi: 'REF-77110', nominal: 500000, nominalService: 1500, nominalTotal: 501500, tipe: 'Transfer Bank', idPelanggan: 'CUST-2034', namaPelanggan: 'Budi Santoso', status: 'Berhasil' }
                 ]
             },
             linkage: {
                 history: [
                     { idTransaksi: 'LNK-000091', tanggal: '30/07/2026 08:15', kategori: 'Payout', subKategori: 'Transfer Bank', partnerRef: 'PRTN-55011', refNo: 'RFN-11022', hp: '0812xxxx1234', namaPengguna: 'Budi Santoso', idIssuer: 'ISS-01', namaIssuer: 'Bank Mandiri', idAcquirer: 'ACQ-02', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Toko Sinar Jaya', criteria: 'Reguler', nominal: 500000, nominalTips: 0, biayaLayanan: 2500, totalSharingFee: 1500, status: 'Berhasil' },
-                    { idTransaksi: 'LNK-000090', tanggal: '29/07/2026 19:40', kategori: 'Pay-in', subKategori: 'QRIS', partnerRef: 'PRTN-55010', refNo: 'RFN-11021', hp: '0813xxxx5678', namaPengguna: 'Siti Aminah', idIssuer: 'ISS-02', namaIssuer: 'Bank BCA', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 125000, nominalTips: 5000, biayaLayanan: 1250, totalSharingFee: 750, status: 'Berhasil' }
+                    { idTransaksi: 'LNK-000090', tanggal: '29/07/2026 19:40', kategori: 'Pay-in', subKategori: 'QRIS', partnerRef: 'PRTN-55010', refNo: 'RFN-11021', hp: '0813xxxx5678', namaPengguna: 'Siti Aminah', idIssuer: 'ISS-02', namaIssuer: 'Bank BCA', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 125000, nominalTips: 5000, biayaLayanan: 1250, totalSharingFee: 750, status: 'Berhasil' },
+                    { idTransaksi: 'LNK-000089', tanggal: '29/07/2026 10:05', kategori: 'Pay-in', subKategori: 'Virtual Account', partnerRef: 'PRTN-55009', refNo: 'RFN-11020', hp: '0857xxxx0098', namaPengguna: 'Andi Wijaya', idIssuer: 'ISS-03', namaIssuer: 'Bank BNI', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Toko Sinar Jaya', criteria: 'Reguler', nominal: 210000, nominalTips: 0, biayaLayanan: 1050, totalSharingFee: 600, status: 'Gagal' },
+                    { idTransaksi: 'LNK-000088', tanggal: '28/07/2026 21:12', kategori: 'Payout', subKategori: 'E-Wallet', partnerRef: 'PRTN-55008', refNo: 'RFN-11019', hp: '0821xxxx4456', namaPengguna: 'Dewi Lestari', idIssuer: 'ISS-04', namaIssuer: 'DANA', idAcquirer: 'ACQ-02', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 90000, nominalTips: 0, biayaLayanan: 450, totalSharingFee: 250, status: 'Berhasil' },
+                    { idTransaksi: 'LNK-000087', tanggal: '28/07/2026 09:30', kategori: 'Pay-in', subKategori: 'QRIS', partnerRef: 'PRTN-55007', refNo: 'RFN-11018', hp: '0838xxxx9012', namaPengguna: 'Rudi Hartono', idIssuer: 'ISS-01', namaIssuer: 'Bank Mandiri', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Toko Sinar Jaya', criteria: 'Reguler', nominal: 340000, nominalTips: 0, biayaLayanan: 1700, totalSharingFee: 900, status: 'Berhasil' },
+                    { idTransaksi: 'LNK-000086', tanggal: '27/07/2026 16:44', kategori: 'Payout', subKategori: 'Transfer Bank', partnerRef: 'PRTN-55006', refNo: 'RFN-11017', hp: '0895xxxx2201', namaPengguna: 'Maya Sari', idIssuer: 'ISS-02', namaIssuer: 'Bank BCA', idAcquirer: 'ACQ-02', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 620000, nominalTips: 0, biayaLayanan: 3100, totalSharingFee: 1800, status: 'Berhasil' },
+                    { idTransaksi: 'LNK-000085', tanggal: '27/07/2026 08:05', kategori: 'Pay-in', subKategori: 'E-Wallet', partnerRef: 'PRTN-55005', refNo: 'RFN-11016', hp: '0817xxxx5544', namaPengguna: 'Fajar Nugraha', idIssuer: 'ISS-04', namaIssuer: 'OVO', idAcquirer: 'ACQ-01', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Toko Sinar Jaya', criteria: 'Reguler', nominal: 88000, nominalTips: 2000, biayaLayanan: 440, totalSharingFee: 220, status: 'Gagal' },
+                    { idTransaksi: 'LNK-000084', tanggal: '26/07/2026 12:50', kategori: 'Payout', subKategori: 'Virtual Account', partnerRef: 'PRTN-55004', refNo: 'RFN-11015', hp: '0851xxxx8890', namaPengguna: 'Wulan Sari', idIssuer: 'ISS-03', namaIssuer: 'Bank BNI', idAcquirer: 'ACQ-02', namaAcquirer: 'Paydia Acquiring', namaMerchant: 'Warung Makmur', criteria: 'UMKM', nominal: 410000, nominalTips: 0, biayaLayanan: 2050, totalSharingFee: 1100, status: 'Berhasil' }
                 ]
             }
         };
@@ -4935,6 +5018,53 @@
             if (status === 'Berhasil') return 'success';
             if (status === 'Gagal') return 'error';
             return 'warning';
+        }
+
+        /* Shared pagination helpers, generalized from the proven Riwayat Ekspor pagination logic. */
+        function paginateRows(arr, page, size) {
+            const totalPages = Math.max(1, Math.ceil(arr.length / size));
+            page = Math.min(Math.max(1, page), totalPages);
+            return { rows: arr.slice((page - 1) * size, page * size), page, totalPages };
+        }
+
+        function renderPagNavFor(containerId, page, totalPages, onGoto) {
+            const el = document.getElementById(containerId);
+            if (!el) return;
+            const inactiveStyle = "background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;";
+            const activeStyle = "background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;";
+            const disabledStyle = "background:#fff; border:1px solid #e5e5e5; color:#cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:not-allowed;";
+            el.innerHTML = '';
+            const mkBtn = (label, targetPage, disabled, active) => {
+                const b = document.createElement('button');
+                b.className = 'pag-btn' + (active ? ' active' : '');
+                b.innerHTML = label;
+                b.disabled = disabled;
+                b.style.cssText = disabled ? disabledStyle : (active ? activeStyle : inactiveStyle);
+                if (!disabled) b.onclick = () => onGoto(targetPage);
+                return b;
+            };
+            el.appendChild(mkBtn('<i class="fas fa-chevron-left"></i>', page - 1, page <= 1, false));
+            for (let p = 1; p <= totalPages; p++) {
+                el.appendChild(mkBtn(String(p), p, false, p === page));
+            }
+            el.appendChild(mkBtn('<i class="fas fa-chevron-right"></i>', page + 1, page >= totalPages, false));
+        }
+
+        let trxHistoryPaging = { payin: { page: 1, size: 5 }, payout: { page: 1, size: 5 }, linkage: { page: 1, size: 5 } };
+
+        function setTrxPageSize(subTab, size) {
+            trxHistoryPaging[subTab].size = Number(size);
+            trxHistoryPaging[subTab].page = 1;
+            renderTrxTable(subTab);
+        }
+
+        function gotoTrxHistoryPage(subTab, p) {
+            trxHistoryPaging[subTab].page = p;
+            renderTrxTable(subTab);
+        }
+
+        function lihatRincianTransaksi() {
+            alertToast('Rincian transaksi belum tersedia di mockup.', 'info');
         }
 
         function renderTrxTable(subTab) {
@@ -4959,8 +5089,13 @@
             const historyBody = document.querySelector('#trx-history-table-' + subTab + ' tbody');
             if (!historyBody) return;
 
+            const paging = trxHistoryPaging[subTab];
+            const { rows: pageRows, page, totalPages } = paginateRows(historyRows, paging.page, paging.size);
+            paging.page = page;
+            renderPagNavFor('trx-history-pag-' + subTab, page, totalPages, p => gotoTrxHistoryPage(subTab, p));
+
             if (subTab === 'linkage') {
-                historyBody.innerHTML = historyRows.map(row => `
+                historyBody.innerHTML = pageRows.map(row => `
                     <tr>
                         <td>${row.idTransaksi}</td><td>${row.tanggal}</td><td>${row.kategori}</td><td>${row.subKategori}</td>
                         <td>${row.partnerRef}</td><td>${row.refNo}</td><td>${row.hp}</td><td>${row.namaPengguna}</td>
@@ -4971,14 +5106,15 @@
                     </tr>
                 `).join('') || '<tr><td colspan="19" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada riwayat transaksi.</td></tr>';
             } else {
-                historyBody.innerHTML = historyRows.map(row => `
+                historyBody.innerHTML = pageRows.map(row => `
                     <tr>
                         <td>${row.tanggal}</td><td>${row.idTransaksi}</td><td>${row.idReferensi}</td>
                         <td>${formatRupiah(row.nominal)}</td><td>${formatRupiah(row.nominalService)}</td><td>${formatRupiah(row.nominalTotal)}</td>
                         <td>${row.tipe}</td><td>${row.idPelanggan}</td><td>${row.namaPelanggan}</td>
                         <td><span class="m-badge ${trxStatusBadgeClass(row.status)}">${row.status}</span></td>
+                        <td><a href="javascript:void(0)" onclick="lihatRincianTransaksi()" style="color:#1e56d7; font-weight:600; text-decoration:underline;">Lihat Rincian Transaksi</a></td>
                     </tr>
-                `).join('') || '<tr><td colspan="10" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada riwayat transaksi.</td></tr>';
+                `).join('') || '<tr><td colspan="11" style="text-align:center; color:#94a3b8; padding:24px;">Tidak ada riwayat transaksi.</td></tr>';
             }
         }
 
@@ -5000,7 +5136,37 @@
             }
             const activePanel = document.getElementById('trx-panel-' + subTab);
             if (activePanel) activePanel.style.display = 'flex';
-            renderTrxTable(subTab);
+            if (subTab === 'ekspor') {
+                renderRiwayatEkspor('transaksi');
+            } else {
+                renderTrxTable(subTab);
+            }
+        }
+
+        /* ── Mutasi Saldo: sub-tab switching (Mutasi Saldo | Riwayat Ekspor) ── */
+        let currentMutasiSubTab = 'saldo';
+
+        function switchMutasiSubTab(subTab) {
+            currentMutasiSubTab = subTab;
+            document.querySelectorAll('.mutasi-subtab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.color = '#94a3b8';
+                btn.style.borderBottomColor = 'transparent';
+            });
+            document.querySelectorAll('.mutasi-subtab-panel').forEach(panel => {
+                panel.style.display = 'none';
+            });
+            const activeBtn = document.getElementById('mutasi-subtab-btn-' + subTab);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.style.color = '#1e56d7';
+                activeBtn.style.borderBottomColor = '#1e56d7';
+            }
+            const activePanel = document.getElementById('mutasi-panel-' + subTab);
+            if (activePanel) activePanel.style.display = 'flex';
+            if (subTab === 'ekspor') {
+                renderRiwayatEkspor('mutasi');
+            }
         }
 
         /* ── Filter modal: date calendar + tipe transaksi ── */
@@ -5211,50 +5377,50 @@
         }
 
         /* ── Export Request modal + Riwayat Ekspor queue (feeds all 4 export buttons) ── */
+        // origin: 'mutasi' (Mutasi Saldo page) | 'transaksi' (Riwayat Transaksi page: Pay-in/Payout/Account Linkage)
         let exportHistoryData = [
-            { no: 12, requestTime: '04/08/2026 10:05 WIB', start: '29/07/2026', end: '03/08/2026', status: 'proses', tipe: 'Mutasi Saldo' },
-            { no: 11, requestTime: '04/08/2026 08:41 WIB', start: '25/07/2026', end: '03/08/2026', status: 'gagal', tipe: 'Riwayat Transaksi' },
-            { no: 10, requestTime: '03/08/2026 16:22 WIB', start: '20/07/2026', end: '02/08/2026', status: 'proses', tipe: 'Mutasi Saldo' },
-            { no: 9, requestTime: '02/08/2026 11:37 WIB', start: '15/07/2026', end: '01/08/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
-            { no: 8, requestTime: '31/07/2026 09:12 WIB', start: '25/07/2026', end: '30/07/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
-            { no: 7, requestTime: '28/07/2026 14:47 WIB', start: '01/07/2026', end: '20/07/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
-            { no: 6, requestTime: '20/07/2026 11:03 WIB', start: '01/06/2026', end: '30/06/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
-            { no: 5, requestTime: '15/07/2026 09:50 WIB', start: '01/06/2026', end: '14/07/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
-            { no: 4, requestTime: '10/07/2026 13:24 WIB', start: '01/05/2026', end: '09/07/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
-            { no: 3, requestTime: '05/07/2026 08:16 WIB', start: '01/04/2026', end: '30/06/2026', status: 'selesai', tipe: 'Riwayat Transaksi' },
-            { no: 2, requestTime: '28/06/2026 15:41 WIB', start: '01/03/2026', end: '27/06/2026', status: 'selesai', tipe: 'Mutasi Saldo' },
-            { no: 1, requestTime: '20/06/2026 11:03 WIB', start: '01/01/2026', end: '19/06/2026', status: 'selesai', tipe: 'Riwayat Transaksi' }
+            { no: 14, requestTime: '04/08/2026 10:05 WIB', tanggal: '03/08/2026', status: 'proses', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 13, requestTime: '04/08/2026 08:41 WIB', tanggal: '03/08/2026', status: 'gagal', tipe: 'Payout', origin: 'transaksi' },
+            { no: 12, requestTime: '03/08/2026 16:22 WIB', tanggal: '02/08/2026', status: 'proses', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 11, requestTime: '02/08/2026 11:37 WIB', tanggal: '01/08/2026', status: 'selesai', tipe: 'Pay-in', origin: 'transaksi' },
+            { no: 10, requestTime: '31/07/2026 09:12 WIB', tanggal: '30/07/2026', status: 'selesai', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 9, requestTime: '28/07/2026 14:47 WIB', tanggal: '20/07/2026', status: 'selesai', tipe: 'Account Linkage', origin: 'transaksi' },
+            { no: 8, requestTime: '20/07/2026 11:03 WIB', tanggal: '30/06/2026', status: 'selesai', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 7, requestTime: '15/07/2026 09:50 WIB', tanggal: '14/07/2026', status: 'selesai', tipe: 'Payout', origin: 'transaksi' },
+            { no: 6, requestTime: '10/07/2026 13:24 WIB', tanggal: '09/07/2026', status: 'selesai', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 5, requestTime: '05/07/2026 08:16 WIB', tanggal: '30/06/2026', status: 'selesai', tipe: 'Pay-in', origin: 'transaksi' },
+            { no: 4, requestTime: '28/06/2026 15:41 WIB', tanggal: '27/06/2026', status: 'selesai', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 3, requestTime: '20/06/2026 11:03 WIB', tanggal: '19/06/2026', status: 'selesai', tipe: 'Account Linkage', origin: 'transaksi' },
+            { no: 2, requestTime: '12/06/2026 09:30 WIB', tanggal: '10/06/2026', status: 'selesai', tipe: 'Mutasi Saldo', origin: 'mutasi' },
+            { no: 1, requestTime: '01/06/2026 08:00 WIB', tanggal: '30/05/2026', status: 'selesai', tipe: 'Pay-in', origin: 'transaksi' }
         ];
-        let exportSeq = 12;
-        let exportPage = 1;
-        const EXPORT_PAGE_SIZE = 10;
-        let exportSource = 'Mutasi Saldo';
+        let exportSeq = 14;
+        const EXPORT_PAGE_SIZE = 5;
+        let exportPageByOrigin = { mutasi: 1, transaksi: 1 };
+        let exportSource = 'Mutasi Saldo'; // specific label shown in the Tipe column
+        let exportOrigin = 'mutasi'; // derived: which split table/page this request routes to
 
         let exportCalendarMonth = new Date(2026, 6, 1); // July 2026, matches mock data dates
-        let exportDateStart = null;
-        let exportDateEnd = null;
-        let exportActiveField = null; // 'start' | 'end' — which field the calendar overlay is currently editing
+        let exportDateSelected = null;
 
         function openExportRequestModal(source) {
             exportSource = source || 'Mutasi Saldo';
-            exportDateStart = null;
-            exportDateEnd = null;
-            exportActiveField = null;
+            exportOrigin = (exportSource === 'Mutasi Saldo') ? 'mutasi' : 'transaksi';
+            exportDateSelected = null;
             exportCalendarMonth = new Date(2026, 6, 1);
-            document.getElementById('export-date-start-label').textContent = 'Pilih tanggal mulai';
-            document.getElementById('export-date-end-label').textContent = 'Pilih tanggal akhir';
+            document.getElementById('export-date-label').textContent = 'Pilih tanggal';
             document.getElementById('export-calendar-overlay').style.display = 'none';
-            document.getElementById('export-date-error').style.display = 'none';
+            const filterTipeSelect = document.getElementById('export-filter-tipe');
+            if (filterTipeSelect) filterTipeSelect.value = 'ALL';
             syncExportSubmitState();
             openModal('modal-export-request');
         }
 
-        function toggleExportCalendar(field) {
+        function toggleExportCalendar() {
             const overlay = document.getElementById('export-calendar-overlay');
             if (!overlay) return;
-            const isOpenForSameField = overlay.style.display === 'block' && exportActiveField === field;
-            exportActiveField = field;
-            overlay.style.display = isOpenForSameField ? 'none' : 'block';
+            const isOpen = overlay.style.display === 'block';
+            overlay.style.display = isOpen ? 'none' : 'block';
             if (overlay.style.display === 'block') renderExportCalendarGrid();
         }
 
@@ -5288,55 +5454,49 @@
 
         function pickExportDate(day) {
             const dateStr = String(day).padStart(2, '0') + '/' + String(exportCalendarMonth.getMonth() + 1).padStart(2, '0') + '/' + exportCalendarMonth.getFullYear();
-            if (exportActiveField === 'end') {
-                exportDateEnd = dateStr;
-                document.getElementById('export-date-end-label').textContent = dateStr;
-            } else {
-                exportDateStart = dateStr;
-                document.getElementById('export-date-start-label').textContent = dateStr;
-            }
+            exportDateSelected = dateStr;
+            document.getElementById('export-date-label').textContent = dateStr;
             document.getElementById('export-calendar-overlay').style.display = 'none';
             syncExportSubmitState();
         }
 
-        function parseExportDate(str) {
-            const [d, m, y] = str.split('/').map(Number);
-            return new Date(y, m - 1, d);
-        }
-
         function syncExportSubmitState() {
-            const errorEl = document.getElementById('export-date-error');
             const submitBtn = document.getElementById('export-submit-btn');
-            let valid = !!(exportDateStart && exportDateEnd);
-
-            if (exportDateStart && exportDateEnd && parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) {
-                errorEl.style.display = 'block';
-                valid = false;
-            } else {
-                errorEl.style.display = 'none';
-            }
-
+            const valid = !!exportDateSelected;
             submitBtn.disabled = !valid;
             submitBtn.style.opacity = valid ? '1' : '0.5';
             submitBtn.style.cursor = valid ? 'pointer' : 'not-allowed';
         }
 
         function submitExportRequest() {
-            if (!exportDateStart || !exportDateEnd) return;
-            if (parseExportDate(exportDateEnd) < parseExportDate(exportDateStart)) return;
+            if (!exportDateSelected) return;
 
             exportSeq++;
-            const row = { no: exportSeq, requestTime: formatExportRequestTime(new Date()), start: exportDateStart, end: exportDateEnd, status: 'proses', tipe: exportSource };
+            const filterTipeSelect = document.getElementById('export-filter-tipe');
+            const row = {
+                no: exportSeq,
+                requestTime: formatExportRequestTime(new Date()),
+                tanggal: exportDateSelected,
+                status: 'proses',
+                tipe: exportSource,
+                tipeTransaksi: filterTipeSelect ? filterTipeSelect.value : 'ALL', // informational only, no real backend to filter against
+                origin: exportOrigin
+            };
             exportHistoryData.unshift(row);
-            exportPage = 1;
-            renderRiwayatEkspor();
+            exportPageByOrigin[exportOrigin] = 1;
+            renderRiwayatEkspor(exportOrigin);
             closeModal('modal-export-request');
             document.getElementById('export-calendar-overlay').style.display = 'none';
-            alertToast('Permintaan ekspor masuk antrian. Cek halaman <a href="javascript:void(0)" onclick="switchMerchantTab(\'tab-riwayat-ekspor\')" style="color:#fff; font-weight:700; text-decoration:underline;">Riwayat Ekspor</a>.', 'success');
+
+            const destTabLabel = exportOrigin === 'mutasi' ? 'Mutasi Saldo' : 'Riwayat Transaksi';
+            const destOnclick = exportOrigin === 'mutasi'
+                ? "switchMerchantTab('tab-mutasi-saldo'); switchMutasiSubTab('ekspor');"
+                : "switchMerchantTab('tab-riwayat-transaksi'); switchTrxSubTab('ekspor');";
+            alertToast(`Permintaan ekspor masuk antrian. Cek halaman <a href="javascript:void(0)" onclick="${destOnclick}" style="color:#fff; font-weight:700; text-decoration:underline;">Riwayat Ekspor (${destTabLabel})</a>.`, 'success');
 
             setTimeout(() => {
                 row.status = 'selesai';
-                renderRiwayatEkspor();
+                renderRiwayatEkspor(exportOrigin);
             }, 5000);
         }
 
@@ -5345,53 +5505,55 @@
             return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ' WIB';
         }
 
-        function renderRiwayatEkspor() {
-            const tbody = document.getElementById('riwayat-ekspor-tbody');
+        function renderRiwayatEkspor(origin) {
+            const tbody = document.getElementById('riwayat-ekspor-tbody-' + origin);
             if (!tbody) return;
 
-            const totalPages = Math.max(1, Math.ceil(exportHistoryData.length / EXPORT_PAGE_SIZE));
-            exportPage = Math.min(exportPage, totalPages);
-            const pageRows = exportHistoryData.slice((exportPage - 1) * EXPORT_PAGE_SIZE, exportPage * EXPORT_PAGE_SIZE);
+            const rowsForOrigin = exportHistoryData.filter(r => r.origin === origin);
+            const paging = { page: exportPageByOrigin[origin] || 1, size: EXPORT_PAGE_SIZE };
+            const { rows: pageRows, page, totalPages } = paginateRows(rowsForOrigin, paging.page, paging.size);
+            exportPageByOrigin[origin] = page;
+            const offset = (page - 1) * EXPORT_PAGE_SIZE;
 
-            tbody.innerHTML = pageRows.map((row, i) => `
-                <tr>
-                    <td>${(exportPage - 1) * EXPORT_PAGE_SIZE + i + 1}</td>
-                    <td>${row.requestTime}</td>
-                    <td>${row.start}</td>
-                    <td>${row.end}</td>
-                    <td>${row.tipe}</td>
-                    <td><span class="m-badge ${row.status === 'selesai' ? 'success' : row.status === 'gagal' ? 'error' : 'warning'}" style="cursor:default">${row.status}</span></td>
-                    <td>
-                        ${row.status === 'selesai'
-                            ? `<button onclick='downloadMockExport(${JSON.stringify(row)})' title="Unduh" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #1e56d7; cursor: pointer;"><i class="fas fa-download"></i></button>`
-                            : `<button disabled title="${row.status === 'gagal' ? 'Ekspor gagal, berkas tidak tersedia' : 'Sedang diproses'}" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #f1f5f9; color: #cbd5e1; cursor: not-allowed;"><i class="fas fa-download"></i></button>`
-                        }
-                    </td>
-                </tr>
-            `).join('');
+            const aksiCell = (row) => row.status === 'selesai'
+                ? `<button onclick='downloadMockExport(${JSON.stringify(row)})' title="Unduh" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #fff; color: #1e56d7; cursor: pointer;"><i class="fas fa-download"></i></button>`
+                : `<button disabled title="${row.status === 'gagal' ? 'Ekspor gagal, berkas tidak tersedia' : 'Sedang diproses'}" style="width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--merchant-border); background: #f1f5f9; color: #cbd5e1; cursor: not-allowed;"><i class="fas fa-download"></i></button>`;
 
-            const pagContainer = document.getElementById('riwayat-ekspor-pagination');
-            if (pagContainer) {
-                const inactiveStyle = "background:#fff; border:1px solid #cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:pointer;";
-                const activeStyle = "background:#eff6ff; color:#1e56d7; border:1px solid #bfdbfe; border-radius:4px; width:28px; height:28px; font-weight:600; cursor:pointer;";
-                const disabledStyle = "background:#fff; border:1px solid #e5e5e5; color:#cbd5e1; border-radius:4px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; cursor:not-allowed;";
+            const statusBadge = (row) => `<span class="m-badge ${row.status === 'selesai' ? 'success' : row.status === 'gagal' ? 'error' : 'warning'}" style="cursor:default">${row.status}</span>`;
 
-                let html = `<button class="pag-btn" ${exportPage <= 1 ? 'disabled' : ''} onclick="gotoExportPage(${exportPage - 1})" style="${exportPage <= 1 ? disabledStyle : inactiveStyle}"><i class="fas fa-chevron-left"></i></button>`;
-                for (let p = 1; p <= totalPages; p++) {
-                    html += `<button class="pag-btn${p === exportPage ? ' active' : ''}" onclick="gotoExportPage(${p})" style="${p === exportPage ? activeStyle : inactiveStyle}">${p}</button>`;
-                }
-                html += `<button class="pag-btn" ${exportPage >= totalPages ? 'disabled' : ''} onclick="gotoExportPage(${exportPage + 1})" style="${exportPage >= totalPages ? disabledStyle : inactiveStyle}"><i class="fas fa-chevron-right"></i></button>`;
-                pagContainer.innerHTML = html;
+            if (origin === 'transaksi') {
+                tbody.innerHTML = pageRows.map((row, i) => `
+                    <tr>
+                        <td>${offset + i + 1}</td>
+                        <td>${row.requestTime}</td>
+                        <td>${row.tanggal}</td>
+                        <td>${row.tipe}</td>
+                        <td>${statusBadge(row)}</td>
+                        <td>${aksiCell(row)}</td>
+                    </tr>
+                `).join('') || '<tr><td colspan="6" style="text-align:center; color:#94a3b8; padding:24px;">Belum ada permintaan ekspor.</td></tr>';
+            } else {
+                tbody.innerHTML = pageRows.map((row, i) => `
+                    <tr>
+                        <td>${offset + i + 1}</td>
+                        <td>${row.requestTime}</td>
+                        <td>${row.tanggal}</td>
+                        <td>${statusBadge(row)}</td>
+                        <td>${aksiCell(row)}</td>
+                    </tr>
+                `).join('') || '<tr><td colspan="5" style="text-align:center; color:#94a3b8; padding:24px;">Belum ada permintaan ekspor.</td></tr>';
             }
+
+            renderPagNavFor('riwayat-ekspor-pagination-' + origin, page, totalPages, p => gotoExportPage(origin, p));
         }
 
-        function gotoExportPage(p) {
-            exportPage = p;
-            renderRiwayatEkspor();
+        function gotoExportPage(origin, p) {
+            exportPageByOrigin[origin] = p;
+            renderRiwayatEkspor(origin);
         }
 
         function downloadMockExport(row) {
-            const headers = 'No,Request Time,Start Date,End Date,Tipe,Status\n' + `${row.no},${row.requestTime},${row.start},${row.end},${row.tipe},${row.status}\n`;
+            const headers = 'No,Request Time,Tanggal,Tipe,Status\n' + `${row.no},${row.requestTime},${row.tanggal},${row.tipe},${row.status}\n`;
             const blob = new Blob([headers], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -5441,11 +5603,12 @@
         const merchantTabButtonMap = {
             'tab-import-po': 'tab-btn-po-nav',
             'tab-import-bu': 'tab-btn-bu',
-            'tab-history': 'tab-btn-history-nav'
+            'tab-history': 'tab-btn-history-nav',
+            'tab-riwayat-transaksi': 'tab-btn-riwayat-transaksi-nav'
         };
 
         // Tabs only reachable via the settings dropdown (not the .m-tabs bar) hide the bar while active.
-        const merchantTabsWithoutBar = ['tab-mutasi-saldo', 'tab-manajemen-akun', 'tab-riwayat-transaksi', 'tab-riwayat-ekspor'];
+        const merchantTabsWithoutBar = ['tab-mutasi-saldo', 'tab-manajemen-akun'];
 
         function switchMerchantTab(tabId) {
             currentMerchantTab = tabId;
@@ -5489,8 +5652,8 @@
                 switchTrxSubTab(currentTrxSubTab);
             } else if (tabId === 'tab-manajemen-akun') {
                 renderAkunTable();
-            } else if (tabId === 'tab-riwayat-ekspor') {
-                renderRiwayatEkspor();
+            } else if (tabId === 'tab-mutasi-saldo') {
+                switchMutasiSubTab(currentMutasiSubTab);
             } else if (tabId === 'tab-import-bu' || tabId === 'tab-import-po') {
                 const tabUploaded = (tabId === 'tab-import-bu') ? buTemplateUploaded : poTemplateUploaded;
                 const emptyState = document.querySelector(`#${tabId} #merchant-empty-state`);
