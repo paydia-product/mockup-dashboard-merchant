@@ -14,7 +14,7 @@
         {
             v: '2.1.0',
             date: '2026-08-06',
-            deployed: false,
+            deployed: true,
             title: 'Filter status ekspor, jendela tanggal 31 hari pada kedua kalender, kolom Nama Produk di Mutasi Saldo',
             changes: [
                 'Ditambahkan: checklist Status (Sukses/Dalam Proses/Gagal, multi-pilih, opsional) pada modal Permintaan Ekspor, khusus Riwayat Transaksi',
