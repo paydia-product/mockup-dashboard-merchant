@@ -8,9 +8,20 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '2.0.0';
+    var CURRENT = '2.1.0';
 
     var VERSIONS = [
+        {
+            v: '2.1.0',
+            date: '2026-08-06',
+            deployed: false,
+            title: 'Filter status ekspor, jendela tanggal 31 hari pada kedua kalender, kolom Nama Produk di Mutasi Saldo',
+            changes: [
+                'Ditambahkan: checklist Status (Sukses/Dalam Proses/Gagal, multi-pilih, opsional) pada modal Permintaan Ekspor, khusus Riwayat Transaksi',
+                'Ditambahkan: kolom Nama Produk pada tabel Mutasi Saldo',
+                'Diubah: kedua kalender (modal filter dan modal ekspor) kini membatasi pemilihan tanggal ke 31 hari ke belakang, dengan navigasi bulan yang dibatasi'
+            ]
+        },
         {
             v: '2.0.0',
             date: '2026-08-06',

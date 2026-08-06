@@ -3342,7 +3342,7 @@
                             <div style="overflow-x: auto;">
                                 <table class="m-table" id="mutasi-saldo-table">
                                     <thead><tr>
-                                        <th>Tanggal</th><th>ID Mutasi</th><th>Akun</th><th>Keterangan</th><th>Ref ID Merchant</th><th>Mutasi (Rp)</th><th>Saldo (Rp)</th>
+                                        <th>Tanggal</th><th>ID Mutasi</th><th>Akun</th><th>Keterangan</th><th>Nama Produk</th><th>Ref ID Merchant</th><th>Mutasi (Rp)</th><th>Saldo (Rp)</th>
                                     </tr></thead>
                                     <tbody>
                                         <tr>
@@ -3350,6 +3350,7 @@
                                             <td>MUT-2026073116</td>
                                             <td>0812xxxx3421 (Budi Santoso)</td>
                                             <td>Customer Top-up</td>
+                                            <td>OVO</td>
                                             <td>PRTN-88240</td>
                                             <td><span style="color:#1e56d7;">+ 2.500.000</span></td>
                                             <td style="color:#1e293b;">7.625.000</td>
@@ -3359,6 +3360,7 @@
                                             <td>MUT-2026073110</td>
                                             <td>0813xxxx7712</td>
                                             <td>Pembayaran User - Direct Debit</td>
+                                            <td>DANA</td>
                                             <td>PRTN-88239</td>
                                             <td><span style="color:#dc2626;">- 150.000</span></td>
                                             <td style="color:#1e293b;">5.125.000</td>
@@ -3368,6 +3370,7 @@
                                             <td>MUT-2026073021</td>
                                             <td>0857xxxx0098 (Siti Aminah)</td>
                                             <td>Biaya Admin</td>
+                                            <td>—</td>
                                             <td>PRTN-88235</td>
                                             <td><span style="color:#dc2626;">- 75.000</span></td>
                                             <td style="color:#1e293b;">5.275.000</td>
@@ -3377,6 +3380,7 @@
                                             <td>MUT-2026073014</td>
                                             <td>0821xxxx4456</td>
                                             <td>Customer Top-up</td>
+                                            <td>GoPay</td>
                                             <td>PRTN-88231</td>
                                             <td><span style="color:#1e56d7;">+ 500.000</span></td>
                                             <td style="color:#1e293b;">5.350.000</td>
@@ -3386,6 +3390,7 @@
                                             <td>MUT-2026072918</td>
                                             <td>0838xxxx9012 (Andi Wijaya)</td>
                                             <td>Payout ke Bank</td>
+                                            <td>—</td>
                                             <td>PRTN-88220</td>
                                             <td><span style="color:#dc2626;">- 1.200.000</span></td>
                                             <td style="color:#1e293b;">4.850.000</td>
@@ -3395,6 +3400,7 @@
                                             <td>MUT-2026072909</td>
                                             <td>0812xxxx6633</td>
                                             <td>Customer Top-up</td>
+                                            <td>ShopeePay</td>
                                             <td>PRTN-88214</td>
                                             <td><span style="color:#1e56d7;">+ 300.000</span></td>
                                             <td style="color:#1e293b;">6.050.000</td>
@@ -3404,6 +3410,7 @@
                                             <td>MUT-2026072822</td>
                                             <td>0895xxxx2201 (Dewi Lestari)</td>
                                             <td>Biaya Layanan</td>
+                                            <td>—</td>
                                             <td>PRTN-88203</td>
                                             <td><span style="color:#dc2626;">- 50.000</span></td>
                                             <td style="color:#1e293b;">5.750.000</td>
@@ -3413,6 +3420,7 @@
                                             <td>MUT-2026072811</td>
                                             <td>0817xxxx5544</td>
                                             <td>Customer Top-up</td>
+                                            <td>LinkAja</td>
                                             <td>PRTN-88197</td>
                                             <td><span style="color:#1e56d7;">+ 1.000.000</span></td>
                                             <td style="color:#1e293b;">5.800.000</td>
@@ -3422,6 +3430,7 @@
                                             <td>MUT-2026072715</td>
                                             <td>0851xxxx8890 (Rudi Hartono)</td>
                                             <td>Pembayaran User - Direct Debit</td>
+                                            <td>OVO</td>
                                             <td>PRTN-88180</td>
                                             <td><span style="color:#dc2626;">- 200.000</span></td>
                                             <td style="color:#1e293b;">4.800.000</td>
@@ -3431,11 +3440,12 @@
                                             <td>MUT-2026072708</td>
                                             <td>0812xxxx1123</td>
                                             <td>Customer Top-up</td>
+                                            <td>DANA</td>
                                             <td>PRTN-88175</td>
                                             <td><span style="color:#1e56d7;">+ 5.000.000</span></td>
                                             <td style="color:#1e293b;">5.000.000</td>
                                         </tr>
-                                        <tr id="mutasi-empty-row" style="display:none;"><td colspan="7" style="text-align:center; padding:24px; color:#94a3b8;">Tidak ada mutasi cocok.</td></tr>
+                                        <tr id="mutasi-empty-row" style="display:none;"><td colspan="8" style="text-align:center; padding:24px; color:#94a3b8;">Tidak ada mutasi cocok.</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -4170,9 +4180,9 @@
                     <!-- Inline calendar overlay -->
                     <div id="trx-calendar-overlay" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 12px 28px rgba(15,23,42,0.15); padding: 14px; z-index: 20; font-family: var(--font-main);">
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-                            <button type="button" onclick="shiftTrxCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
+                            <button type="button" id="trx-cal-prev" onclick="shiftTrxCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
                             <span id="trx-cal-month-label" style="font-size: 0.85rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px; cursor: pointer;">Juli 2026 <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i></span>
-                            <button type="button" onclick="shiftTrxCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
+                            <button type="button" id="trx-cal-next" onclick="shiftTrxCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">
                             <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
@@ -4228,9 +4238,9 @@
 
                     <div id="export-calendar-overlay" style="display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 12px 28px rgba(15,23,42,0.15); padding: 14px; z-index: 20; font-family: var(--font-main);">
                         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-                            <button type="button" onclick="shiftExportCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
+                            <button type="button" id="export-cal-prev" onclick="shiftExportCalendarMonth(-1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
                             <span id="export-cal-month-label" style="font-size: 0.85rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 6px; cursor: pointer;">Juli 2026 <i class="fas fa-chevron-down" style="font-size: 0.65rem; color: #94a3b8;"></i></span>
-                            <button type="button" onclick="shiftExportCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
+                            <button type="button" id="export-cal-next" onclick="shiftExportCalendarMonth(1)" style="background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
                         </div>
                         <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; font-size: 0.68rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">
                             <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
@@ -4248,6 +4258,30 @@
                         <option value="Transfer Bank">Transfer Bank</option>
                         <option value="E-Wallet">E-Wallet</option>
                     </select>
+                </div>
+
+                <div id="export-status-filter-block" style="margin-bottom: 8px;">
+                    <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Status (opsional)</label>
+                    <div class="detail-segments-list">
+                        <div class="detail-segment-item">
+                            <label class="detail-segment-header" style="cursor: pointer;">
+                                <input type="checkbox" class="export-status-cb" value="Sukses">
+                                <span>Sukses</span>
+                            </label>
+                        </div>
+                        <div class="detail-segment-item">
+                            <label class="detail-segment-header" style="cursor: pointer;">
+                                <input type="checkbox" class="export-status-cb" value="Dalam Proses">
+                                <span>Dalam Proses</span>
+                            </label>
+                        </div>
+                        <div class="detail-segment-item">
+                            <label class="detail-segment-header" style="cursor: pointer;">
+                                <input type="checkbox" class="export-status-cb" value="Gagal">
+                                <span>Gagal</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer" style="padding: 16px 24px; border-top: 1px solid #e5e5e5; background: #fff; display: flex; justify-content: flex-end; gap: 12px;">
@@ -5175,6 +5209,15 @@
         let trxDateTo = null;
         const trxMonthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
+        const DATE_WINDOW_DAYS = 31;
+        function dateWindowBounds() {
+            const max = new Date();
+            max.setHours(0, 0, 0, 0);
+            const min = new Date(max);
+            min.setDate(min.getDate() - (DATE_WINDOW_DAYS - 1));
+            return { min, max };
+        }
+
         function toggleTrxCalendar() {
             const overlay = document.getElementById('trx-calendar-overlay');
             if (!overlay) return;
@@ -5184,7 +5227,11 @@
         }
 
         function shiftTrxCalendarMonth(delta) {
-            trxCalendarMonth = new Date(trxCalendarMonth.getFullYear(), trxCalendarMonth.getMonth() + delta, 1);
+            const target = new Date(trxCalendarMonth.getFullYear(), trxCalendarMonth.getMonth() + delta, 1);
+            const { min, max } = dateWindowBounds();
+            const targetMonthEnd = new Date(target.getFullYear(), target.getMonth() + 1, 0);
+            if (targetMonthEnd < min || target > max) return; // target month entirely outside window
+            trxCalendarMonth = target;
             renderTrxCalendarGrid();
         }
 
@@ -5201,17 +5248,47 @@
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const today = new Date();
             const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+            const { min, max } = dateWindowBounds();
 
             let cells = '';
             for (let i = 0; i < firstDay; i++) cells += '<span></span>';
             for (let d = 1; d <= daysInMonth; d++) {
                 const isToday = isCurrentMonth && today.getDate() === d;
-                cells += `<button type="button" onclick="pickTrxDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+                const cellDate = new Date(year, month, d);
+                const inWindow = cellDate >= min && cellDate <= max;
+                if (inWindow) {
+                    cells += `<button type="button" onclick="pickTrxDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+                } else {
+                    cells += `<button type="button" disabled style="width: 100%; aspect-ratio: 1; border: none; border-radius: 50%; background: transparent; color: #cbd5e1; font-size: 0.75rem; cursor: not-allowed;">${d}</button>`;
+                }
             }
             grid.innerHTML = cells;
+
+            const prevBtn = document.getElementById('trx-cal-prev');
+            const nextBtn = document.getElementById('trx-cal-next');
+            if (prevBtn) {
+                const prevMonthEnd = new Date(year, month, 0);
+                const prevDisabled = prevMonthEnd < min;
+                prevBtn.disabled = prevDisabled;
+                prevBtn.style.color = prevDisabled ? '#cbd5e1' : '#64748b';
+                prevBtn.style.cursor = prevDisabled ? 'not-allowed' : 'pointer';
+            }
+            if (nextBtn) {
+                const nextMonthStart = new Date(year, month + 1, 1);
+                const nextDisabled = nextMonthStart > max;
+                nextBtn.disabled = nextDisabled;
+                nextBtn.style.color = nextDisabled ? '#cbd5e1' : '#64748b';
+                nextBtn.style.cursor = nextDisabled ? 'not-allowed' : 'pointer';
+            }
         }
 
         function pickTrxDate(day) {
+            const cellDate = new Date(trxCalendarMonth.getFullYear(), trxCalendarMonth.getMonth(), day);
+            const { min, max } = dateWindowBounds();
+            if (cellDate < min || cellDate > max) {
+                alertToast('Hanya bisa memilih tanggal 31 hari ke belakang.', 'error');
+                return;
+            }
             const dateStr = String(day).padStart(2, '0') + '/' + String(trxCalendarMonth.getMonth() + 1).padStart(2, '0') + '/' + trxCalendarMonth.getFullYear();
             if (!trxDateFrom || (trxDateFrom && trxDateTo)) {
                 trxDateFrom = dateStr;
@@ -5367,7 +5444,7 @@
             let matchCount = 0;
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
-                const refIdText = cells[4] ? cells[4].textContent.toLowerCase() : '';
+                const refIdText = cells[5] ? cells[5].textContent.toLowerCase() : '';
                 const isMatch = !q || refIdText.includes(q);
                 row.style.display = isMatch ? '' : 'none';
                 if (isMatch) matchCount++;
@@ -5412,6 +5489,9 @@
             document.getElementById('export-calendar-overlay').style.display = 'none';
             const filterTipeSelect = document.getElementById('export-filter-tipe');
             if (filterTipeSelect) filterTipeSelect.value = 'ALL';
+            const statusFilterBlock = document.getElementById('export-status-filter-block');
+            if (statusFilterBlock) statusFilterBlock.style.display = (exportOrigin === 'transaksi') ? 'block' : 'none';
+            document.querySelectorAll('.export-status-cb').forEach(cb => cb.checked = false);
             syncExportSubmitState();
             openModal('modal-export-request');
         }
@@ -5425,7 +5505,11 @@
         }
 
         function shiftExportCalendarMonth(delta) {
-            exportCalendarMonth = new Date(exportCalendarMonth.getFullYear(), exportCalendarMonth.getMonth() + delta, 1);
+            const target = new Date(exportCalendarMonth.getFullYear(), exportCalendarMonth.getMonth() + delta, 1);
+            const { min, max } = dateWindowBounds();
+            const targetMonthEnd = new Date(target.getFullYear(), target.getMonth() + 1, 0);
+            if (targetMonthEnd < min || target > max) return; // target month entirely outside window
+            exportCalendarMonth = target;
             renderExportCalendarGrid();
         }
 
@@ -5442,17 +5526,47 @@
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const today = new Date();
             const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+            const { min, max } = dateWindowBounds();
 
             let cells = '';
             for (let i = 0; i < firstDay; i++) cells += '<span></span>';
             for (let d = 1; d <= daysInMonth; d++) {
                 const isToday = isCurrentMonth && today.getDate() === d;
-                cells += `<button type="button" onclick="pickExportDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+                const cellDate = new Date(year, month, d);
+                const inWindow = cellDate >= min && cellDate <= max;
+                if (inWindow) {
+                    cells += `<button type="button" onclick="pickExportDate(${d})" style="width: 100%; aspect-ratio: 1; border: ${isToday ? '2px solid #1e56d7' : 'none'}; border-radius: 50%; background: transparent; color: #1e293b; font-size: 0.75rem; cursor: pointer;">${d}</button>`;
+                } else {
+                    cells += `<button type="button" disabled style="width: 100%; aspect-ratio: 1; border: none; border-radius: 50%; background: transparent; color: #cbd5e1; font-size: 0.75rem; cursor: not-allowed;">${d}</button>`;
+                }
             }
             grid.innerHTML = cells;
+
+            const prevBtn = document.getElementById('export-cal-prev');
+            const nextBtn = document.getElementById('export-cal-next');
+            if (prevBtn) {
+                const prevMonthEnd = new Date(year, month, 0);
+                const prevDisabled = prevMonthEnd < min;
+                prevBtn.disabled = prevDisabled;
+                prevBtn.style.color = prevDisabled ? '#cbd5e1' : '#64748b';
+                prevBtn.style.cursor = prevDisabled ? 'not-allowed' : 'pointer';
+            }
+            if (nextBtn) {
+                const nextMonthStart = new Date(year, month + 1, 1);
+                const nextDisabled = nextMonthStart > max;
+                nextBtn.disabled = nextDisabled;
+                nextBtn.style.color = nextDisabled ? '#cbd5e1' : '#64748b';
+                nextBtn.style.cursor = nextDisabled ? 'not-allowed' : 'pointer';
+            }
         }
 
         function pickExportDate(day) {
+            const cellDate = new Date(exportCalendarMonth.getFullYear(), exportCalendarMonth.getMonth(), day);
+            const { min, max } = dateWindowBounds();
+            if (cellDate < min || cellDate > max) {
+                alertToast('Hanya bisa memilih tanggal 31 hari ke belakang.', 'error');
+                return;
+            }
             const dateStr = String(day).padStart(2, '0') + '/' + String(exportCalendarMonth.getMonth() + 1).padStart(2, '0') + '/' + exportCalendarMonth.getFullYear();
             exportDateSelected = dateStr;
             document.getElementById('export-date-label').textContent = dateStr;
@@ -5480,6 +5594,7 @@
                 status: 'proses',
                 tipe: exportSource,
                 tipeTransaksi: filterTipeSelect ? filterTipeSelect.value : 'ALL', // informational only, no real backend to filter against
+                statusFilter: exportOrigin === 'transaksi' ? Array.from(document.querySelectorAll('.export-status-cb:checked')).map(cb => cb.value) : [], // informational only, no real backend to filter against
                 origin: exportOrigin
             };
             exportHistoryData.unshift(row);

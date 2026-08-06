@@ -35,6 +35,15 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-08-06
+
+### Added
+- Export Request modal: optional "Status" checklist (Sukses / Dalam Proses / Gagal, multi-select) shown only for Riwayat Transaksi exports (Pay-in/Payout/Account Linkage); hidden for Mutasi Saldo exports. Informational only, stored on the request row but not rendered anywhere, matching the existing "Tipe Transaksi" filter precedent.
+- Mutasi Saldo table: new "Nama Produk" column (e-wallet product name, positioned after Keterangan and before Ref ID Merchant).
+
+### Changed
+- Both date-picker calendars (the shared filter modal used by Riwayat Transaksi/Mutasi Saldo/Account Linkage, and the Export Request modal) now enforce a 31-day look-back window (today and the 30 days before it). Dates outside the window render disabled with no click handler; month navigation is bounded and the prev/next arrows visually grey out at the boundary.
+
 ## [2.0.0] - 2026-08-06
 
 ### Removed
