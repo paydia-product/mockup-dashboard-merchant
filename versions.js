@@ -14,7 +14,7 @@
         {
             v: '2.0.0',
             date: '2026-08-06',
-            deployed: false,
+            deployed: true,
             title: 'Riwayat Transaksi dipulihkan ke navigasi header, Riwayat Ekspor dipecah per halaman, modal ekspor tanggal tunggal',
             changes: [
                 'Dihapus: halaman Riwayat Ekspor mandiri dan entri menu pengaturannya',
