@@ -4201,6 +4201,10 @@
                     </div>
                 </div>
 
+                <div style="margin: -8px 0 20px; padding: 8px 12px; background: #f8fafc; border: 1px solid var(--merchant-border); border-radius: 8px; font-size: 0.75rem; color: #64748b;">
+                    <i class="fas fa-info-circle" style="color:#94a3b8; margin-right:6px;"></i>Pengguna bisa melihat data 31 hari ke belakang
+                </div>
+
                 <div style="margin-bottom: 8px;">
                     <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 8px;">Tipe Transaksi</label>
                     <select id="trx-filter-tipe" style="width: 100%; border: 1px solid var(--merchant-border); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #1e293b; outline: none; background: #fff;">
@@ -4247,6 +4251,10 @@
                         </div>
                         <div id="export-cal-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px;"></div>
                     </div>
+                </div>
+
+                <div style="margin: -8px 0 20px; padding: 8px 12px; background: #f8fafc; border: 1px solid var(--merchant-border); border-radius: 8px; font-size: 0.75rem; color: #64748b;">
+                    <i class="fas fa-info-circle" style="color:#94a3b8; margin-right:6px;"></i>Pengguna bisa melihat data 31 hari ke belakang
                 </div>
 
                 <div style="margin-bottom: 8px;">
@@ -5108,7 +5116,7 @@
             if (data.inprogress) {
                 const body = document.querySelector('#trx-inprogress-table-' + subTab + ' tbody');
                 if (body) {
-                    body.innerHTML = data.inprogress.map(row => `
+                    body.innerHTML = data.inprogress.filter(row => withinDateWindow(row.tanggal)).map(row => `
                         <tr>
                             <td>${row.tanggal}</td><td>${row.idTransaksi}</td><td>${row.idReferensi}</td>
                             <td>${formatRupiah(row.nominal)}</td><td>${formatRupiah(row.nominalService)}</td><td>${formatRupiah(row.nominalTotal)}</td>
@@ -5119,7 +5127,7 @@
                 }
             }
 
-            let historyRows = data.history.filter(row => trxFilterTipe === 'ALL' || row.tipe === trxFilterTipe || subTab === 'linkage');
+            let historyRows = data.history.filter(row => withinDateWindow(row.tanggal) && (trxFilterTipe === 'ALL' || row.tipe === trxFilterTipe || subTab === 'linkage'));
             const historyBody = document.querySelector('#trx-history-table-' + subTab + ' tbody');
             if (!historyBody) return;
 
@@ -5216,6 +5224,39 @@
             const min = new Date(max);
             min.setDate(min.getDate() - (DATE_WINDOW_DAYS - 1));
             return { min, max };
+        }
+
+        // Parses either 'DD/MM/YYYY' (optionally with a trailing ' HH:MM', used by trxMockData)
+        // or 'DD Mon YYYY' (Indonesian month abbreviation, used by Mutasi Saldo's rendered cells).
+        // Fails open (returns true) on anything it can't parse, so it never accidentally blanks a table.
+        const IND_MONTH_ABBR = { jan: 0, feb: 1, mar: 2, apr: 3, mei: 4, jun: 5, jul: 6, agu: 7, sep: 8, okt: 9, nov: 10, des: 11 };
+        function withinDateWindow(dateStr) {
+            if (!dateStr) return true;
+            const str = String(dateStr).trim();
+            let day, month, year;
+
+            const slashMatch = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+            const textMatch = !slashMatch && str.match(/^(\d{1,2})\s+([A-Za-z]{3,})\s+(\d{4})/);
+
+            if (slashMatch) {
+                day = Number(slashMatch[1]);
+                month = Number(slashMatch[2]) - 1;
+                year = Number(slashMatch[3]);
+            } else if (textMatch) {
+                day = Number(textMatch[1]);
+                month = IND_MONTH_ABBR[textMatch[2].toLowerCase().slice(0, 3)];
+                year = Number(textMatch[3]);
+                if (month === undefined) return true;
+            } else {
+                return true;
+            }
+
+            const parsed = new Date(year, month, day);
+            if (isNaN(parsed.getTime())) return true;
+            parsed.setHours(0, 0, 0, 0);
+
+            const { min, max } = dateWindowBounds();
+            return parsed >= min && parsed <= max;
         }
 
         function toggleTrxCalendar() {
@@ -5445,12 +5486,24 @@
             rows.forEach(row => {
                 const cells = row.querySelectorAll('td');
                 const refIdText = cells[5] ? cells[5].textContent.toLowerCase() : '';
-                const isMatch = !q || refIdText.includes(q);
+                const dateText = cells[0] ? cells[0].textContent : '';
+                const isMatch = (!q || refIdText.includes(q)) && withinDateWindow(dateText);
                 row.style.display = isMatch ? '' : 'none';
                 if (isMatch) matchCount++;
             });
             const emptyRow = document.getElementById('mutasi-empty-row');
             if (emptyRow) emptyRow.style.display = matchCount === 0 ? '' : 'none';
+        }
+
+        // Always-on 31-day window for Mutasi Saldo's static rows. Run once at init so the
+        // restriction is active immediately, without needing the user to type a search query.
+        function applyMutasiDateWindow() {
+            const rows = document.querySelectorAll('#mutasi-saldo-table tbody tr:not(#mutasi-empty-row)');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                const dateText = cells[0] ? cells[0].textContent : '';
+                row.style.display = withinDateWindow(dateText) ? '' : 'none';
+            });
         }
 
         /* ── Export Request modal + Riwayat Ekspor queue (feeds all 4 export buttons) ── */
@@ -5584,6 +5637,10 @@
 
         function submitExportRequest() {
             if (!exportDateSelected) return;
+            if (!withinDateWindow(exportDateSelected)) {
+                alertToast('Hanya bisa memilih tanggal 31 hari ke belakang.', 'error');
+                return;
+            }
 
             exportSeq++;
             const filterTipeSelect = document.getElementById('export-filter-tipe');
@@ -7609,6 +7666,7 @@
             renderAdminTable();
             initRegisterScrollspy();
             switchPlatform('login'); // Default to Login on first load
+            applyMutasiDateWindow(); // always-on 31-day window for Mutasi Saldo's static rows
         });
 
     </script>

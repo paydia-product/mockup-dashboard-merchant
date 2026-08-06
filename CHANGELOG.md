@@ -35,6 +35,19 @@ sync with each other and with what's actually deployed. Don't skip steps.
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-08-06
+
+### Added
+- Riwayat Transaksi (Pay-in/Payout/Account Linkage) dan Mutasi Saldo kini membatasi
+  baris yang ditampilkan hanya untuk 31 hari ke belakang, aktif otomatis terlepas
+  dari filter yang dipilih pengguna. Paginasi mengikuti data yang sudah dibatasi ini.
+- Catatan yang selalu terlihat "Pengguna bisa melihat data 31 hari ke belakang" pada
+  modal filter dan modal permintaan ekspor.
+
+### Changed
+- submitExportRequest() kini memvalidasi ulang tanggal yang dipilih terhadap
+  jendela 31 hari saat submit, tidak hanya saat memilih tanggal di kalender.
+
 ## [2.1.0] - 2026-08-06
 
 ### Added

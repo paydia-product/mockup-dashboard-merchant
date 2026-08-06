@@ -8,9 +8,20 @@
  * since .vercelignore serves only index.html publicly.
  */
 (function () {
-    var CURRENT = '2.1.0';
+    var CURRENT = '2.2.0';
 
     var VERSIONS = [
+        {
+            v: '2.2.0',
+            date: '2026-08-06',
+            deployed: false,
+            title: 'Filter data 31 hari selalu aktif pada Riwayat Transaksi dan Mutasi Saldo, catatan retensi di modal',
+            changes: [
+                'Ditambahkan: Riwayat Transaksi (Pay-in/Payout/Account Linkage) dan Mutasi Saldo kini membatasi baris yang ditampilkan hanya untuk 31 hari ke belakang, aktif otomatis terlepas dari filter yang dipilih pengguna',
+                'Ditambahkan: catatan yang selalu terlihat "Pengguna bisa melihat data 31 hari ke belakang" pada modal filter dan modal permintaan ekspor',
+                'Diubah: submitExportRequest() kini memvalidasi ulang tanggal terhadap jendela 31 hari saat submit, tidak hanya saat memilih tanggal di kalender'
+            ]
+        },
         {
             v: '2.1.0',
             date: '2026-08-06',
